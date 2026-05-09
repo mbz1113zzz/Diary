@@ -87,6 +87,7 @@ struct NewEntryButton: View {
 struct DiaryTabView: View {
     @Query(sort: [SortDescriptor(\DiaryEntry.date, order: .reverse)])
     private var entries: [DiaryEntry]
+    @Environment(\.modelContext) private var modelContext
 
     var body: some View {
         NavigationStack {
@@ -100,9 +101,25 @@ struct DiaryTabView: View {
                     .listRowSeparator(.hidden)
                     .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
                 }
+                .onDelete(perform: deleteEntries)
             }
             .listStyle(.plain)
+            .overlay {
+                if entries.isEmpty {
+                    EmptyStateView(
+                        icon: "book",
+                        title: "还没有日记",
+                        subtitle: "点击下方 + 按钮开始记录"
+                    )
+                }
+            }
             .navigationTitle("日记")
+        }
+    }
+
+    private func deleteEntries(at offsets: IndexSet) {
+        for index in offsets {
+            modelContext.delete(entries[index])
         }
     }
 }
@@ -112,6 +129,7 @@ struct DiaryTabView: View {
 struct TradeTabView: View {
     @Query(sort: [SortDescriptor(\TradeEntry.date, order: .reverse)])
     private var trades: [TradeEntry]
+    @Environment(\.modelContext) private var modelContext
 
     var body: some View {
         NavigationStack {
@@ -126,9 +144,25 @@ struct TradeTabView: View {
                     .listRowSeparator(.hidden)
                     .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
                 }
+                .onDelete(perform: deleteTrades)
             }
             .listStyle(.plain)
+            .overlay {
+                if trades.isEmpty {
+                    EmptyStateView(
+                        icon: "chart.line.uptrend.xyaxis",
+                        title: "还没有交易记录",
+                        subtitle: "点击下方 + 按钮记录你的第一笔交易"
+                    )
+                }
+            }
             .navigationTitle("交易")
+        }
+    }
+
+    private func deleteTrades(at offsets: IndexSet) {
+        for index in offsets {
+            modelContext.delete(trades[index])
         }
     }
 }
@@ -171,8 +205,8 @@ struct SettingsTabView: View {
                     HStack {
                         Text("iCloud 同步")
                         Spacer()
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundStyle(.green)
+                        Text("未启用")
+                            .foregroundStyle(.secondary)
                     }
                 }
             }

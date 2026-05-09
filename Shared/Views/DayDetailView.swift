@@ -55,6 +55,13 @@ struct DayDetailView: View {
                                     selectedTrade = trade
                                     showingTradeEditor = true
                                 }
+                                .contextMenu {
+                                    Button(role: .destructive) {
+                                        modelContext.delete(trade)
+                                    } label: {
+                                        Label("删除交易", systemImage: "trash")
+                                    }
+                                }
                         }
                     }
                 }

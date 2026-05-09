@@ -52,6 +52,7 @@ struct CalendarListView: View {
     @Binding var selectedDate: Date
     @Query(sort: [SortDescriptor(\DiaryEntry.date, order: .reverse)])
     private var entries: [DiaryEntry]
+    @Environment(\.modelContext) private var modelContext
 
     var body: some View {
         List(selection: Binding(
@@ -79,8 +80,15 @@ struct CalendarListView: View {
                 }
                 .tag(Calendar.current.startOfDay(for: entry.date))
             }
+            .onDelete(perform: deleteEntries)
         }
         .navigationTitle("日历")
+    }
+
+    private func deleteEntries(at offsets: IndexSet) {
+        for index in offsets {
+            modelContext.delete(entries[index])
+        }
     }
 }
 
@@ -90,6 +98,7 @@ struct TradeListView: View {
     @Binding var selectedDate: Date
     @Query(sort: [SortDescriptor(\TradeEntry.date, order: .reverse)])
     private var trades: [TradeEntry]
+    @Environment(\.modelContext) private var modelContext
 
     var body: some View {
         List {
@@ -99,8 +108,15 @@ struct TradeListView: View {
                         selectedDate = trade.date
                     }
             }
+            .onDelete(perform: deleteTrades)
         }
         .navigationTitle("交易")
+    }
+
+    private func deleteTrades(at offsets: IndexSet) {
+        for index in offsets {
+            modelContext.delete(trades[index])
+        }
     }
 }
 
@@ -110,6 +126,7 @@ struct TodoListView: View {
     @Binding var selectedDate: Date
     @Query(sort: [SortDescriptor(\TodoItem.date, order: .reverse)])
     private var todos: [TodoItem]
+    @Environment(\.modelContext) private var modelContext
 
     var body: some View {
         List {
@@ -128,7 +145,14 @@ struct TodoListView: View {
                 }
                 .onTapGesture { selectedDate = todo.date }
             }
+            .onDelete(perform: deleteTodos)
         }
         .navigationTitle("待办")
+    }
+
+    private func deleteTodos(at offsets: IndexSet) {
+        for index in offsets {
+            modelContext.delete(todos[index])
+        }
     }
 }
