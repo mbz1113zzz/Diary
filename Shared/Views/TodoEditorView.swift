@@ -51,7 +51,7 @@ struct TodoEditorView: View {
                     #endif
                 Button(action: addTodo) {
                     Image(systemName: "plus.circle.fill")
-                        .foregroundStyle(.accentColor)
+                        .foregroundStyle(Color.accentColor)
                 }
                 .disabled(newTodoTitle.isEmpty)
                 .buttonStyle(.plain)

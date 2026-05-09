@@ -34,7 +34,7 @@ struct DiaryEditorView: View {
                         .frame(minHeight: 200)
                         .scrollContentBackground(.hidden)
                         .padding(8)
-                        .background(Color(.secondarySystemBackground))
+                        .background(Color.secondarySystemBackground)
                         .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
             }

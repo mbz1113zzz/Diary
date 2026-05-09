@@ -7,26 +7,87 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0428B640970CB0B79C733554 /* MoodPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11FE3898A529550DA0E33AC7 /* MoodPickerView.swift */; };
+		0F7A8305BA0A604DBD0F6036 /* DiaryEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA78BA558DFB54F5A60D7C2 /* DiaryEditorView.swift */; };
+		106688CA8D89118E6E584E8A /* DiaryCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FDDC32C6D655FCBA76E2A8 /* DiaryCardView.swift */; };
+		2E049D94775F1F316750FCB7 /* TodoCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481A5A544A103067DC3D85CF /* TodoCardView.swift */; };
+		33650EAE3151428B35B49C38 /* TodoEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9566A74ED342C847121BBE4 /* TodoEditorView.swift */; };
 		37C4EB9250FBCF1A4D1128C6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66344B4F3D3CD0C535ABFE0A /* ContentView.swift */; };
+		3E155F8C3360D0B44B88EE8A /* PlatformCompat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7336FE5A8A0AF730FB35B8 /* PlatformCompat.swift */; };
+		4523C93AD81EE1B61D36A62C /* TradeEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4319E4A25240644F2A41370B /* TradeEditorView.swift */; };
+		475F136A6F1F2A333A0CB693 /* DateFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEF86D267C0975B036D6A87 /* DateFormatters.swift */; };
 		47D8CDDE2ECDD56C80B8E49A /* MacContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEBAFD77CEDF0C10BFDC941 /* MacContentView.swift */; };
-		73C679345785C6E677BB496A /* MacContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEBAFD77CEDF0C10BFDC941 /* MacContentView.swift */; };
+		4D3DBA5DEAB5A2A2D6A81737 /* TodoCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481A5A544A103067DC3D85CF /* TodoCardView.swift */; };
+		56F0B0544C77D4896B5EB30C /* DiaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6A354EA1A6A0D4CA99239 /* DiaryViewModel.swift */; };
+		5796D02C9C1EECCC122E7DB8 /* DateFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEF86D267C0975B036D6A87 /* DateFormatters.swift */; };
+		5BFDDF3616DC88202F890C55 /* TradeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A25B5CB847BA2D3420F4B9 /* TradeCardView.swift */; };
+		6A93872C4D5C2DA1B8D8E5AF /* WeatherPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F2A004074353C8B04F165B /* WeatherPickerView.swift */; };
+		7AFEA63F1D583AA3983EF5C9 /* TodoEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9566A74ED342C847121BBE4 /* TodoEditorView.swift */; };
 		7E259D620B187BBBB015FA45 /* StockDiaryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E6CA57F1569D8B067533C0 /* StockDiaryApp.swift */; };
-		902D58DE94CA95AF11B45BE7 /* iOSContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED010CA9F23D9B373738BA7 /* iOSContentView.swift */; };
+		81EB2ED1481BDB970A8AB0E5 /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA16920A84F1E36D87E57E4 /* TodoItem.swift */; };
+		88B5A23F7ADD9839B6F3348C /* DiaryEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA78BA558DFB54F5A60D7C2 /* DiaryEditorView.swift */; };
+		9C95E3D6AF3C933A437701E0 /* MoodPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11FE3898A529550DA0E33AC7 /* MoodPickerView.swift */; };
+		9CB71078C2B598160C50C5B0 /* TradeEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4319E4A25240644F2A41370B /* TradeEditorView.swift */; };
+		9E51D45B4E10467CAA78ED8B /* DayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3862A168E19B02D842340F /* DayDetailView.swift */; };
+		9F0F5622285ED94AE33EE803 /* DiaryCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FDDC32C6D655FCBA76E2A8 /* DiaryCardView.swift */; };
+		9F5179396CBA2D3165D153BA /* PlatformCompat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7336FE5A8A0AF730FB35B8 /* PlatformCompat.swift */; };
+		A06E99023AA35BD91D60D2EF /* DiaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6A354EA1A6A0D4CA99239 /* DiaryViewModel.swift */; };
+		A1B29964E586D073CFD448AA /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA16920A84F1E36D87E57E4 /* TodoItem.swift */; };
+		B2D9CFB3EB175FECAAE7C856 /* TradeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A25B5CB847BA2D3420F4B9 /* TradeCardView.swift */; };
+		B7A5B850D9FC52736145C260 /* DayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3862A168E19B02D842340F /* DayDetailView.swift */; };
+		CA0379911FC1BEB78548C090 /* TradeEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAFAE9CA91D44083FC0B604 /* TradeEntry.swift */; };
 		CEC9607409E93F656D6F9C35 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66344B4F3D3CD0C535ABFE0A /* ContentView.swift */; };
+		D59C9B66B21A9E1E106EC777 /* DiaryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6F32CCCB7DBBC067F25042 /* DiaryEntry.swift */; };
 		E70038173505D99D7E1E4D95 /* iOSContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED010CA9F23D9B373738BA7 /* iOSContentView.swift */; };
+		F3BD17E5E6429B5754B99C46 /* DiaryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6F32CCCB7DBBC067F25042 /* DiaryEntry.swift */; };
+		F57E87FD66FFEDE49000E335 /* TradeEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAFAE9CA91D44083FC0B604 /* TradeEntry.swift */; };
 		FC2B666B93FC31C43558F1BA /* StockDiaryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E6CA57F1569D8B067533C0 /* StockDiaryApp.swift */; };
+		FFFEB519500024778C74C754 /* WeatherPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F2A004074353C8B04F165B /* WeatherPickerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0CB9842E75810E7F005FDA35 /* StockDiary_macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StockDiary_macOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ED010CA9F23D9B373738BA7 /* iOSContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSContentView.swift; sourceTree = "<group>"; };
+		11FE3898A529550DA0E33AC7 /* MoodPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodPickerView.swift; sourceTree = "<group>"; };
+		18CDE7B75480753B3530000B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		1DEB2E08ED0880082D0C875B /* StockDiary_iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = StockDiary_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A7336FE5A8A0AF730FB35B8 /* PlatformCompat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformCompat.swift; sourceTree = "<group>"; };
+		2B3862A168E19B02D842340F /* DayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayDetailView.swift; sourceTree = "<group>"; };
+		2CAFAE9CA91D44083FC0B604 /* TradeEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeEntry.swift; sourceTree = "<group>"; };
 		2FEBAFD77CEDF0C10BFDC941 /* MacContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacContentView.swift; sourceTree = "<group>"; };
+		3BF6A354EA1A6A0D4CA99239 /* DiaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewModel.swift; sourceTree = "<group>"; };
+		42FDDC32C6D655FCBA76E2A8 /* DiaryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCardView.swift; sourceTree = "<group>"; };
+		4319E4A25240644F2A41370B /* TradeEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeEditorView.swift; sourceTree = "<group>"; };
+		481A5A544A103067DC3D85CF /* TodoCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoCardView.swift; sourceTree = "<group>"; };
+		4FEF86D267C0975B036D6A87 /* DateFormatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatters.swift; sourceTree = "<group>"; };
+		58F2A004074353C8B04F165B /* WeatherPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherPickerView.swift; sourceTree = "<group>"; };
+		5E6F32CCCB7DBBC067F25042 /* DiaryEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryEntry.swift; sourceTree = "<group>"; };
 		66344B4F3D3CD0C535ABFE0A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		741FF5D09B17CF03AA414D13 /* StockDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StockDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6DA16920A84F1E36D87E57E4 /* TodoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItem.swift; sourceTree = "<group>"; };
+		9DA78BA558DFB54F5A60D7C2 /* DiaryEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryEditorView.swift; sourceTree = "<group>"; };
+		B0A25B5CB847BA2D3420F4B9 /* TradeCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeCardView.swift; sourceTree = "<group>"; };
+		D9566A74ED342C847121BBE4 /* TodoEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoEditorView.swift; sourceTree = "<group>"; };
 		E0E6CA57F1569D8B067533C0 /* StockDiaryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDiaryApp.swift; sourceTree = "<group>"; };
-		E7E9B4EA1107E182F5D2FE00 /* StockDiary.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = StockDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E8559BB6A21E67F7671FE621 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		1E2BE93CD5A510268E5830BD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2B3862A168E19B02D842340F /* DayDetailView.swift */,
+				42FDDC32C6D655FCBA76E2A8 /* DiaryCardView.swift */,
+				9DA78BA558DFB54F5A60D7C2 /* DiaryEditorView.swift */,
+				11FE3898A529550DA0E33AC7 /* MoodPickerView.swift */,
+				481A5A544A103067DC3D85CF /* TodoCardView.swift */,
+				D9566A74ED342C847121BBE4 /* TodoEditorView.swift */,
+				B0A25B5CB847BA2D3420F4B9 /* TradeCardView.swift */,
+				4319E4A25240644F2A41370B /* TradeEditorView.swift */,
+				58F2A004074353C8B04F165B /* WeatherPickerView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		2AB05E91DD43AC0528038C0D = {
 			isa = PBXGroup;
 			children = (
@@ -37,9 +98,18 @@
 			);
 			sourceTree = "<group>";
 		};
+		421B54065C482109F56831B9 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				3BF6A354EA1A6A0D4CA99239 /* DiaryViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		51CDB91E001A25C52DE8FD44 /* macOS */ = {
 			isa = PBXGroup;
 			children = (
+				18CDE7B75480753B3530000B /* Info.plist */,
 				2FEBAFD77CEDF0C10BFDC941 /* MacContentView.swift */,
 			);
 			path = macOS;
@@ -48,6 +118,7 @@
 		9F39E4502D49E97DB4E381FC /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				E8559BB6A21E67F7671FE621 /* Info.plist */,
 				0ED010CA9F23D9B373738BA7 /* iOSContentView.swift */,
 			);
 			path = iOS;
@@ -56,19 +127,42 @@
 		A583CFF316507DDFE94E0C9B /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				B4FA47310CA271FA01D58A13 /* Models */,
+				C61F252695CD5B5BEB6E020F /* Utils */,
+				421B54065C482109F56831B9 /* ViewModels */,
+				1E2BE93CD5A510268E5830BD /* Views */,
 				66344B4F3D3CD0C535ABFE0A /* ContentView.swift */,
 				E0E6CA57F1569D8B067533C0 /* StockDiaryApp.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
 		};
+		B4FA47310CA271FA01D58A13 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5E6F32CCCB7DBBC067F25042 /* DiaryEntry.swift */,
+				6DA16920A84F1E36D87E57E4 /* TodoItem.swift */,
+				2CAFAE9CA91D44083FC0B604 /* TradeEntry.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		BF022D0117AA68B5623624F5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E7E9B4EA1107E182F5D2FE00 /* StockDiary.app */,
-				741FF5D09B17CF03AA414D13 /* StockDiary.app */,
+				1DEB2E08ED0880082D0C875B /* StockDiary_iOS.app */,
+				0CB9842E75810E7F005FDA35 /* StockDiary_macOS.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		C61F252695CD5B5BEB6E020F /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				4FEF86D267C0975B036D6A87 /* DateFormatters.swift */,
+				2A7336FE5A8A0AF730FB35B8 /* PlatformCompat.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -88,7 +182,7 @@
 			packageProductDependencies = (
 			);
 			productName = StockDiary_macOS;
-			productReference = 741FF5D09B17CF03AA414D13 /* StockDiary.app */;
+			productReference = 0CB9842E75810E7F005FDA35 /* StockDiary_macOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 		EA6A6FF8106E42E9AB769104 /* StockDiary_iOS */ = {
@@ -105,7 +199,7 @@
 			packageProductDependencies = (
 			);
 			productName = StockDiary_iOS;
-			productReference = E7E9B4EA1107E182F5D2FE00 /* StockDiary.app */;
+			productReference = 1DEB2E08ED0880082D0C875B /* StockDiary_iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -151,9 +245,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEC9607409E93F656D6F9C35 /* ContentView.swift in Sources */,
+				5796D02C9C1EECCC122E7DB8 /* DateFormatters.swift in Sources */,
+				9E51D45B4E10467CAA78ED8B /* DayDetailView.swift in Sources */,
+				106688CA8D89118E6E584E8A /* DiaryCardView.swift in Sources */,
+				88B5A23F7ADD9839B6F3348C /* DiaryEditorView.swift in Sources */,
+				D59C9B66B21A9E1E106EC777 /* DiaryEntry.swift in Sources */,
+				56F0B0544C77D4896B5EB30C /* DiaryViewModel.swift in Sources */,
 				47D8CDDE2ECDD56C80B8E49A /* MacContentView.swift in Sources */,
+				9C95E3D6AF3C933A437701E0 /* MoodPickerView.swift in Sources */,
+				3E155F8C3360D0B44B88EE8A /* PlatformCompat.swift in Sources */,
 				7E259D620B187BBBB015FA45 /* StockDiaryApp.swift in Sources */,
-				902D58DE94CA95AF11B45BE7 /* iOSContentView.swift in Sources */,
+				4D3DBA5DEAB5A2A2D6A81737 /* TodoCardView.swift in Sources */,
+				7AFEA63F1D583AA3983EF5C9 /* TodoEditorView.swift in Sources */,
+				A1B29964E586D073CFD448AA /* TodoItem.swift in Sources */,
+				B2D9CFB3EB175FECAAE7C856 /* TradeCardView.swift in Sources */,
+				4523C93AD81EE1B61D36A62C /* TradeEditorView.swift in Sources */,
+				F57E87FD66FFEDE49000E335 /* TradeEntry.swift in Sources */,
+				6A93872C4D5C2DA1B8D8E5AF /* WeatherPickerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,8 +270,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				37C4EB9250FBCF1A4D1128C6 /* ContentView.swift in Sources */,
-				73C679345785C6E677BB496A /* MacContentView.swift in Sources */,
+				475F136A6F1F2A333A0CB693 /* DateFormatters.swift in Sources */,
+				B7A5B850D9FC52736145C260 /* DayDetailView.swift in Sources */,
+				9F0F5622285ED94AE33EE803 /* DiaryCardView.swift in Sources */,
+				0F7A8305BA0A604DBD0F6036 /* DiaryEditorView.swift in Sources */,
+				F3BD17E5E6429B5754B99C46 /* DiaryEntry.swift in Sources */,
+				A06E99023AA35BD91D60D2EF /* DiaryViewModel.swift in Sources */,
+				0428B640970CB0B79C733554 /* MoodPickerView.swift in Sources */,
+				9F5179396CBA2D3165D153BA /* PlatformCompat.swift in Sources */,
 				FC2B666B93FC31C43558F1BA /* StockDiaryApp.swift in Sources */,
+				2E049D94775F1F316750FCB7 /* TodoCardView.swift in Sources */,
+				33650EAE3151428B35B49C38 /* TodoEditorView.swift in Sources */,
+				81EB2ED1481BDB970A8AB0E5 /* TodoItem.swift in Sources */,
+				5BFDDF3616DC88202F890C55 /* TradeCardView.swift in Sources */,
+				9CB71078C2B598160C50C5B0 /* TradeEditorView.swift in Sources */,
+				CA0379911FC1BEB78548C090 /* TradeEntry.swift in Sources */,
+				FFFEB519500024778C74C754 /* WeatherPickerView.swift in Sources */,
 				E70038173505D99D7E1E4D95 /* iOSContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -177,7 +299,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = StockDiary.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				INFOPLIST_KEY_CFBundleDisplayName = StockDiary;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = iOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -235,8 +359,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -252,11 +374,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = StockDiary.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = StockDiary;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = macOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.stockdiary.StockDiary;
 				PRODUCT_NAME = StockDiary;
 				SDKROOT = macosx;
@@ -315,8 +439,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -333,7 +455,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = StockDiary.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				INFOPLIST_KEY_CFBundleDisplayName = StockDiary;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = iOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -351,11 +475,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = StockDiary.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = StockDiary;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = macOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.stockdiary.StockDiary;
 				PRODUCT_NAME = StockDiary;
 				SDKROOT = macosx;

@@ -1,9 +1,6 @@
 name: StockDiary
 options:
   bundleIdPrefix: com.stockdiary
-  deploymentTarget:
-    iOS: "17.0"
-    macOS: "14.0"
   xcodeVersion: "16.0"
   groupSortPosition: top
 settings:
@@ -11,27 +8,51 @@ settings:
     SWIFT_VERSION: "5.9"
     DEVELOPMENT_TEAM: ""
 targets:
-  StockDiary:
+  StockDiary_macOS:
     type: application
-    platform: [iOS, macOS]
+    platform: macOS
+    deploymentTarget: "14.0"
     sources:
       - path: Shared
-      - path: iOS
-        excludes:
-          - "**/*"
-        platform: [iOS]
-      - path: iOS
-        platform: [iOS]
       - path: macOS
-        excludes:
-          - "**/*"
-        platform: [macOS]
-      - path: macOS
-        platform: [macOS]
+    info:
+      path: macOS/Info.plist
+      properties:
+        CFBundleDisplayName: StockDiary
+        CFBundleShortVersionString: "1.0"
+        CFBundleVersion: "1"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.stockdiary.StockDiary
-        INFOPLIST_KEY_CFBundleDisplayName: StockDiary
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_NAME: StockDiary
+    entitlements:
+      path: StockDiary.entitlements
+      properties:
+        com.apple.developer.icloud-container-identifiers:
+          - iCloud.com.stockdiary.StockDiary
+        com.apple.developer.icloud-services:
+          - CloudKit
+        com.apple.developer.ubiquity-kvstore-identifier: $(TeamIdentifierPrefix)com.stockdiary.StockDiary
+  StockDiary_iOS:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: Shared
+      - path: iOS
+    info:
+      path: iOS/Info.plist
+      properties:
+        CFBundleDisplayName: StockDiary
+        CFBundleShortVersionString: "1.0"
+        CFBundleVersion: "1"
+        UILaunchScreen: {}
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.stockdiary.StockDiary
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_NAME: StockDiary
     entitlements:
       path: StockDiary.entitlements
       properties:
