@@ -91,6 +91,7 @@ struct TradeListView: View {
     @Query(sort: [SortDescriptor(\TradeEntry.date, order: .reverse)])
     private var trades: [TradeEntry]
     @State private var searchText = ""
+    @State private var showSyncAlert = false
     @Environment(\.modelContext) private var modelContext
     @Environment(IBKRSyncManager.self) private var syncManager
 
@@ -117,7 +118,10 @@ struct TradeListView: View {
         .toolbar {
             ToolbarItem {
                 Button {
-                    Task { await syncManager.manualSync(context: modelContext) }
+                    Task {
+                        await syncManager.manualSync(context: modelContext)
+                        showSyncAlert = true
+                    }
                 } label: {
                     if syncManager.isSyncing {
                         ProgressView().controlSize(.small)
@@ -136,6 +140,11 @@ struct TradeListView: View {
                     Image(systemName: "plus")
                 }
             }
+        }
+        .alert("IBKR 同步", isPresented: $showSyncAlert) {
+            Button("好") {}
+        } message: {
+            Text(syncManager.lastSyncResult?.message ?? "同步完成")
         }
     }
 

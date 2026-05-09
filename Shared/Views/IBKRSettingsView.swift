@@ -1,50 +1,51 @@
 import SwiftUI
 
-#if os(macOS)
-import AppKit
-#endif
-
 struct IBKRSettingsView: View {
     var syncManager: IBKRSyncManager
     @Environment(\.modelContext) private var modelContext
-    @AppStorage("ibkrGatewayURL") private var gatewayURL = "https://localhost:5000"
+    @AppStorage("ibkrFlexToken") private var flexToken = ""
+    @AppStorage("ibkrFlexQueryId") private var flexQueryId = ""
     @AppStorage("ibkrAutoSync") private var autoSync = true
 
     var body: some View {
-        Section("IBKR 连接") {
-            // 1. Connection status
+        Section("IBKR 交易同步") {
+            // Status
             HStack {
                 Circle()
-                    .fill(statusColor)
+                    .fill(syncManager.isConfigured ? .green : .gray)
                     .frame(width: 8, height: 8)
-                Text(statusText)
-                Spacer()
-                Button("检测") {
-                    Task { await syncManager.checkConnection() }
-                }
+                Text(syncManager.isConfigured ? "已配置" : "未配置")
+                    .font(.subheadline)
             }
 
-            // 2. Gateway URL
-            TextField("Gateway URL", text: $gatewayURL)
+            // Token input
+            SecureField("Flex Token", text: $flexToken)
                 #if os(iOS)
                 .textInputAutocapitalization(.never)
-                .keyboardType(.URL)
                 #endif
 
-            // 3. Auto sync toggle
+            // Query ID input
+            TextField("Flex Query ID", text: $flexQueryId)
+                #if os(iOS)
+                .textInputAutocapitalization(.never)
+                .keyboardType(.numberPad)
+                #endif
+
+            // Auto sync toggle
             Toggle("启动时自动同步", isOn: $autoSync)
 
-            // 4. Open in browser
-            Button("在浏览器中登录") {
-                guard let url = URL(string: gatewayURL) else { return }
+            // Help link
+            Button("如何获取 Token 和 Query ID？") {
+                let url = URL(string: "https://www.interactivebrokers.com/en/software/am3/am/reports/activityflexqueries.htm")!
                 #if os(macOS)
                 NSWorkspace.shared.open(url)
                 #else
                 UIApplication.shared.open(url)
                 #endif
             }
+            .font(.caption)
 
-            // 5. Sync button
+            // Sync button
             Button {
                 Task { await syncManager.manualSync(context: modelContext) }
             } label: {
@@ -53,51 +54,27 @@ struct IBKRSettingsView: View {
                     if syncManager.isSyncing {
                         Spacer()
                         ProgressView()
+                            .controlSize(.small)
                     }
                 }
             }
-            .disabled(syncManager.isSyncing)
+            .disabled(syncManager.isSyncing || !syncManager.isConfigured)
 
-            // 6. Last sync result
+            // Last sync result
             if let result = syncManager.lastSyncResult {
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: 2) {
                     Text(result.message)
                         .font(.caption)
-                        .foregroundStyle(.secondary)
-                    Text(result.timestamp, style: .date)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                    + Text(" ")
-                        .font(.caption)
-                    + Text(result.timestamp, style: .time)
-                        .font(.caption)
+                        .foregroundStyle(result.newCount > 0 ? .primary : .secondary)
+                    Text(result.timestamp, format: .dateTime.month().day().hour().minute())
+                        .font(.caption2)
                         .foregroundStyle(.secondary)
                 }
             }
         }
-        .onAppear {
-            Task { await syncManager.checkConnection() }
-        }
-    }
-
-    // MARK: - Helpers
-
-    private var statusColor: Color {
-        switch syncManager.connectionStatus {
-        case .connected: return .green
-        case .notAuthenticated, .unreachable: return .red
-        case .unknown: return .gray
-        case .checking: return .orange
-        }
-    }
-
-    private var statusText: String {
-        switch syncManager.connectionStatus {
-        case .connected: return "已连接"
-        case .notAuthenticated: return "未认证"
-        case .unreachable: return "无法连接"
-        case .unknown: return "未知"
-        case .checking: return "检测中..."
-        }
     }
 }
+
+#if os(macOS)
+import AppKit
+#endif

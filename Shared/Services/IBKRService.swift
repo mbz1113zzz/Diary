@@ -1,180 +1,213 @@
 import Foundation
 
-// MARK: - Response Models
-
-struct IBKRAuthStatus: Codable {
-    let authenticated: Bool
-    let competing: Bool
-    let connected: Bool
-}
-
-struct IBKRAccount: Codable {
-    let id: String
-    let accountId: String
-    let accountTitle: String?
-    let type: String?
-}
-
-struct IBKRTrade: Codable {
-    let executionId: String
-    let symbol: String
-    let side: String
-    let price: String
-    let size: String
-    let tradeTime: String
-    let netAmount: Double?
-    let account: String?
-    let exchange: String?
-    let realizedPnl: String?
-    let conid: Int?
-
-    enum CodingKeys: String, CodingKey {
-        case executionId = "execution_id"
-        case symbol
-        case side
-        case price
-        case size
-        case tradeTime = "trade_time"
-        case netAmount = "net_amount"
-        case account
-        case exchange
-        case realizedPnl = "realized_pnl"
-        case conid
-    }
-}
-
-// MARK: - Error
-
-enum IBKRError: LocalizedError {
-    case gatewayUnreachable
-    case notAuthenticated
-    case decodingFailed
-    case httpError(Int)
-
-    var errorDescription: String? {
-        switch self {
-        case .gatewayUnreachable:
-            return "无法连接到 IBKR 网关，请确认 Client Portal Gateway 正在运行"
-        case .notAuthenticated:
-            return "IBKR 网关未认证，请在浏览器中完成登录"
-        case .decodingFailed:
-            return "解析 IBKR 响应数据失败"
-        case .httpError(let code):
-            return "IBKR 请求失败，HTTP 状态码: \(code)"
-        }
-    }
-}
-
-// MARK: - Session Delegate
-
-class IBKRSessionDelegate: NSObject, URLSessionDelegate {
-    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        if challenge.protectionSpace.host == "localhost",
-           let trust = challenge.protectionSpace.serverTrust {
-            completionHandler(.useCredential, URLCredential(trust: trust))
-        } else {
-            completionHandler(.performDefaultHandling, nil)
-        }
-    }
-}
-
-// MARK: - Service
+// MARK: - Flex Web Service
 
 final class IBKRService {
 
-    let baseURL: String
-    let session: URLSession
+    // Flex Web Service endpoints
+    private let sendRequestURL = "https://ndcdyn.interactivebrokers.com/AccountManagement/FlexWebService/SendRequest"
+    private let getStatementURL = "https://ndcdyn.interactivebrokers.com/AccountManagement/FlexWebService/GetStatement"
 
-    /// DateFormatter for IBKR trade time format: "yyyyMMdd-HH:mm:ss"
-    static let tradeTimeDateFormatter: DateFormatter = {
+    private let session: URLSession
+
+    init() {
+        self.session = URLSession.shared
+    }
+
+    // MARK: - Flex Query
+
+    /// Step 1: Send a Flex Query request, returns a reference code
+    func sendFlexRequest(token: String, queryId: String) async throws -> String {
+        let urlString = "\(sendRequestURL)?t=\(token)&q=\(queryId)&v=3"
+        guard let url = URL(string: urlString) else {
+            throw IBKRError.invalidConfiguration
+        }
+
+        let (data, response) = try await session.data(from: url)
+
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            throw IBKRError.httpError((response as? HTTPURLResponse)?.statusCode ?? 0)
+        }
+
+        // Parse XML response to get ReferenceCode
+        let xmlString = String(data: data, encoding: .utf8) ?? ""
+
+        // Check for error
+        if xmlString.contains("<Status>Fail</Status>") || xmlString.contains("<Status>Warn</Status>") {
+            let errorMessage = extractXMLValue(from: xmlString, tag: "ErrorMessage") ?? "未知错误"
+            throw IBKRError.flexQueryError(errorMessage)
+        }
+
+        guard let referenceCode = extractXMLValue(from: xmlString, tag: "ReferenceCode") else {
+            throw IBKRError.decodingFailed
+        }
+
+        return referenceCode
+    }
+
+    /// Step 2: Get the Flex Query statement using the reference code
+    func getFlexStatement(token: String, referenceCode: String) async throws -> [FlexTrade] {
+        let urlString = "\(getStatementURL)?t=\(token)&q=\(referenceCode)&v=3"
+        guard let url = URL(string: urlString) else {
+            throw IBKRError.invalidConfiguration
+        }
+
+        // IBKR may need a few seconds to prepare the statement
+        // Retry up to 3 times with delay
+        var lastError: Error = IBKRError.decodingFailed
+        for attempt in 0..<3 {
+            if attempt > 0 {
+                try await Task.sleep(for: .seconds(2))
+            }
+
+            let (data, response) = try await session.data(from: url)
+
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                throw IBKRError.httpError((response as? HTTPURLResponse)?.statusCode ?? 0)
+            }
+
+            let xmlString = String(data: data, encoding: .utf8) ?? ""
+
+            // Check if still processing
+            if xmlString.contains("<Status>Warn</Status>") && xmlString.contains("Please try again") {
+                lastError = IBKRError.flexQueryError("报表准备中，正在重试...")
+                continue
+            }
+
+            // Check for error
+            if xmlString.contains("<Status>Fail</Status>") {
+                let errorMessage = extractXMLValue(from: xmlString, tag: "ErrorMessage") ?? "未知错误"
+                throw IBKRError.flexQueryError(errorMessage)
+            }
+
+            // Parse trades from XML
+            let trades = parseFlexTrades(from: xmlString)
+            return trades
+        }
+
+        throw lastError
+    }
+
+    /// Combined: send request + get statement
+    func fetchTrades(token: String, queryId: String) async throws -> [FlexTrade] {
+        let referenceCode = try await sendFlexRequest(token: token, queryId: queryId)
+        // Wait a moment for IBKR to prepare
+        try await Task.sleep(for: .seconds(1))
+        return try await getFlexStatement(token: token, referenceCode: referenceCode)
+    }
+
+    // MARK: - XML Parsing
+
+    private func extractXMLValue(from xml: String, tag: String) -> String? {
+        guard let startRange = xml.range(of: "<\(tag)>"),
+              let endRange = xml.range(of: "</\(tag)>") else {
+            return nil
+        }
+        let value = String(xml[startRange.upperBound..<endRange.lowerBound])
+        return value.isEmpty ? nil : value
+    }
+
+    private func parseFlexTrades(from xml: String) -> [FlexTrade] {
+        var trades: [FlexTrade] = []
+
+        // Split by <Trade or <Order tags
+        let tradePattern = xml.components(separatedBy: "<Trade ")
+        for (index, component) in tradePattern.enumerated() {
+            guard index > 0 else { continue } // skip first (before any <Trade)
+            guard let endIndex = component.range(of: "/>") ?? component.range(of: ">") else { continue }
+
+            let attributes = String(component[component.startIndex..<endIndex.lowerBound])
+
+            guard let symbol = extractAttribute("symbol", from: attributes),
+                  let tradeId = extractAttribute("tradeID", from: attributes) ?? extractAttribute("ibExecID", from: attributes) else {
+                continue
+            }
+
+            let buySell = extractAttribute("buySell", from: attributes) ?? ""
+            let price = extractAttribute("tradePrice", from: attributes) ?? extractAttribute("price", from: attributes) ?? "0"
+            let quantity = extractAttribute("quantity", from: attributes) ?? "0"
+            let dateTime = extractAttribute("dateTime", from: attributes) ?? extractAttribute("tradeDate", from: attributes) ?? ""
+            let realizedPnl = extractAttribute("fifoPnlRealized", from: attributes) ?? extractAttribute("realizedPnl", from: attributes)
+            let exchange = extractAttribute("exchange", from: attributes)
+
+            let trade = FlexTrade(
+                tradeId: tradeId,
+                symbol: symbol,
+                buySell: buySell,
+                price: price,
+                quantity: quantity,
+                dateTime: dateTime,
+                realizedPnl: realizedPnl,
+                exchange: exchange
+            )
+            trades.append(trade)
+        }
+
+        return trades
+    }
+
+    private func extractAttribute(_ name: String, from attributes: String) -> String? {
+        let pattern = "\(name)=\""
+        guard let startRange = attributes.range(of: pattern) else { return nil }
+        let afterStart = attributes[startRange.upperBound...]
+        guard let endQuote = afterStart.firstIndex(of: "\"") else { return nil }
+        let value = String(afterStart[afterStart.startIndex..<endQuote])
+        return value.isEmpty ? nil : value
+    }
+
+    // MARK: - Date Formatter
+
+    /// Flex Query date format: "yyyyMMdd;HHmmss" or "yyyyMMdd"
+    static let flexDateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyyMMdd-HH:mm:ss"
+        formatter.dateFormat = "yyyyMMdd;HHmmss"
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.timeZone = TimeZone(identifier: "America/New_York")
         return formatter
     }()
 
-    init(baseURL: String = "https://localhost:5000") {
-        self.baseURL = baseURL
-        let delegate = IBKRSessionDelegate()
-        let configuration = URLSessionConfiguration.default
-        self.session = URLSession(configuration: configuration, delegate: delegate, delegateQueue: nil)
-    }
+    static let flexDateOnlyFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd"
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(identifier: "America/New_York")
+        return formatter
+    }()
+}
 
-    // MARK: - Auth
+// MARK: - Models
 
-    /// GET /v1/api/iserver/auth/status
-    func checkAuthStatus() async throws -> IBKRAuthStatus {
-        let data = try await get(path: "/v1/api/iserver/auth/status")
-        return try decode(IBKRAuthStatus.self, from: data)
-    }
+struct FlexTrade {
+    let tradeId: String
+    let symbol: String
+    let buySell: String  // "BUY" or "SELL"
+    let price: String
+    let quantity: String
+    let dateTime: String
+    let realizedPnl: String?
+    let exchange: String?
+}
 
-    // MARK: - Accounts
+// MARK: - Error
 
-    /// GET /v1/api/portfolio/accounts
-    func fetchAccounts() async throws -> [IBKRAccount] {
-        let data = try await get(path: "/v1/api/portfolio/accounts")
-        return try decode([IBKRAccount].self, from: data)
-    }
+enum IBKRError: LocalizedError {
+    case invalidConfiguration
+    case httpError(Int)
+    case decodingFailed
+    case flexQueryError(String)
 
-    // MARK: - Trades
-
-    /// GET /v1/api/iserver/account/trades
-    func fetchTrades() async throws -> [IBKRTrade] {
-        let data = try await get(path: "/v1/api/iserver/account/trades")
-        return try decode([IBKRTrade].self, from: data)
-    }
-
-    // MARK: - Tickle
-
-    /// POST /v1/api/tickle — keep session alive
-    func tickle() async throws {
-        let url = URL(string: baseURL + "/v1/api/tickle")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        do {
-            let (_, response) = try await session.data(for: request)
-            if let httpResponse = response as? HTTPURLResponse,
-               !(200...299).contains(httpResponse.statusCode) {
-                throw IBKRError.httpError(httpResponse.statusCode)
-            }
-        } catch let error as IBKRError {
-            throw error
-        } catch {
-            throw IBKRError.gatewayUnreachable
-        }
-    }
-
-    // MARK: - Private Helpers
-
-    private func get(path: String) async throws -> Data {
-        let url = URL(string: baseURL + path)!
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        let data: Data
-        let response: URLResponse
-        do {
-            (data, response) = try await session.data(for: request)
-        } catch {
-            throw IBKRError.gatewayUnreachable
-        }
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw IBKRError.gatewayUnreachable
-        }
-        if httpResponse.statusCode == 401 {
-            throw IBKRError.notAuthenticated
-        }
-        guard (200...299).contains(httpResponse.statusCode) else {
-            throw IBKRError.httpError(httpResponse.statusCode)
-        }
-        return data
-    }
-
-    private func decode<T: Decodable>(_ type: T.Type, from data: Data) throws -> T {
-        do {
-            return try JSONDecoder().decode(type, from: data)
-        } catch {
-            throw IBKRError.decodingFailed
+    var errorDescription: String? {
+        switch self {
+        case .invalidConfiguration:
+            return "IBKR 配置无效，请检查 Token 和 Query ID"
+        case .httpError(let code):
+            return "IBKR 请求失败，HTTP 状态码: \(code)"
+        case .decodingFailed:
+            return "解析 IBKR 响应数据失败"
+        case .flexQueryError(let message):
+            return "IBKR Flex Query 错误: \(message)"
         }
     }
 }
