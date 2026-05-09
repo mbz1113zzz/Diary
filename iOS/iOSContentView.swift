@@ -12,14 +12,25 @@ struct iOSContentView: View {
 
     var body: some View {
         TabView {
+            NavigationStack {
+                HomeDashboardView()
+                    .toolbar {
+                        ToolbarItem {
+                            NavigationLink {
+                                SettingsContentView()
+                            } label: {
+                                Label("设置", systemImage: "gearshape")
+                            }
+                        }
+                    }
+            }
+            .tabItem {
+                Label("主页", systemImage: "house")
+            }
+
             DiaryTabView()
                 .tabItem {
                     Label("日记", systemImage: "book")
-                }
-
-            TradeTabView()
-                .tabItem {
-                    Label("交易", systemImage: "chart.line.uptrend.xyaxis")
                 }
 
             Text("")
@@ -27,14 +38,14 @@ struct iOSContentView: View {
                     Label("新建", systemImage: "plus.circle.fill")
                 }
 
+            TradeTabView()
+                .tabItem {
+                    Label("交易", systemImage: "chart.line.uptrend.xyaxis")
+                }
+
             TodoTabView()
                 .tabItem {
                     Label("待办", systemImage: "checkmark.circle")
-                }
-
-            SettingsTabView()
-                .tabItem {
-                    Label("设置", systemImage: "gearshape")
                 }
         }
         .overlay(alignment: .bottom) {
@@ -101,29 +112,31 @@ struct DiaryTabView: View {
 
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(filteredEntries) { entry in
-                    NavigationLink {
-                        DayDetailView(date: entry.date)
-                    } label: {
-                        DiaryCardView(entry: entry)
+            MascotCornerContainer {
+                List {
+                    ForEach(filteredEntries) { entry in
+                        NavigationLink {
+                            DayDetailView(date: entry.date)
+                        } label: {
+                            DiaryCardView(entry: entry)
+                        }
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
                     }
-                    .listRowSeparator(.hidden)
-                    .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
+                    .onDelete(perform: deleteEntries)
                 }
-                .onDelete(perform: deleteEntries)
-            }
-            .listStyle(.plain)
-            .overlay {
-                if entries.isEmpty {
-                    EmptyStateView(
-                        icon: "book",
-                        title: "还没有日记",
-                        subtitle: "点击下方 + 按钮开始记录"
-                    )
+                .listStyle(.plain)
+                .overlay {
+                    if entries.isEmpty {
+                        EmptyStateView(
+                            icon: "book",
+                            title: "还没有日记",
+                            subtitle: "点击下方 + 按钮开始记录"
+                        )
+                    }
                 }
+                .searchable(text: $searchText, prompt: "搜索日记内容...")
             }
-            .searchable(text: $searchText, prompt: "搜索日记内容...")
             .navigationTitle("日记")
         }
     }
@@ -149,32 +162,34 @@ struct TradeTabView: View {
 
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(filteredTrades) { trade in
-                    NavigationLink {
-                        TradeEditorView(trade: trade)
-                            .navigationTitle(trade.ticker)
-                    } label: {
-                        TradeCardView(trade: trade)
+            MascotCornerContainer {
+                List {
+                    ForEach(filteredTrades) { trade in
+                        NavigationLink {
+                            TradeEditorView(trade: trade)
+                                .navigationTitle(trade.ticker)
+                        } label: {
+                            TradeCardView(trade: trade)
+                        }
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
                     }
-                    .listRowSeparator(.hidden)
-                    .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
+                    .onDelete(perform: deleteTrades)
                 }
-                .onDelete(perform: deleteTrades)
-            }
-            .listStyle(.plain)
-            .overlay {
-                if trades.isEmpty {
-                    EmptyStateView(
-                        icon: "chart.line.uptrend.xyaxis",
-                        title: "还没有交易记录",
-                        subtitle: "点击下方 + 按钮记录你的第一笔交易"
-                    )
-                } else if !searchText.isEmpty && filteredTrades.isEmpty {
-                    ContentUnavailableView.search(text: searchText)
+                .listStyle(.plain)
+                .overlay {
+                    if trades.isEmpty {
+                        EmptyStateView(
+                            icon: "chart.line.uptrend.xyaxis",
+                            title: "还没有交易记录",
+                            subtitle: "点击下方 + 按钮记录你的第一笔交易"
+                        )
+                    } else if !searchText.isEmpty && filteredTrades.isEmpty {
+                        ContentUnavailableView.search(text: searchText)
+                    }
                 }
+                .searchable(text: $searchText, prompt: "搜索股票代码、理由、标签...")
             }
-            .searchable(text: $searchText, prompt: "搜索股票代码、理由、标签...")
             .navigationTitle("交易")
         }
     }
@@ -193,13 +208,15 @@ struct TodoTabView: View {
 
     var body: some View {
         NavigationStack {
-            VStack {
-                DatePicker("日期", selection: $selectedDate, displayedComponents: .date)
-                    .datePickerStyle(.compact)
-                    .padding(.horizontal)
-                TodoEditorView(date: selectedDate)
-                    .padding()
-                Spacer()
+            MascotCornerContainer {
+                VStack {
+                    DatePicker("日期", selection: $selectedDate, displayedComponents: .date)
+                        .datePickerStyle(.compact)
+                        .padding(.horizontal)
+                    TodoEditorView(date: selectedDate)
+                        .padding()
+                    Spacer()
+                }
             }
             .navigationTitle("待办")
         }
@@ -211,6 +228,14 @@ struct TodoTabView: View {
 struct SettingsTabView: View {
     var body: some View {
         NavigationStack {
+            SettingsContentView()
+        }
+    }
+}
+
+struct SettingsContentView: View {
+    var body: some View {
+        MascotCornerContainer {
             List {
                 Section("功能") {
                     NavigationLink {
@@ -226,11 +251,15 @@ struct SettingsTabView: View {
                     }
 
                     NavigationLink {
-                        DataExportView()
+                        MascotCornerContainer {
+                            DataExportView()
+                        }
                     } label: {
                         Label("数据导出", systemImage: "square.and.arrow.up")
                     }
                 }
+
+                PetSettingsView()
 
                 Section("关于") {
                     HStack {
@@ -249,8 +278,8 @@ struct SettingsTabView: View {
                     }
                 }
             }
-            .navigationTitle("设置")
         }
+        .navigationTitle("设置")
     }
 }
 
@@ -258,7 +287,9 @@ struct CalendarHeatmapContainerView: View {
     @State private var selectedDate = Date()
 
     var body: some View {
-        CalendarHeatmapView(selectedDate: $selectedDate)
+        MascotCornerContainer {
+            CalendarHeatmapView(selectedDate: $selectedDate)
+        }
     }
 }
 

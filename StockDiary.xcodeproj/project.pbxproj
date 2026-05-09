@@ -15,6 +15,8 @@
 		13D2932527770253040325CD /* TradeExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34DDACEFFA07F4D4502264E /* TradeExport.swift */; };
 		192C21238CA9B960D78FC408 /* TradeAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76434B3A9A00B0B37BCFD4EE /* TradeAnalytics.swift */; };
 		1C7E51F3BF04BBF897D1B119 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646AD3A4044F2F686C79BAD5 /* EmptyStateView.swift */; };
+		1CA1AFEC1F417B29CD80DAE4 /* PetCompanionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E86338C64427AE70148A5 /* PetCompanionView.swift */; };
+		20A1CE550FA94265B344D97E /* HomeDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812C431E00AFD915F869A467 /* HomeDashboardView.swift */; };
 		251B4F9552A0489F50B8F192 /* DaySummaryViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC432CB1C762E3D8D8331663 /* DaySummaryViews.swift */; };
 		2E049D94775F1F316750FCB7 /* TodoCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481A5A544A103067DC3D85CF /* TodoCardView.swift */; };
 		33650EAE3151428B35B49C38 /* TodoEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9566A74ED342C847121BBE4 /* TodoEditorView.swift */; };
@@ -22,6 +24,7 @@
 		3E155F8C3360D0B44B88EE8A /* PlatformCompat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7336FE5A8A0AF730FB35B8 /* PlatformCompat.swift */; };
 		44A81D6D103AA60B11BCCF6D /* DataExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 124DEA95FCA67860EB4A87FC /* DataExportView.swift */; };
 		4523C93AD81EE1B61D36A62C /* TradeEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4319E4A25240644F2A41370B /* TradeEditorView.swift */; };
+		46DD3C5A1C8A58EF5468F389 /* HomeDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812C431E00AFD915F869A467 /* HomeDashboardView.swift */; };
 		475F136A6F1F2A333A0CB693 /* DateFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEF86D267C0975B036D6A87 /* DateFormatters.swift */; };
 		47D8CDDE2ECDD56C80B8E49A /* MacContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEBAFD77CEDF0C10BFDC941 /* MacContentView.swift */; };
 		4D3DBA5DEAB5A2A2D6A81737 /* TodoCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481A5A544A103067DC3D85CF /* TodoCardView.swift */; };
@@ -53,6 +56,7 @@
 		CBD7F5E42DA63F58AD43F56B /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646AD3A4044F2F686C79BAD5 /* EmptyStateView.swift */; };
 		CEC9607409E93F656D6F9C35 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66344B4F3D3CD0C535ABFE0A /* ContentView.swift */; };
 		D59C9B66B21A9E1E106EC777 /* DiaryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6F32CCCB7DBBC067F25042 /* DiaryEntry.swift */; };
+		E484C18C193CFF03BB6CC15B /* PetCompanionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E86338C64427AE70148A5 /* PetCompanionView.swift */; };
 		E70038173505D99D7E1E4D95 /* iOSContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED010CA9F23D9B373738BA7 /* iOSContentView.swift */; };
 		F3BD17E5E6429B5754B99C46 /* DiaryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6F32CCCB7DBBC067F25042 /* DiaryEntry.swift */; };
 		F57E87FD66FFEDE49000E335 /* TradeEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAFAE9CA91D44083FC0B604 /* TradeEntry.swift */; };
@@ -81,6 +85,7 @@
 		2A7336FE5A8A0AF730FB35B8 /* PlatformCompat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformCompat.swift; sourceTree = "<group>"; };
 		2B2F45D3A3690A3BB3A04E52 /* StockDiaryModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDiaryModelTests.swift; sourceTree = "<group>"; };
 		2B3862A168E19B02D842340F /* DayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayDetailView.swift; sourceTree = "<group>"; };
+		2C8E86338C64427AE70148A5 /* PetCompanionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCompanionView.swift; sourceTree = "<group>"; };
 		2CAFAE9CA91D44083FC0B604 /* TradeEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeEntry.swift; sourceTree = "<group>"; };
 		2FEBAFD77CEDF0C10BFDC941 /* MacContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacContentView.swift; sourceTree = "<group>"; };
 		3BF6A354EA1A6A0D4CA99239 /* DiaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewModel.swift; sourceTree = "<group>"; };
@@ -95,6 +100,7 @@
 		66344B4F3D3CD0C535ABFE0A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		6DA16920A84F1E36D87E57E4 /* TodoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItem.swift; sourceTree = "<group>"; };
 		76434B3A9A00B0B37BCFD4EE /* TradeAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeAnalytics.swift; sourceTree = "<group>"; };
+		812C431E00AFD915F869A467 /* HomeDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDashboardView.swift; sourceTree = "<group>"; };
 		9DA78BA558DFB54F5A60D7C2 /* DiaryEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryEditorView.swift; sourceTree = "<group>"; };
 		B0A25B5CB847BA2D3420F4B9 /* TradeCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeCardView.swift; sourceTree = "<group>"; };
 		B34DDACEFFA07F4D4502264E /* TradeExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeExport.swift; sourceTree = "<group>"; };
@@ -124,7 +130,9 @@
 				42FDDC32C6D655FCBA76E2A8 /* DiaryCardView.swift */,
 				9DA78BA558DFB54F5A60D7C2 /* DiaryEditorView.swift */,
 				646AD3A4044F2F686C79BAD5 /* EmptyStateView.swift */,
+				812C431E00AFD915F869A467 /* HomeDashboardView.swift */,
 				11FE3898A529550DA0E33AC7 /* MoodPickerView.swift */,
+				2C8E86338C64427AE70148A5 /* PetCompanionView.swift */,
 				BE2F442071CBDB56E6ADFF27 /* StatisticsDashboardView.swift */,
 				481A5A544A103067DC3D85CF /* TodoCardView.swift */,
 				D9566A74ED342C847121BBE4 /* TodoEditorView.swift */,
@@ -336,8 +344,10 @@
 				D59C9B66B21A9E1E106EC777 /* DiaryEntry.swift in Sources */,
 				56F0B0544C77D4896B5EB30C /* DiaryViewModel.swift in Sources */,
 				CBD7F5E42DA63F58AD43F56B /* EmptyStateView.swift in Sources */,
+				46DD3C5A1C8A58EF5468F389 /* HomeDashboardView.swift in Sources */,
 				47D8CDDE2ECDD56C80B8E49A /* MacContentView.swift in Sources */,
 				9C95E3D6AF3C933A437701E0 /* MoodPickerView.swift in Sources */,
+				1CA1AFEC1F417B29CD80DAE4 /* PetCompanionView.swift in Sources */,
 				3E155F8C3360D0B44B88EE8A /* PlatformCompat.swift in Sources */,
 				C81196D0F47F7CDA8CFEB356 /* StatisticsDashboardView.swift in Sources */,
 				7E259D620B187BBBB015FA45 /* StockDiaryApp.swift in Sources */,
@@ -368,7 +378,9 @@
 				F3BD17E5E6429B5754B99C46 /* DiaryEntry.swift in Sources */,
 				A06E99023AA35BD91D60D2EF /* DiaryViewModel.swift in Sources */,
 				1C7E51F3BF04BBF897D1B119 /* EmptyStateView.swift in Sources */,
+				20A1CE550FA94265B344D97E /* HomeDashboardView.swift in Sources */,
 				0428B640970CB0B79C733554 /* MoodPickerView.swift in Sources */,
+				E484C18C193CFF03BB6CC15B /* PetCompanionView.swift in Sources */,
 				9F5179396CBA2D3165D153BA /* PlatformCompat.swift in Sources */,
 				9EE731E5D1575C0792D2D754 /* StatisticsDashboardView.swift in Sources */,
 				FC2B666B93FC31C43558F1BA /* StockDiaryApp.swift in Sources */,

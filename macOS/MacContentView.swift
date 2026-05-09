@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftData
 
 enum MacSidebarItem: String, Hashable, CaseIterable {
+    case home = "主页"
     case dashboard = "统计"
     case heatmap = "热力图"
     case trades = "交易"
@@ -10,6 +11,7 @@ enum MacSidebarItem: String, Hashable, CaseIterable {
 
     var icon: String {
         switch self {
+        case .home: return "house"
         case .dashboard: return "gauge.with.dots.needle.67percent"
         case .heatmap: return "calendar.badge.clock"
         case .trades: return "chart.line.uptrend.xyaxis"
@@ -20,7 +22,7 @@ enum MacSidebarItem: String, Hashable, CaseIterable {
 }
 
 struct MacContentView: View {
-    @State private var selectedSidebar: MacSidebarItem? = .dashboard
+    @State private var selectedSidebar: MacSidebarItem? = .home
     @State private var selectedDate: Date = Date()
     @Query(sort: [SortDescriptor(\DiaryEntry.date, order: .reverse)])
     private var allDiaryEntries: [DiaryEntry]
@@ -36,7 +38,10 @@ struct MacContentView: View {
             .navigationTitle("StockDiary")
         } content: {
             switch selectedSidebar {
-            case .dashboard, .none:
+            case .home, .none:
+                ContentUnavailableView("主页", systemImage: "house", description: Text("查看小宠物、最近交易和待办"))
+                    .navigationTitle("主页")
+            case .dashboard:
                 ContentUnavailableView("统计", systemImage: "chart.bar.xaxis", description: Text("查看本周和本月交易表现"))
                     .navigationTitle("统计")
             case .heatmap:
@@ -51,19 +56,29 @@ struct MacContentView: View {
             }
         } detail: {
             switch selectedSidebar {
-            case .dashboard, .none:
+            case .home, .none:
+                HomeDashboardView()
+            case .dashboard:
                 StatisticsDashboardView()
             case .heatmap:
-                HeatmapInsightDetailView(date: selectedDate)
-                    .id(Calendar.current.startOfDay(for: selectedDate))
+                MascotCornerContainer {
+                    HeatmapInsightDetailView(date: selectedDate)
+                        .id(Calendar.current.startOfDay(for: selectedDate))
+                }
             case .trades:
-                TradeDaySummaryView(date: selectedDate)
-                    .id(Calendar.current.startOfDay(for: selectedDate))
+                MascotCornerContainer {
+                    TradeDaySummaryView(date: selectedDate)
+                        .id(Calendar.current.startOfDay(for: selectedDate))
+                }
             case .todos:
-                TodoDayDetailView(date: selectedDate)
-                    .id(Calendar.current.startOfDay(for: selectedDate))
+                MascotCornerContainer {
+                    TodoDayDetailView(date: selectedDate)
+                        .id(Calendar.current.startOfDay(for: selectedDate))
+                }
             case .export:
-                DataExportView()
+                MascotCornerContainer {
+                    DataExportView()
+                }
             }
         }
     }

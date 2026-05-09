@@ -32,79 +32,86 @@ struct StatisticsDashboardView: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                Picker("周期", selection: $period) {
-                    ForEach(TradeStatsPeriod.allCases) { period in
-                        Text(period.rawValue).tag(period)
-                    }
-                }
-                .pickerStyle(.segmented)
-                .padding(.horizontal)
-
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 150), spacing: 12)], spacing: 12) {
-                    StatMetricCard(title: "\(period.rawValue)盈亏", value: signedMoney(summary.pnlTotal), color: pnlColor(summary.pnlTotal), icon: "dollarsign.circle")
-                    StatMetricCard(title: "胜率", value: percentage(summary.winRate), color: .green, icon: "target")
-                    StatMetricCard(title: "平均盈亏比", value: signedPercentage(summary.averagePnlPercent / 100), color: pnlColor(summary.averagePnlPercent), icon: "percent")
-                    StatMetricCard(title: "交易笔数", value: "\(summary.tradeCount)", color: .accentColor, icon: "number.circle")
-                }
-                .padding(.horizontal)
-
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("盈亏分布")
-                        .font(.headline)
-                    HStack(spacing: 12) {
-                        DistributionPill(title: "盈利", value: summary.winningCount, color: .green)
-                        DistributionPill(title: "亏损", value: summary.losingCount, color: .red)
-                        DistributionPill(title: "未记录", value: max(summary.tradeCount - summary.winningCount - summary.losingCount, 0), color: .secondary)
-                    }
-                }
-                .padding()
-                .background(Color.systemBackground)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-                .padding(.horizontal)
-
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("策略标签")
-                        .font(.headline)
-
-                    if strategyRows.isEmpty {
-                        Text("还没有策略标签")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                    } else {
-                        ForEach(strategyRows, id: \.tag) { row in
-                            HStack {
-                                Text(row.tag)
-                                Spacer()
-                                Text("\(row.count)笔")
-                                    .foregroundStyle(.secondary)
-                                Text(signedMoney(row.pnl))
-                                    .foregroundStyle(pnlColor(row.pnl))
-                                    .monospacedDigit()
-                            }
-                            .font(.subheadline)
+        MascotCornerContainer {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    Picker("周期", selection: $period) {
+                        ForEach(TradeStatsPeriod.allCases) { period in
+                            Text(period.rawValue).tag(period)
                         }
                     }
-                }
-                .padding()
-                .background(Color.systemBackground)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-                .padding(.horizontal)
+                    .pickerStyle(.segmented)
+                    .padding(.horizontal)
 
-                TagSummarySection(
-                    title: "错误标签",
-                    emptyText: "还没有错误标签",
-                    rows: mistakeRows,
-                    amountText: signedMoney,
-                    amountColor: pnlColor
-                )
-                .padding(.horizontal)
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 150), spacing: 12)], spacing: 12) {
+                        StatMetricCard(title: "\(period.rawValue)盈亏", value: signedMoney(summary.pnlTotal), color: pnlColor(summary.pnlTotal), icon: "dollarsign.circle")
+                        StatMetricCard(title: "胜率", value: percentage(summary.winRate), color: .green, icon: "target")
+                        StatMetricCard(title: "平均盈亏比", value: signedPercentage(summary.averagePnlPercent / 100), color: pnlColor(summary.averagePnlPercent), icon: "percent")
+                        StatMetricCard(title: "交易笔数", value: "\(summary.tradeCount)", color: .accentColor, icon: "number.circle")
+                    }
+                    .padding(.horizontal)
+
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("盈亏分布")
+                            .font(.headline)
+                        HStack(spacing: 12) {
+                            DistributionPill(title: "盈利", value: summary.winningCount, color: .green)
+                            DistributionPill(title: "亏损", value: summary.losingCount, color: .red)
+                            DistributionPill(title: "未记录", value: max(summary.tradeCount - summary.winningCount - summary.losingCount, 0), color: .secondary)
+                        }
+                    }
+                    .padding()
+                    .background(Color.systemBackground)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .padding(.horizontal)
+
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("策略标签")
+                            .font(.headline)
+
+                        if strategyRows.isEmpty {
+                            Text("还没有策略标签")
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                        } else {
+                            ForEach(strategyRows, id: \.tag) { row in
+                                HStack {
+                                    Text(row.tag)
+                                    Spacer()
+                                    Text("\(row.count)笔")
+                                        .foregroundStyle(.secondary)
+                                    Text(signedMoney(row.pnl))
+                                        .foregroundStyle(pnlColor(row.pnl))
+                                        .monospacedDigit()
+                                }
+                                .font(.subheadline)
+                            }
+                        }
+                    }
+                    .padding()
+                    .background(Color.systemBackground)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .padding(.horizontal)
+
+                    TagSummarySection(
+                        title: "错误标签",
+                        emptyText: "还没有错误标签",
+                        rows: mistakeRows,
+                        amountText: signedMoney,
+                        amountColor: pnlColor
+                    )
+                    .padding(.horizontal)
+                }
+                .padding(.vertical)
             }
-            .padding(.vertical)
+            .background(Color.secondarySystemBackground.opacity(0.45))
         }
-        .background(Color.secondarySystemBackground.opacity(0.45))
         .navigationTitle("统计")
+        .toolbar {
+            ToolbarItem {
+                PetSettingsMenu()
+            }
+        }
     }
 
     private func signedMoney(_ value: Double) -> String {
