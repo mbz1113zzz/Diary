@@ -12,7 +12,7 @@ struct StockDiaryApp: App {
         let modelConfiguration = ModelConfiguration(
             schema: schema,
             isStoredInMemoryOnly: false,
-            cloudKitDatabase: .automatic
+            cloudKitDatabase: .none  // 改为 .automatic 以启用 iCloud 同步（需要付费开发者账号）
         )
         do {
             return try ModelContainer(for: schema, configurations: [modelConfiguration])
