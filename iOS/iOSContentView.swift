@@ -87,12 +87,22 @@ struct NewEntryButton: View {
 struct DiaryTabView: View {
     @Query(sort: [SortDescriptor(\DiaryEntry.date, order: .reverse)])
     private var entries: [DiaryEntry]
+    @State private var searchText = ""
+
+    private var filteredEntries: [DiaryEntry] {
+        guard !searchText.isEmpty else { return entries }
+        let query = searchText.lowercased()
+        return entries.filter { entry in
+            entry.content.lowercased().contains(query) ||
+            (entry.mood?.contains(query) ?? false)
+        }
+    }
     @Environment(\.modelContext) private var modelContext
 
     var body: some View {
         NavigationStack {
             List {
-                ForEach(entries) { entry in
+                ForEach(filteredEntries) { entry in
                     NavigationLink {
                         DayDetailView(date: entry.date)
                     } label: {
@@ -113,6 +123,7 @@ struct DiaryTabView: View {
                     )
                 }
             }
+            .searchable(text: $searchText, prompt: "搜索日记内容...")
             .navigationTitle("日记")
         }
     }
@@ -129,12 +140,23 @@ struct DiaryTabView: View {
 struct TradeTabView: View {
     @Query(sort: [SortDescriptor(\TradeEntry.date, order: .reverse)])
     private var trades: [TradeEntry]
+    @State private var searchText = ""
+
+    private var filteredTrades: [TradeEntry] {
+        guard !searchText.isEmpty else { return trades }
+        let query = searchText.lowercased()
+        return trades.filter { trade in
+            trade.ticker.lowercased().contains(query) ||
+            (trade.entryReason?.lowercased().contains(query) ?? false) ||
+            (trade.notes?.lowercased().contains(query) ?? false)
+        }
+    }
     @Environment(\.modelContext) private var modelContext
 
     var body: some View {
         NavigationStack {
             List {
-                ForEach(trades) { trade in
+                ForEach(filteredTrades) { trade in
                     NavigationLink {
                         TradeEditorView(trade: trade)
                             .navigationTitle(trade.ticker)
@@ -156,6 +178,7 @@ struct TradeTabView: View {
                     )
                 }
             }
+            .searchable(text: $searchText, prompt: "搜索股票代码...")
             .navigationTitle("交易")
         }
     }

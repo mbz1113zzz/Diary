@@ -5,12 +5,14 @@ enum MacSidebarItem: String, Hashable, CaseIterable {
     case calendar = "日历"
     case trades = "交易"
     case todos = "待办"
+    case search = "搜索"
 
     var icon: String {
         switch self {
         case .calendar: return "calendar"
         case .trades: return "chart.line.uptrend.xyaxis"
         case .todos: return "checkmark.circle"
+        case .search: return "magnifyingglass"
         }
     }
 }
@@ -38,6 +40,8 @@ struct MacContentView: View {
                 TradeListView(selectedDate: $selectedDate)
             case .todos:
                 TodoListView(selectedDate: $selectedDate)
+            case .search:
+                SearchView(selectedDate: $selectedDate)
             }
         } detail: {
             DayDetailView(date: selectedDate)
@@ -154,5 +158,77 @@ struct TodoListView: View {
         for index in offsets {
             modelContext.delete(todos[index])
         }
+    }
+}
+
+// MARK: - Search
+
+struct SearchView: View {
+    @Binding var selectedDate: Date
+    @State private var searchText = ""
+    @Query(sort: [SortDescriptor(\DiaryEntry.date, order: .reverse)])
+    private var allDiaries: [DiaryEntry]
+    @Query(sort: [SortDescriptor(\TradeEntry.date, order: .reverse)])
+    private var allTrades: [TradeEntry]
+
+    private var filteredDiaries: [DiaryEntry] {
+        guard !searchText.isEmpty else { return [] }
+        let query = searchText.lowercased()
+        return allDiaries.filter { entry in
+            entry.content.lowercased().contains(query) ||
+            (entry.mood?.contains(query) ?? false)
+        }
+    }
+
+    private var filteredTrades: [TradeEntry] {
+        guard !searchText.isEmpty else { return [] }
+        let query = searchText.lowercased()
+        return allTrades.filter { trade in
+            trade.ticker.lowercased().contains(query) ||
+            (trade.entryReason?.lowercased().contains(query) ?? false) ||
+            (trade.exitReason?.lowercased().contains(query) ?? false) ||
+            (trade.notes?.lowercased().contains(query) ?? false)
+        }
+    }
+
+    var body: some View {
+        List {
+            if !filteredDiaries.isEmpty {
+                Section("日记") {
+                    ForEach(filteredDiaries) { entry in
+                        VStack(alignment: .leading, spacing: 4) {
+                            HStack {
+                                if let mood = entry.mood { Text(mood) }
+                                Text(DateFormatters.dayDisplay.string(from: entry.date))
+                                    .font(.subheadline)
+                                    .fontWeight(.medium)
+                            }
+                            Text(entry.content)
+                                .font(.caption)
+                                .lineLimit(2)
+                                .foregroundStyle(.secondary)
+                        }
+                        .onTapGesture { selectedDate = entry.date }
+                    }
+                }
+            }
+
+            if !filteredTrades.isEmpty {
+                Section("交易") {
+                    ForEach(filteredTrades) { trade in
+                        TradeCardView(trade: trade)
+                            .onTapGesture { selectedDate = trade.date }
+                    }
+                }
+            }
+
+            if searchText.isEmpty {
+                ContentUnavailableView("搜索", systemImage: "magnifyingglass", description: Text("输入关键词搜索日记和交易记录"))
+            } else if filteredDiaries.isEmpty && filteredTrades.isEmpty {
+                ContentUnavailableView.search(text: searchText)
+            }
+        }
+        .searchable(text: $searchText, prompt: "搜索股票代码、日记内容...")
+        .navigationTitle("搜索")
     }
 }
