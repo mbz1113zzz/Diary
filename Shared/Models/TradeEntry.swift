@@ -23,6 +23,8 @@ final class TradeEntry {
     var reviewConclusion: String?
     var mistakeTags: [String] = []
     var createdAt: Date
+    var ibkrExecutionId: String?
+    var ibkrImported: Bool = false
 
     init(
         id: UUID = UUID(),
@@ -44,7 +46,9 @@ final class TradeEntry {
         emotionalTrade: Bool? = nil,
         reviewConclusion: String? = nil,
         mistakeTags: [String] = [],
-        createdAt: Date = Date()
+        createdAt: Date = Date(),
+        ibkrExecutionId: String? = nil,
+        ibkrImported: Bool = false
     ) {
         self.id = id
         self.date = date
@@ -66,10 +70,13 @@ final class TradeEntry {
         self.reviewConclusion = reviewConclusion
         self.mistakeTags = mistakeTags
         self.createdAt = createdAt
+        self.ibkrExecutionId = ibkrExecutionId
+        self.ibkrImported = ibkrImported
     }
 
     var isEmpty: Bool {
-        ticker.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
+        if ibkrImported { return false }
+        return ticker.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
         price == 0 &&
         quantity == 0 &&
         entryReason?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty != false &&

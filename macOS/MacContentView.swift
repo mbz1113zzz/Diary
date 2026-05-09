@@ -92,6 +92,7 @@ struct TradeListView: View {
     private var trades: [TradeEntry]
     @State private var searchText = ""
     @Environment(\.modelContext) private var modelContext
+    @Environment(IBKRSyncManager.self) private var syncManager
 
     private var filteredTrades: [TradeEntry] {
         trades.filter { $0.matchesSearch(searchText) }
@@ -113,6 +114,29 @@ struct TradeListView: View {
         }
         .searchable(text: $searchText, prompt: "搜索股票代码、理由、标签...")
         .navigationTitle("交易")
+        .toolbar {
+            ToolbarItem {
+                Button {
+                    Task { await syncManager.manualSync(context: modelContext) }
+                } label: {
+                    if syncManager.isSyncing {
+                        ProgressView().controlSize(.small)
+                    } else {
+                        Image(systemName: "arrow.triangle.2.circlepath")
+                    }
+                }
+                .disabled(syncManager.isSyncing)
+            }
+            ToolbarItem {
+                Button {
+                    let trade = TradeEntry(date: Calendar.current.startOfDay(for: selectedDate))
+                    modelContext.insert(trade)
+                    selectedDate = trade.date
+                } label: {
+                    Image(systemName: "plus")
+                }
+            }
+        }
     }
 
     private func deleteTrades(at offsets: IndexSet) {

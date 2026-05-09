@@ -3,6 +3,8 @@ import SwiftData
 
 @main
 struct StockDiaryApp: App {
+    @State private var syncManager = IBKRSyncManager()
+
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             DiaryEntry.self,
@@ -24,6 +26,10 @@ struct StockDiaryApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(syncManager)
+                .task {
+                    await syncManager.autoSync(context: sharedModelContainer.mainContext)
+                }
         }
         .modelContainer(sharedModelContainer)
     }

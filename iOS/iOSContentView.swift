@@ -159,6 +159,7 @@ struct TradeTabView: View {
         trades.filter { $0.matchesSearch(searchText) }
     }
     @Environment(\.modelContext) private var modelContext
+    @Environment(IBKRSyncManager.self) private var syncManager
 
     var body: some View {
         NavigationStack {
@@ -191,8 +192,53 @@ struct TradeTabView: View {
                 .searchable(text: $searchText, prompt: "搜索股票代码、理由、标签...")
             }
             .navigationTitle("交易")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        Task { await syncManager.manualSync(context: modelContext) }
+                    } label: {
+                        if syncManager.isSyncing {
+                            ProgressView().controlSize(.small)
+                        } else {
+                            Image(systemName: "arrow.triangle.2.circlepath")
+                        }
+                    }
+                    .disabled(syncManager.isSyncing)
+                }
+                ToolbarItem(placement: .primaryAction) {
+                    Button {
+                        let trade = TradeEntry(date: Calendar.current.startOfDay(for: Date()))
+                        modelContext.insert(trade)
+                        newTrade = trade
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
+            .sheet(item: $newTrade) { trade in
+                NavigationStack {
+                    TradeEditorView(trade: trade)
+                        .navigationTitle("新建交易")
+                        #if os(iOS)
+                        .navigationBarTitleDisplayMode(.inline)
+                        #endif
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("取消") {
+                                    modelContext.delete(trade)
+                                    newTrade = nil
+                                }
+                            }
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button("保存") { newTrade = nil }
+                            }
+                        }
+                }
+            }
         }
     }
+
+    @State private var newTrade: TradeEntry?
 
     private func deleteTrades(at offsets: IndexSet) {
         for index in offsets {
@@ -234,6 +280,8 @@ struct SettingsTabView: View {
 }
 
 struct SettingsContentView: View {
+    @Environment(IBKRSyncManager.self) private var syncManager
+
     var body: some View {
         MascotCornerContainer {
             List {
@@ -260,6 +308,8 @@ struct SettingsContentView: View {
                 }
 
                 PetSettingsView()
+
+                IBKRSettingsView(syncManager: syncManager)
 
                 Section("关于") {
                     HStack {

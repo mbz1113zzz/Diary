@@ -62,6 +62,15 @@ struct TradeCardView: View {
                         .background(trade.direction == "买入" ? Color.red.opacity(0.1) : Color.green.opacity(0.1))
                         .foregroundStyle(trade.direction == "买入" ? .red : .green)
                         .clipShape(Capsule())
+                    if trade.ibkrImported {
+                        Text("IBKR")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                            .padding(.horizontal, 4)
+                            .padding(.vertical, 1)
+                            .background(.secondary.opacity(0.1))
+                            .clipShape(RoundedRectangle(cornerRadius: 3))
+                    }
                     Spacer()
                     Text(DateFormatters.shortDate.string(from: trade.date))
                         .font(.caption)

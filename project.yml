@@ -24,7 +24,6 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.stockdiary.StockDiary
-        GENERATE_INFOPLIST_FILE: YES
         PRODUCT_NAME: StockDiary
   StockDiary_iOS:
     type: application
@@ -43,7 +42,6 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.stockdiary.StockDiary
-        GENERATE_INFOPLIST_FILE: YES
         PRODUCT_NAME: StockDiary
   StockDiary_macOSTests:
     type: bundle.unit-test
