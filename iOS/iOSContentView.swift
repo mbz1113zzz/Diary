@@ -76,7 +76,7 @@ struct NewEntryButton: View {
         } label: {
             Image(systemName: "plus.circle.fill")
                 .font(.system(size: 44))
-                .foregroundStyle(.white, .accentColor)
+                .foregroundStyle(Color.white, Color.accentColor)
                 .shadow(radius: 4)
         }
     }
@@ -148,7 +148,8 @@ struct TradeTabView: View {
         return trades.filter { trade in
             trade.ticker.lowercased().contains(query) ||
             (trade.entryReason?.lowercased().contains(query) ?? false) ||
-            (trade.notes?.lowercased().contains(query) ?? false)
+            (trade.notes?.lowercased().contains(query) ?? false) ||
+            trade.strategyTags.contains { $0.lowercased().contains(query) }
         }
     }
     @Environment(\.modelContext) private var modelContext
@@ -216,6 +217,26 @@ struct SettingsTabView: View {
     var body: some View {
         NavigationStack {
             List {
+                Section("功能") {
+                    NavigationLink {
+                        StatisticsDashboardView()
+                    } label: {
+                        Label("交易统计", systemImage: "chart.bar.xaxis")
+                    }
+
+                    NavigationLink {
+                        CalendarHeatmapContainerView()
+                    } label: {
+                        Label("日历热力图", systemImage: "calendar.badge.clock")
+                    }
+
+                    NavigationLink {
+                        DataExportView()
+                    } label: {
+                        Label("数据导出", systemImage: "square.and.arrow.up")
+                    }
+                }
+
                 Section("关于") {
                     HStack {
                         Text("版本")
@@ -235,6 +256,14 @@ struct SettingsTabView: View {
             }
             .navigationTitle("设置")
         }
+    }
+}
+
+struct CalendarHeatmapContainerView: View {
+    @State private var selectedDate = Date()
+
+    var body: some View {
+        CalendarHeatmapView(selectedDate: $selectedDate)
     }
 }
 
@@ -265,14 +294,30 @@ struct NewDiarySheetView: View {
                 }
             }
             ToolbarItem(placement: .confirmationAction) {
-                Button("保存") { dismiss() }
+                Button("保存") { saveAndDismiss() }
+                    .disabled(entry?.isEmpty ?? true)
             }
         }
         .onAppear {
+            guard entry == nil else { return }
             let newEntry = DiaryEntry(date: Calendar.current.startOfDay(for: Date()))
             modelContext.insert(newEntry)
             entry = newEntry
         }
+        .onDisappear {
+            cleanupEmptyEntry()
+        }
+    }
+
+    private func saveAndDismiss() {
+        cleanupEmptyEntry()
+        dismiss()
+    }
+
+    private func cleanupEmptyEntry() {
+        guard let entry, entry.isEmpty else { return }
+        modelContext.delete(entry)
+        self.entry = nil
     }
 }
 
@@ -301,13 +346,29 @@ struct NewTradeSheetView: View {
                 }
             }
             ToolbarItem(placement: .confirmationAction) {
-                Button("保存") { dismiss() }
+                Button("保存") { saveAndDismiss() }
+                    .disabled(trade?.isEmpty ?? true)
             }
         }
         .onAppear {
+            guard trade == nil else { return }
             let newTrade = TradeEntry(date: Calendar.current.startOfDay(for: Date()))
             modelContext.insert(newTrade)
             trade = newTrade
         }
+        .onDisappear {
+            cleanupEmptyTrade()
+        }
+    }
+
+    private func saveAndDismiss() {
+        cleanupEmptyTrade()
+        dismiss()
+    }
+
+    private func cleanupEmptyTrade() {
+        guard let trade, trade.isEmpty else { return }
+        modelContext.delete(trade)
+        self.trade = nil
     }
 }

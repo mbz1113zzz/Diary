@@ -80,7 +80,10 @@ struct DayDetailView: View {
         .onAppear {
             loadOrCreateDiary()
         }
-        .sheet(isPresented: $showingTradeEditor) {
+        .onDisappear {
+            cleanupEmptyDiary()
+        }
+        .sheet(isPresented: $showingTradeEditor, onDismiss: cleanupEmptySelectedTrade) {
             if let trade = selectedTrade {
                 NavigationStack {
                     TradeEditorView(trade: trade)
@@ -115,5 +118,20 @@ struct DayDetailView: View {
             modelContext.insert(newEntry)
             diaryEntry = newEntry
         }
+    }
+
+    private func cleanupEmptyDiary() {
+        guard let diaryEntry, diaryEntry.isEmpty else { return }
+        modelContext.delete(diaryEntry)
+        self.diaryEntry = nil
+    }
+
+    private func cleanupEmptySelectedTrade() {
+        guard let selectedTrade, selectedTrade.isEmpty else {
+            selectedTrade = nil
+            return
+        }
+        modelContext.delete(selectedTrade)
+        self.selectedTrade = nil
     }
 }

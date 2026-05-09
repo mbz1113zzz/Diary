@@ -15,6 +15,20 @@ enum DateFormatters {
         return f
     }()
 
+    static let monthTitle: DateFormatter = {
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "zh_CN")
+        f.dateFormat = "yyyy年M月"
+        return f
+    }()
+
+    static let exportDate: DateFormatter = {
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "en_US_POSIX")
+        f.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        return f
+    }()
+
     static func startOfDay(_ date: Date) -> Date {
         Calendar.current.startOfDay(for: date)
     }

@@ -28,4 +28,10 @@ final class DiaryEntry {
         self.createdAt = createdAt
         self.updatedAt = updatedAt
     }
+
+    var isEmpty: Bool {
+        content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
+        mood == nil &&
+        weather == nil
+    }
 }

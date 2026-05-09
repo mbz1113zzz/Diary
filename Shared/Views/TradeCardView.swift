@@ -77,6 +77,20 @@ struct TradeCardView: View {
                             .foregroundStyle(.secondary)
                     }
                 }
+
+                if !trade.strategyTags.isEmpty {
+                    HStack(spacing: 6) {
+                        ForEach(trade.strategyTags, id: \.self) { tag in
+                            Text(tag)
+                                .font(.caption2)
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 3)
+                                .background(Color.accentColor.opacity(0.12))
+                                .foregroundStyle(Color.accentColor)
+                                .clipShape(Capsule())
+                        }
+                    }
+                }
             }
             .padding()
         }

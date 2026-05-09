@@ -15,6 +15,7 @@ final class TradeEntry {
     var pnl: Double?
     var pnlPercent: Double?
     var notes: String?
+    var strategyTags: [String] = []
     var createdAt: Date
 
     init(
@@ -30,6 +31,7 @@ final class TradeEntry {
         pnl: Double? = nil,
         pnlPercent: Double? = nil,
         notes: String? = nil,
+        strategyTags: [String] = [],
         createdAt: Date = Date()
     ) {
         self.id = id
@@ -44,6 +46,20 @@ final class TradeEntry {
         self.pnl = pnl
         self.pnlPercent = pnlPercent
         self.notes = notes
+        self.strategyTags = strategyTags
         self.createdAt = createdAt
+    }
+
+    var isEmpty: Bool {
+        ticker.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
+        price == 0 &&
+        quantity == 0 &&
+        entryReason?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty != false &&
+        exitReason?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty != false &&
+        emotion == nil &&
+        pnl == nil &&
+        pnlPercent == nil &&
+        notes?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty != false &&
+        strategyTags.isEmpty
     }
 }

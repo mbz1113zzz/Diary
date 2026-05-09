@@ -45,3 +45,29 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.stockdiary.StockDiary
         GENERATE_INFOPLIST_FILE: YES
         PRODUCT_NAME: StockDiary
+  StockDiary_macOSTests:
+    type: bundle.unit-test
+    platform: macOS
+    deploymentTarget: "14.0"
+    sources:
+      - path: Tests
+    dependencies:
+      - target: StockDiary_macOS
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.stockdiary.StockDiaryTests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/StockDiary.app/Contents/MacOS/StockDiary
+        BUNDLE_LOADER: $(TEST_HOST)
+schemes:
+  StockDiary_macOS:
+    build:
+      targets:
+        StockDiary_macOS: all
+    test:
+      targets:
+        - StockDiary_macOSTests
+  StockDiary_iOS:
+    build:
+      targets:
+        StockDiary_iOS: all

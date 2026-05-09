@@ -2,23 +2,29 @@ import SwiftUI
 import SwiftData
 
 enum MacSidebarItem: String, Hashable, CaseIterable {
+    case dashboard = "统计"
     case calendar = "日历"
+    case heatmap = "热力图"
     case trades = "交易"
     case todos = "待办"
+    case export = "导出"
     case search = "搜索"
 
     var icon: String {
         switch self {
+        case .dashboard: return "gauge.with.dots.needle.67percent"
         case .calendar: return "calendar"
+        case .heatmap: return "calendar.badge.clock"
         case .trades: return "chart.line.uptrend.xyaxis"
         case .todos: return "checkmark.circle"
+        case .export: return "square.and.arrow.up"
         case .search: return "magnifyingglass"
         }
     }
 }
 
 struct MacContentView: View {
-    @State private var selectedSidebar: MacSidebarItem? = .calendar
+    @State private var selectedSidebar: MacSidebarItem? = .dashboard
     @State private var selectedDate: Date = Date()
     @Query(sort: [SortDescriptor(\DiaryEntry.date, order: .reverse)])
     private var allDiaryEntries: [DiaryEntry]
@@ -34,18 +40,33 @@ struct MacContentView: View {
             .navigationTitle("StockDiary")
         } content: {
             switch selectedSidebar {
-            case .calendar, .none:
+            case .dashboard, .none:
+                ContentUnavailableView("统计", systemImage: "chart.bar.xaxis", description: Text("查看本周和本月交易表现"))
+                    .navigationTitle("统计")
+            case .calendar:
                 CalendarListView(selectedDate: $selectedDate)
+            case .heatmap:
+                CalendarHeatmapView(selectedDate: $selectedDate)
             case .trades:
                 TradeListView(selectedDate: $selectedDate)
             case .todos:
                 TodoListView(selectedDate: $selectedDate)
+            case .export:
+                ContentUnavailableView("数据导出", systemImage: "square.and.arrow.up", description: Text("导出 CSV 或 JSON 交易备份"))
+                    .navigationTitle("导出")
             case .search:
                 SearchView(selectedDate: $selectedDate)
             }
         } detail: {
-            DayDetailView(date: selectedDate)
-                .id(Calendar.current.startOfDay(for: selectedDate))
+            switch selectedSidebar {
+            case .dashboard, .none:
+                StatisticsDashboardView()
+            case .export:
+                DataExportView()
+            default:
+                DayDetailView(date: selectedDate)
+                    .id(Calendar.current.startOfDay(for: selectedDate))
+            }
         }
     }
 }
@@ -187,7 +208,8 @@ struct SearchView: View {
             trade.ticker.lowercased().contains(query) ||
             (trade.entryReason?.lowercased().contains(query) ?? false) ||
             (trade.exitReason?.lowercased().contains(query) ?? false) ||
-            (trade.notes?.lowercased().contains(query) ?? false)
+            (trade.notes?.lowercased().contains(query) ?? false) ||
+            trade.strategyTags.contains { $0.lowercased().contains(query) }
         }
     }
 
