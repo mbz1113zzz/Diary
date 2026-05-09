@@ -1,0 +1,398 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		37C4EB9250FBCF1A4D1128C6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66344B4F3D3CD0C535ABFE0A /* ContentView.swift */; };
+		47D8CDDE2ECDD56C80B8E49A /* MacContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEBAFD77CEDF0C10BFDC941 /* MacContentView.swift */; };
+		73C679345785C6E677BB496A /* MacContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEBAFD77CEDF0C10BFDC941 /* MacContentView.swift */; };
+		7E259D620B187BBBB015FA45 /* StockDiaryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E6CA57F1569D8B067533C0 /* StockDiaryApp.swift */; };
+		902D58DE94CA95AF11B45BE7 /* iOSContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED010CA9F23D9B373738BA7 /* iOSContentView.swift */; };
+		CEC9607409E93F656D6F9C35 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66344B4F3D3CD0C535ABFE0A /* ContentView.swift */; };
+		E70038173505D99D7E1E4D95 /* iOSContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED010CA9F23D9B373738BA7 /* iOSContentView.swift */; };
+		FC2B666B93FC31C43558F1BA /* StockDiaryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E6CA57F1569D8B067533C0 /* StockDiaryApp.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0ED010CA9F23D9B373738BA7 /* iOSContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSContentView.swift; sourceTree = "<group>"; };
+		2FEBAFD77CEDF0C10BFDC941 /* MacContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacContentView.swift; sourceTree = "<group>"; };
+		66344B4F3D3CD0C535ABFE0A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		741FF5D09B17CF03AA414D13 /* StockDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StockDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E0E6CA57F1569D8B067533C0 /* StockDiaryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDiaryApp.swift; sourceTree = "<group>"; };
+		E7E9B4EA1107E182F5D2FE00 /* StockDiary.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = StockDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		2AB05E91DD43AC0528038C0D = {
+			isa = PBXGroup;
+			children = (
+				9F39E4502D49E97DB4E381FC /* iOS */,
+				51CDB91E001A25C52DE8FD44 /* macOS */,
+				A583CFF316507DDFE94E0C9B /* Shared */,
+				BF022D0117AA68B5623624F5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		51CDB91E001A25C52DE8FD44 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				2FEBAFD77CEDF0C10BFDC941 /* MacContentView.swift */,
+			);
+			path = macOS;
+			sourceTree = "<group>";
+		};
+		9F39E4502D49E97DB4E381FC /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				0ED010CA9F23D9B373738BA7 /* iOSContentView.swift */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		A583CFF316507DDFE94E0C9B /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				66344B4F3D3CD0C535ABFE0A /* ContentView.swift */,
+				E0E6CA57F1569D8B067533C0 /* StockDiaryApp.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		BF022D0117AA68B5623624F5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E7E9B4EA1107E182F5D2FE00 /* StockDiary.app */,
+				741FF5D09B17CF03AA414D13 /* StockDiary.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4EAB4A3863E4AC33CA64FF04 /* StockDiary_macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AEB93819471B5CDFB6C8DF73 /* Build configuration list for PBXNativeTarget "StockDiary_macOS" */;
+			buildPhases = (
+				783D4C04F157A09B36F080C9 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StockDiary_macOS;
+			packageProductDependencies = (
+			);
+			productName = StockDiary_macOS;
+			productReference = 741FF5D09B17CF03AA414D13 /* StockDiary.app */;
+			productType = "com.apple.product-type.application";
+		};
+		EA6A6FF8106E42E9AB769104 /* StockDiary_iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C921407AF78E64414EACE78 /* Build configuration list for PBXNativeTarget "StockDiary_iOS" */;
+			buildPhases = (
+				F36319089095644A31142BBC /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StockDiary_iOS;
+			packageProductDependencies = (
+			);
+			productName = StockDiary_iOS;
+			productReference = E7E9B4EA1107E182F5D2FE00 /* StockDiary.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		91BD5B5208494AA2248D1308 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					4EAB4A3863E4AC33CA64FF04 = {
+						DevelopmentTeam = "";
+					};
+					EA6A6FF8106E42E9AB769104 = {
+						DevelopmentTeam = "";
+					};
+				};
+			};
+			buildConfigurationList = C7DAE685C982552A6F8C01C3 /* Build configuration list for PBXProject "StockDiary" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 2AB05E91DD43AC0528038C0D;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = BF022D0117AA68B5623624F5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EA6A6FF8106E42E9AB769104 /* StockDiary_iOS */,
+				4EAB4A3863E4AC33CA64FF04 /* StockDiary_macOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		783D4C04F157A09B36F080C9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEC9607409E93F656D6F9C35 /* ContentView.swift in Sources */,
+				47D8CDDE2ECDD56C80B8E49A /* MacContentView.swift in Sources */,
+				7E259D620B187BBBB015FA45 /* StockDiaryApp.swift in Sources */,
+				902D58DE94CA95AF11B45BE7 /* iOSContentView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F36319089095644A31142BBC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37C4EB9250FBCF1A4D1128C6 /* ContentView.swift in Sources */,
+				73C679345785C6E677BB496A /* MacContentView.swift in Sources */,
+				FC2B666B93FC31C43558F1BA /* StockDiaryApp.swift in Sources */,
+				E70038173505D99D7E1E4D95 /* iOSContentView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		07D9DA0E7C76F629014441A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = StockDiary.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_KEY_CFBundleDisplayName = StockDiary;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.stockdiary.StockDiary;
+				PRODUCT_NAME = StockDiary;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2B19F6F06CC152C41931D1D1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		6518293CC79B11AA8C905C5E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = StockDiary.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = StockDiary;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.stockdiary.StockDiary;
+				PRODUCT_NAME = StockDiary;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		71FB66A497BD98F90A75A94D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		8CA5A13F6ED7BEA29E578422 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = StockDiary.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_KEY_CFBundleDisplayName = StockDiary;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.stockdiary.StockDiary;
+				PRODUCT_NAME = StockDiary;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		BD3E3904CA9E452E68F036A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = StockDiary.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = StockDiary;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.stockdiary.StockDiary;
+				PRODUCT_NAME = StockDiary;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2C921407AF78E64414EACE78 /* Build configuration list for PBXNativeTarget "StockDiary_iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				07D9DA0E7C76F629014441A7 /* Debug */,
+				8CA5A13F6ED7BEA29E578422 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		AEB93819471B5CDFB6C8DF73 /* Build configuration list for PBXNativeTarget "StockDiary_macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BD3E3904CA9E452E68F036A8 /* Debug */,
+				6518293CC79B11AA8C905C5E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C7DAE685C982552A6F8C01C3 /* Build configuration list for PBXProject "StockDiary" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				71FB66A497BD98F90A75A94D /* Debug */,
+				2B19F6F06CC152C41931D1D1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 91BD5B5208494AA2248D1308 /* Project object */;
+}
