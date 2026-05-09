@@ -68,7 +68,9 @@ enum TradeExportBuilder {
     static func csv(for trades: [TradeEntry]) -> String {
         let header = [
             "date", "ticker", "direction", "price", "quantity", "pnl", "pnlPercent",
-            "entryReason", "exitReason", "emotion", "strategyTags", "notes", "createdAt"
+            "entryReason", "exitReason", "emotion", "strategyTags", "followedPlan",
+            "hadStopLossPlan", "chasedMove", "emotionalTrade", "reviewConclusion",
+            "mistakeTags", "notes", "createdAt"
         ].joined(separator: ",")
 
         let rows = trades.map { trade in
@@ -84,6 +86,12 @@ enum TradeExportBuilder {
                 trade.exitReason ?? "",
                 trade.emotion ?? "",
                 trade.strategyTags.joined(separator: "|"),
+                boolText(trade.followedPlan),
+                boolText(trade.hadStopLossPlan),
+                boolText(trade.chasedMove),
+                boolText(trade.emotionalTrade),
+                trade.reviewConclusion ?? "",
+                trade.mistakeTags.joined(separator: "|"),
                 trade.notes ?? "",
                 DateFormatters.exportDate.string(from: trade.createdAt)
             ].map(escapeCSV).joined(separator: ",")
@@ -109,6 +117,11 @@ enum TradeExportBuilder {
         }
         return "\"\(value.replacingOccurrences(of: "\"", with: "\"\""))\""
     }
+
+    private static func boolText(_ value: Bool?) -> String {
+        guard let value else { return "" }
+        return value ? "true" : "false"
+    }
 }
 
 private struct TradeExportSnapshot: Encodable {
@@ -124,6 +137,12 @@ private struct TradeExportSnapshot: Encodable {
     let exitReason: String?
     let emotion: String?
     let strategyTags: [String]
+    let followedPlan: Bool?
+    let hadStopLossPlan: Bool?
+    let chasedMove: Bool?
+    let emotionalTrade: Bool?
+    let reviewConclusion: String?
+    let mistakeTags: [String]
     let notes: String?
     let createdAt: String
 
@@ -140,6 +159,12 @@ private struct TradeExportSnapshot: Encodable {
         exitReason = trade.exitReason
         emotion = trade.emotion
         strategyTags = trade.strategyTags
+        followedPlan = trade.followedPlan
+        hadStopLossPlan = trade.hadStopLossPlan
+        chasedMove = trade.chasedMove
+        emotionalTrade = trade.emotionalTrade
+        reviewConclusion = trade.reviewConclusion
+        mistakeTags = trade.mistakeTags
         notes = trade.notes
         createdAt = DateFormatters.exportDate.string(from: trade.createdAt)
     }

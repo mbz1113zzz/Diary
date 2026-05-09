@@ -16,6 +16,12 @@ final class TradeEntry {
     var pnlPercent: Double?
     var notes: String?
     var strategyTags: [String] = []
+    var followedPlan: Bool?
+    var hadStopLossPlan: Bool?
+    var chasedMove: Bool?
+    var emotionalTrade: Bool?
+    var reviewConclusion: String?
+    var mistakeTags: [String] = []
     var createdAt: Date
 
     init(
@@ -32,6 +38,12 @@ final class TradeEntry {
         pnlPercent: Double? = nil,
         notes: String? = nil,
         strategyTags: [String] = [],
+        followedPlan: Bool? = nil,
+        hadStopLossPlan: Bool? = nil,
+        chasedMove: Bool? = nil,
+        emotionalTrade: Bool? = nil,
+        reviewConclusion: String? = nil,
+        mistakeTags: [String] = [],
         createdAt: Date = Date()
     ) {
         self.id = id
@@ -47,6 +59,12 @@ final class TradeEntry {
         self.pnlPercent = pnlPercent
         self.notes = notes
         self.strategyTags = strategyTags
+        self.followedPlan = followedPlan
+        self.hadStopLossPlan = hadStopLossPlan
+        self.chasedMove = chasedMove
+        self.emotionalTrade = emotionalTrade
+        self.reviewConclusion = reviewConclusion
+        self.mistakeTags = mistakeTags
         self.createdAt = createdAt
     }
 
@@ -60,6 +78,27 @@ final class TradeEntry {
         pnl == nil &&
         pnlPercent == nil &&
         notes?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty != false &&
-        strategyTags.isEmpty
+        strategyTags.isEmpty &&
+        followedPlan == nil &&
+        hadStopLossPlan == nil &&
+        chasedMove == nil &&
+        emotionalTrade == nil &&
+        reviewConclusion?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty != false &&
+        mistakeTags.isEmpty
+    }
+
+    func matchesSearch(_ searchText: String) -> Bool {
+        let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        guard !query.isEmpty else { return true }
+
+        return ticker.lowercased().contains(query) ||
+        direction.lowercased().contains(query) ||
+        entryReason?.lowercased().contains(query) == true ||
+        exitReason?.lowercased().contains(query) == true ||
+        emotion?.lowercased().contains(query) == true ||
+        notes?.lowercased().contains(query) == true ||
+        reviewConclusion?.lowercased().contains(query) == true ||
+        strategyTags.contains { $0.lowercased().contains(query) } ||
+        mistakeTags.contains { $0.lowercased().contains(query) }
     }
 }

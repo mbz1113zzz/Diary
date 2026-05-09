@@ -9,6 +9,7 @@ struct TradeEditorView: View {
     private let directions = ["买入", "卖出"]
     private let emotions = ["冷静", "兴奋", "紧张", "犹豫", "恐惧", "贪婪"]
     private let strategyOptions = ["突破", "回调", "事件驱动"]
+    private let mistakeOptions = ["FOMO", "提前止盈", "扛单", "无计划", "仓位过重", "没等确认"]
 
     var body: some View {
         Form {
@@ -89,7 +90,41 @@ struct TradeEditorView: View {
             Section("策略标签") {
                 FlowTagPicker(
                     options: strategyOptions,
-                    selection: $trade.strategyTags
+                    selection: $trade.strategyTags,
+                    tint: .accentColor
+                )
+            }
+
+            Section("纪律复盘") {
+                Toggle("按计划交易", isOn: Binding(
+                    get: { trade.followedPlan ?? false },
+                    set: { trade.followedPlan = $0 }
+                ))
+                Toggle("入场前写好止损", isOn: Binding(
+                    get: { trade.hadStopLossPlan ?? false },
+                    set: { trade.hadStopLossPlan = $0 }
+                ))
+                Toggle("追高 / 杀跌", isOn: Binding(
+                    get: { trade.chasedMove ?? false },
+                    set: { trade.chasedMove = $0 }
+                ))
+                Toggle("情绪化交易", isOn: Binding(
+                    get: { trade.emotionalTrade ?? false },
+                    set: { trade.emotionalTrade = $0 }
+                ))
+
+                TextField("复盘结论", text: Binding(
+                    get: { trade.reviewConclusion ?? "" },
+                    set: { trade.reviewConclusion = $0.isEmpty ? nil : $0 }
+                ), axis: .vertical)
+                .lineLimit(2...5)
+            }
+
+            Section("错误标签") {
+                FlowTagPicker(
+                    options: mistakeOptions,
+                    selection: $trade.mistakeTags,
+                    tint: .red
                 )
             }
         }
@@ -100,6 +135,7 @@ struct TradeEditorView: View {
 struct FlowTagPicker: View {
     let options: [String]
     @Binding var selection: [String]
+    var tint: Color = .accentColor
 
     var body: some View {
         FlexibleFlowLayout(spacing: 8) {
@@ -111,8 +147,8 @@ struct FlowTagPicker: View {
                         .font(.caption)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 6)
-                        .background(selection.contains(option) ? Color.accentColor.opacity(0.14) : Color.secondarySystemBackground)
-                        .foregroundStyle(selection.contains(option) ? Color.accentColor : Color.primary)
+                        .background(selection.contains(option) ? tint.opacity(0.14) : Color.secondarySystemBackground)
+                        .foregroundStyle(selection.contains(option) ? tint : Color.primary)
                         .clipShape(Capsule())
                 }
                 .buttonStyle(.plain)

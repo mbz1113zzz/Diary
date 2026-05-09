@@ -11,9 +11,17 @@ struct StatisticsDashboardView: View {
     }
 
     private var strategyRows: [(tag: String, count: Int, pnl: Double)] {
+        tagRows(for: \.strategyTags)
+    }
+
+    private var mistakeRows: [(tag: String, count: Int, pnl: Double)] {
+        tagRows(for: \.mistakeTags)
+    }
+
+    private func tagRows(for keyPath: KeyPath<TradeEntry, [String]>) -> [(tag: String, count: Int, pnl: Double)] {
         var rows: [String: (count: Int, pnl: Double)] = [:]
         for trade in trades {
-            for tag in trade.strategyTags {
+            for tag in trade[keyPath: keyPath] {
                 let current = rows[tag] ?? (0, 0)
                 rows[tag] = (current.count + 1, current.pnl + (trade.pnl ?? 0))
             }
@@ -83,6 +91,15 @@ struct StatisticsDashboardView: View {
                 .background(Color.systemBackground)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .padding(.horizontal)
+
+                TagSummarySection(
+                    title: "错误标签",
+                    emptyText: "还没有错误标签",
+                    rows: mistakeRows,
+                    amountText: signedMoney,
+                    amountColor: pnlColor
+                )
+                .padding(.horizontal)
             }
             .padding(.vertical)
         }
@@ -108,6 +125,43 @@ struct StatisticsDashboardView: View {
         if value > 0 { return .green }
         if value < 0 { return .red }
         return .secondary
+    }
+}
+
+private struct TagSummarySection: View {
+    let title: String
+    let emptyText: String
+    let rows: [(tag: String, count: Int, pnl: Double)]
+    let amountText: (Double) -> String
+    let amountColor: (Double) -> Color
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(title)
+                .font(.headline)
+
+            if rows.isEmpty {
+                Text(emptyText)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            } else {
+                ForEach(rows, id: \.tag) { row in
+                    HStack {
+                        Text(row.tag)
+                        Spacer()
+                        Text("\(row.count)笔")
+                            .foregroundStyle(.secondary)
+                        Text(amountText(row.pnl))
+                            .foregroundStyle(amountColor(row.pnl))
+                            .monospacedDigit()
+                    }
+                    .font(.subheadline)
+                }
+            }
+        }
+        .padding()
+        .background(Color.systemBackground)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 }
 

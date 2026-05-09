@@ -35,7 +35,7 @@ struct DataExportView: View {
             }
 
             Section("内容") {
-                Text("导出文件包含日期、股票代码、方向、价格、数量、盈亏、复盘文字和策略标签。")
+                Text("导出文件包含日期、股票代码、方向、价格、数量、盈亏、复盘文字、策略标签、纪律复盘和错误标签。")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }

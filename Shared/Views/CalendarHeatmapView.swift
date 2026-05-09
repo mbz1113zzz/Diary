@@ -47,6 +47,22 @@ struct CalendarHeatmapView: View {
         summaries[calendar.startOfDay(for: selectedDate)]
     }
 
+    private var monthSummaries: [DailyRecordSummary] {
+        summaries.values.sorted { $0.date < $1.date }
+    }
+
+    private var activeDays: Int {
+        monthSummaries.filter(\.hasRecord).count
+    }
+
+    private var monthlyTradeCount: Int {
+        monthSummaries.reduce(0) { $0 + $1.tradeCount }
+    }
+
+    private var monthlyPnl: Double {
+        monthSummaries.reduce(0) { $0 + $1.pnlTotal }
+    }
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
@@ -78,6 +94,13 @@ struct CalendarHeatmapView: View {
                     LegendItem(color: .green, text: "盈利")
                     LegendItem(color: .red, text: "亏损")
                     LegendItem(color: .gray, text: "无交易")
+                }
+                .padding(.horizontal)
+
+                HStack(spacing: 8) {
+                    HeatmapOverviewPill(title: "活跃日", value: "\(activeDays)", color: .blue)
+                    HeatmapOverviewPill(title: "交易数", value: "\(monthlyTradeCount)", color: .accentColor)
+                    HeatmapOverviewPill(title: "月盈亏", value: signedMoney(monthlyPnl), color: pnlColor(monthlyPnl))
                 }
                 .padding(.horizontal)
 
@@ -210,5 +233,27 @@ private struct LegendItem: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
+    }
+}
+
+private struct HeatmapOverviewPill: View {
+    let title: String
+    let value: String
+    let color: Color
+
+    var body: some View {
+        VStack(spacing: 4) {
+            Text(value)
+                .font(.headline)
+                .foregroundStyle(color)
+                .monospacedDigit()
+            Text(title)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 10)
+        .background(Color.systemBackground)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 }

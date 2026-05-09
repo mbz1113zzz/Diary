@@ -143,14 +143,7 @@ struct TradeTabView: View {
     @State private var searchText = ""
 
     private var filteredTrades: [TradeEntry] {
-        guard !searchText.isEmpty else { return trades }
-        let query = searchText.lowercased()
-        return trades.filter { trade in
-            trade.ticker.lowercased().contains(query) ||
-            (trade.entryReason?.lowercased().contains(query) ?? false) ||
-            (trade.notes?.lowercased().contains(query) ?? false) ||
-            trade.strategyTags.contains { $0.lowercased().contains(query) }
-        }
+        trades.filter { $0.matchesSearch(searchText) }
     }
     @Environment(\.modelContext) private var modelContext
 
@@ -177,16 +170,18 @@ struct TradeTabView: View {
                         title: "还没有交易记录",
                         subtitle: "点击下方 + 按钮记录你的第一笔交易"
                     )
+                } else if !searchText.isEmpty && filteredTrades.isEmpty {
+                    ContentUnavailableView.search(text: searchText)
                 }
             }
-            .searchable(text: $searchText, prompt: "搜索股票代码...")
+            .searchable(text: $searchText, prompt: "搜索股票代码、理由、标签...")
             .navigationTitle("交易")
         }
     }
 
     private func deleteTrades(at offsets: IndexSet) {
         for index in offsets {
-            modelContext.delete(trades[index])
+            modelContext.delete(filteredTrades[index])
         }
     }
 }

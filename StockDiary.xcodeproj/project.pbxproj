@@ -15,6 +15,7 @@
 		13D2932527770253040325CD /* TradeExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34DDACEFFA07F4D4502264E /* TradeExport.swift */; };
 		192C21238CA9B960D78FC408 /* TradeAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76434B3A9A00B0B37BCFD4EE /* TradeAnalytics.swift */; };
 		1C7E51F3BF04BBF897D1B119 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646AD3A4044F2F686C79BAD5 /* EmptyStateView.swift */; };
+		251B4F9552A0489F50B8F192 /* DaySummaryViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC432CB1C762E3D8D8331663 /* DaySummaryViews.swift */; };
 		2E049D94775F1F316750FCB7 /* TodoCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481A5A544A103067DC3D85CF /* TodoCardView.swift */; };
 		33650EAE3151428B35B49C38 /* TodoEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9566A74ED342C847121BBE4 /* TodoEditorView.swift */; };
 		37C4EB9250FBCF1A4D1128C6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66344B4F3D3CD0C535ABFE0A /* ContentView.swift */; };
@@ -41,6 +42,7 @@
 		A06E99023AA35BD91D60D2EF /* DiaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6A354EA1A6A0D4CA99239 /* DiaryViewModel.swift */; };
 		A0EAB628F2608F8AADC09993 /* DataExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 124DEA95FCA67860EB4A87FC /* DataExportView.swift */; };
 		A1B29964E586D073CFD448AA /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA16920A84F1E36D87E57E4 /* TodoItem.swift */; };
+		B228B0341BCD6DAD833F3C2D /* DaySummaryViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC432CB1C762E3D8D8331663 /* DaySummaryViews.swift */; };
 		B2CB05E2D374974856A48AAF /* TradeAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76434B3A9A00B0B37BCFD4EE /* TradeAnalytics.swift */; };
 		B2D9CFB3EB175FECAAE7C856 /* TradeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A25B5CB847BA2D3420F4B9 /* TradeCardView.swift */; };
 		B7A5B850D9FC52736145C260 /* DayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3862A168E19B02D842340F /* DayDetailView.swift */; };
@@ -96,6 +98,7 @@
 		9DA78BA558DFB54F5A60D7C2 /* DiaryEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryEditorView.swift; sourceTree = "<group>"; };
 		B0A25B5CB847BA2D3420F4B9 /* TradeCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeCardView.swift; sourceTree = "<group>"; };
 		B34DDACEFFA07F4D4502264E /* TradeExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeExport.swift; sourceTree = "<group>"; };
+		BC432CB1C762E3D8D8331663 /* DaySummaryViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySummaryViews.swift; sourceTree = "<group>"; };
 		BE2F442071CBDB56E6ADFF27 /* StatisticsDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsDashboardView.swift; sourceTree = "<group>"; };
 		D9566A74ED342C847121BBE4 /* TodoEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoEditorView.swift; sourceTree = "<group>"; };
 		E0E6CA57F1569D8B067533C0 /* StockDiaryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDiaryApp.swift; sourceTree = "<group>"; };
@@ -117,6 +120,7 @@
 				26B15E05CDF6D35A1173702B /* CalendarHeatmapView.swift */,
 				124DEA95FCA67860EB4A87FC /* DataExportView.swift */,
 				2B3862A168E19B02D842340F /* DayDetailView.swift */,
+				BC432CB1C762E3D8D8331663 /* DaySummaryViews.swift */,
 				42FDDC32C6D655FCBA76E2A8 /* DiaryCardView.swift */,
 				9DA78BA558DFB54F5A60D7C2 /* DiaryEditorView.swift */,
 				646AD3A4044F2F686C79BAD5 /* EmptyStateView.swift */,
@@ -326,6 +330,7 @@
 				44A81D6D103AA60B11BCCF6D /* DataExportView.swift in Sources */,
 				5796D02C9C1EECCC122E7DB8 /* DateFormatters.swift in Sources */,
 				9E51D45B4E10467CAA78ED8B /* DayDetailView.swift in Sources */,
+				251B4F9552A0489F50B8F192 /* DaySummaryViews.swift in Sources */,
 				106688CA8D89118E6E584E8A /* DiaryCardView.swift in Sources */,
 				88B5A23F7ADD9839B6F3348C /* DiaryEditorView.swift in Sources */,
 				D59C9B66B21A9E1E106EC777 /* DiaryEntry.swift in Sources */,
@@ -357,6 +362,7 @@
 				A0EAB628F2608F8AADC09993 /* DataExportView.swift in Sources */,
 				475F136A6F1F2A333A0CB693 /* DateFormatters.swift in Sources */,
 				B7A5B850D9FC52736145C260 /* DayDetailView.swift in Sources */,
+				B228B0341BCD6DAD833F3C2D /* DaySummaryViews.swift in Sources */,
 				9F0F5622285ED94AE33EE803 /* DiaryCardView.swift in Sources */,
 				0F7A8305BA0A604DBD0F6036 /* DiaryEditorView.swift in Sources */,
 				F3BD17E5E6429B5754B99C46 /* DiaryEntry.swift in Sources */,

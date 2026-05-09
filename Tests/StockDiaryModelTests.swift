@@ -17,7 +17,18 @@ final class StockDiaryModelTests: XCTestCase {
 
         XCTAssertTrue(trade.isEmpty)
 
-        trade.strategyTags = ["突破"]
+        trade.mistakeTags = ["FOMO"]
+
+        XCTAssertFalse(trade.isEmpty)
+    }
+
+    func testTradeEntryReviewTemplateMakesEntryNonEmpty() {
+        let trade = TradeEntry()
+
+        XCTAssertTrue(trade.isEmpty)
+
+        trade.followedPlan = false
+        trade.reviewConclusion = "没有等确认，下一次降低仓位。"
 
         XCTAssertFalse(trade.isEmpty)
     }
@@ -49,13 +60,21 @@ final class StockDiaryModelTests: XCTestCase {
             price: 180,
             quantity: 10,
             pnl: 20,
-            strategyTags: ["突破", "事件驱动"]
+            strategyTags: ["突破", "事件驱动"],
+            followedPlan: true,
+            hadStopLossPlan: true,
+            chasedMove: false,
+            emotionalTrade: false,
+            reviewConclusion: "执行符合计划",
+            mistakeTags: ["没等确认"]
         )
 
         let csv = TradeExportBuilder.csv(for: [trade])
 
         XCTAssertTrue(csv.contains("AAPL"))
         XCTAssertTrue(csv.contains("突破|事件驱动"))
+        XCTAssertTrue(csv.contains("执行符合计划"))
+        XCTAssertTrue(csv.contains("没等确认"))
     }
 
     func testStartOfDayNormalizesDate() throws {

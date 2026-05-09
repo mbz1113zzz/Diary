@@ -27,6 +27,23 @@ struct TradeCardView: View {
         return .gray
     }
 
+    private var disciplineText: String? {
+        var parts: [String] = []
+        if let followedPlan = trade.followedPlan {
+            parts.append(followedPlan ? "按计划" : "偏离计划")
+        }
+        if let hadStopLossPlan = trade.hadStopLossPlan {
+            parts.append(hadStopLossPlan ? "有止损" : "无止损")
+        }
+        if trade.chasedMove == true {
+            parts.append("追高/杀跌")
+        }
+        if trade.emotionalTrade == true {
+            parts.append("情绪化")
+        }
+        return parts.isEmpty ? nil : parts.joined(separator: " · ")
+    }
+
     var body: some View {
         HStack(spacing: 0) {
             RoundedRectangle(cornerRadius: 2)
@@ -90,6 +107,27 @@ struct TradeCardView: View {
                                 .clipShape(Capsule())
                         }
                     }
+                }
+
+                if !trade.mistakeTags.isEmpty {
+                    HStack(spacing: 6) {
+                        ForEach(trade.mistakeTags, id: \.self) { tag in
+                            Text(tag)
+                                .font(.caption2)
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 3)
+                                .background(Color.red.opacity(0.1))
+                                .foregroundStyle(Color.red)
+                                .clipShape(Capsule())
+                        }
+                    }
+                }
+
+                if let disciplineText {
+                    Text(disciplineText)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
                 }
             }
             .padding()
