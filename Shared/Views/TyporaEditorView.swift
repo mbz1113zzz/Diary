@@ -662,7 +662,14 @@ struct TyporaEditorView: NSViewRepresentable {
     var commands: MarkdownEditorCommands?
 
     func makeNSView(context: Context) -> NSScrollView {
-        let textView = NSTextView()
+        let textStorage = NSTextStorage(string: text)
+        let layoutManager = HiddenMarkerLayoutManager()
+        let container = NSTextContainer(size: NSSize(width: 0, height: CGFloat.greatestFiniteMagnitude))
+        container.widthTracksTextView = true
+        layoutManager.addTextContainer(container)
+        textStorage.addLayoutManager(layoutManager)
+
+        let textView = NSTextView(frame: .zero, textContainer: container)
         textView.isRichText = false
         textView.allowsUndo = true
         textView.isEditable = true
@@ -675,17 +682,15 @@ struct TyporaEditorView: NSViewRepresentable {
         textView.isVerticallyResizable = true
         textView.isHorizontallyResizable = false
         textView.autoresizingMask = [.width]
-        textView.textContainer?.containerSize = NSSize(width: 0, height: CGFloat.greatestFiniteMagnitude)
-        textView.textContainer?.widthTracksTextView = true
-        textView.string = text
         textView.delegate = context.coordinator
 
         // Initial highlighting — no active line, full preview mode
         if !text.isEmpty {
-            let storage = textView.textStorage!
-            storage.beginEditing()
-            MarkdownHighlighter.highlight(storage, activeLineRange: nil)
-            storage.endEditing()
+            textStorage.beginEditing()
+            let indexes = MarkdownHighlighter.highlight(textStorage, activeLineRange: nil)
+            textStorage.endEditing()
+            layoutManager.markerIndexes = indexes
+            layoutManager.activeLineRange = nil
         }
 
         let scrollView = NSScrollView()
@@ -731,15 +736,23 @@ struct TyporaEditorView: NSViewRepresentable {
         // Pressing Return moves the cursor to a new paragraph, so the previous paragraph
         // naturally falls back to preview styling.
         func rehighlight(_ textView: NSTextView) {
-            let storage = textView.textStorage!
+            guard let storage = textView.textStorage else { return }
             let activeRange: NSRange? = hasFocus
                 ? computeActiveLineRange(cursorLocation: textView.selectedRange().location, in: textView.string)
                 : nil
+
             let selectedRanges = textView.selectedRanges
             storage.beginEditing()
-            MarkdownHighlighter.highlight(storage, activeLineRange: activeRange)
+            let indexes = MarkdownHighlighter.highlight(storage, activeLineRange: activeRange)
             storage.endEditing()
             textView.selectedRanges = selectedRanges
+
+            // Update layout manager with new marker data
+            if let layoutManager = textView.layoutManager as? HiddenMarkerLayoutManager {
+                layoutManager.markerIndexes = indexes
+                layoutManager.activeLineRange = activeRange
+                layoutManager.invalidateGlyphs(forCharacterRange: NSRange(location: 0, length: storage.length), changeInLength: 0, actualCharacterRange: nil)
+            }
         }
 
         func textDidChange(_ notification: Notification) {
@@ -780,8 +793,41 @@ struct TyporaEditorView: NSViewRepresentable {
         func textViewDidChangeSelection(_ notification: Notification) {
             guard let textView = notification.object as? NSTextView else { return }
             guard !isUpdating else { return }
+            guard let layoutManager = textView.layoutManager as? HiddenMarkerLayoutManager else { return }
+
+            let oldActiveRange = layoutManager.activeLineRange
+            let newActiveRange: NSRange? = hasFocus
+                ? computeActiveLineRange(cursorLocation: textView.selectedRange().location, in: textView.string)
+                : nil
+
+            // Skip if active line hasn't changed
+            if oldActiveRange == newActiveRange { return }
+
             isUpdating = true
-            rehighlight(textView)
+
+            let storage = textView.textStorage!
+            let selectedRanges = textView.selectedRanges
+
+            storage.beginEditing()
+            let indexes = MarkdownHighlighter.highlight(storage, activeLineRange: newActiveRange)
+            storage.endEditing()
+            textView.selectedRanges = selectedRanges
+
+            layoutManager.markerIndexes = indexes
+            layoutManager.activeLineRange = newActiveRange
+
+            // Incremental invalidation: only re-layout the old and new active ranges
+            let fullRange = NSRange(location: 0, length: storage.length)
+            if let old = oldActiveRange, old.location + old.length <= storage.length {
+                layoutManager.invalidateGlyphs(forCharacterRange: old, changeInLength: 0, actualCharacterRange: nil)
+            }
+            if let new = newActiveRange {
+                layoutManager.invalidateGlyphs(forCharacterRange: new, changeInLength: 0, actualCharacterRange: nil)
+            }
+            if oldActiveRange == nil && newActiveRange == nil {
+                layoutManager.invalidateGlyphs(forCharacterRange: fullRange, changeInLength: 0, actualCharacterRange: nil)
+            }
+
             isUpdating = false
         }
 
