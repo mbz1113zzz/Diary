@@ -453,4 +453,34 @@ final class StockDiaryModelTests: XCTestCase {
         XCTAssertGreaterThan(rect.width, 1.0, "Active line markers should be visible and take space")
     }
     #endif
+
+    func testWatchlistItemCreationAndDefaultValues() {
+        let item = WatchlistItem(ticker: " AAPL ", displayName: " 苹果 ")
+        XCTAssertEqual(item.ticker, "AAPL")
+        XCTAssertEqual(item.displayName, "苹果")
+        XCTAssertEqual(item.groupTag, "默认")
+        XCTAssertEqual(item.sortOrder, 0)
+        XCTAssertNotNil(item.id)
+    }
+
+    func testWatchlistItemCustomGroup() {
+        let item = WatchlistItem(ticker: "TSLA", groupTag: "科技", sortOrder: 3)
+        XCTAssertEqual(item.ticker, "TSLA")
+        XCTAssertEqual(item.groupTag, "科技")
+        XCTAssertEqual(item.sortOrder, 3)
+    }
+
+    func testMarketSnapshotFields() {
+        let snapshot = MarketSnapshot(
+            ticker: "AAPL",
+            lastPrice: 185.32,
+            change: 2.15,
+            changePercent: 0.0117,
+            timestamp: Date()
+        )
+        XCTAssertEqual(snapshot.ticker, "AAPL")
+        XCTAssertEqual(snapshot.lastPrice, 185.32)
+        XCTAssertEqual(snapshot.change, 2.15)
+        XCTAssertEqual(snapshot.id, "AAPL")
+    }
 }
