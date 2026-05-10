@@ -9,6 +9,7 @@ final class TradeEntry {
     var direction: String
     var price: Double
     var quantity: Int
+    var currency: String?
     var entryReason: String?
     var exitReason: String?
     var emotion: String?
@@ -33,6 +34,7 @@ final class TradeEntry {
         direction: String = "买入",
         price: Double = 0.0,
         quantity: Int = 0,
+        currency: String? = nil,
         entryReason: String? = nil,
         exitReason: String? = nil,
         emotion: String? = nil,
@@ -56,6 +58,7 @@ final class TradeEntry {
         self.direction = direction
         self.price = price
         self.quantity = quantity
+        self.currency = currency
         self.entryReason = entryReason
         self.exitReason = exitReason
         self.emotion = emotion

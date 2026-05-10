@@ -295,7 +295,13 @@ struct SettingsContentView: View {
                     NavigationLink {
                         CalendarHeatmapContainerView()
                     } label: {
-                        Label("日历热力图", systemImage: "calendar.badge.clock")
+                        Label("概览", systemImage: "calendar.badge.clock")
+                    }
+
+                    NavigationLink {
+                        MemoRootView()
+                    } label: {
+                        Label("随记", systemImage: "square.and.pencil")
                     }
 
                     NavigationLink {

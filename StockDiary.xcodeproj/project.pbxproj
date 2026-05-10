@@ -8,18 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		01456B4CC43C953771330802 /* StockDiaryModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2F45D3A3690A3BB3A04E52 /* StockDiaryModelTests.swift */; };
+		02C7AB02E0BAF2AF0C1A0A59 /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = D65DC8E4475F4997687C2F36 /* Markdown */; };
 		0428B640970CB0B79C733554 /* MoodPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11FE3898A529550DA0E33AC7 /* MoodPickerView.swift */; };
 		04BDB82FCC8B61A138B470CD /* CalendarHeatmapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B15E05CDF6D35A1173702B /* CalendarHeatmapView.swift */; };
 		0F7A8305BA0A604DBD0F6036 /* DiaryEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA78BA558DFB54F5A60D7C2 /* DiaryEditorView.swift */; };
 		106688CA8D89118E6E584E8A /* DiaryCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42FDDC32C6D655FCBA76E2A8 /* DiaryCardView.swift */; };
 		13D2932527770253040325CD /* TradeExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34DDACEFFA07F4D4502264E /* TradeExport.swift */; };
 		192C21238CA9B960D78FC408 /* TradeAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76434B3A9A00B0B37BCFD4EE /* TradeAnalytics.swift */; };
+		1BD606000D8F764153A1EE05 /* MemoEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DCCE71E15E16BD3BA3059BB /* MemoEntry.swift */; };
 		1C7E51F3BF04BBF897D1B119 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646AD3A4044F2F686C79BAD5 /* EmptyStateView.swift */; };
 		1CA1AFEC1F417B29CD80DAE4 /* PetCompanionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E86338C64427AE70148A5 /* PetCompanionView.swift */; };
 		20A1CE550FA94265B344D97E /* HomeDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812C431E00AFD915F869A467 /* HomeDashboardView.swift */; };
 		251B4F9552A0489F50B8F192 /* DaySummaryViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC432CB1C762E3D8D8331663 /* DaySummaryViews.swift */; };
+		27E83BC302E5787A2F0D0597 /* IBKRPositionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FB66D87E5426214BE923B9 /* IBKRPositionsView.swift */; };
 		2E049D94775F1F316750FCB7 /* TodoCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481A5A544A103067DC3D85CF /* TodoCardView.swift */; };
 		33650EAE3151428B35B49C38 /* TodoEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9566A74ED342C847121BBE4 /* TodoEditorView.swift */; };
+		35F8E7200F98F31E133BE8F8 /* MarkdownEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9154A476F864FFDEAE102D60 /* MarkdownEditorView.swift */; };
+		37583EA5837772F0553E1FEE /* TyporaEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E782A4F1408237C7200B928B /* TyporaEditorView.swift */; };
 		37C4EB9250FBCF1A4D1128C6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66344B4F3D3CD0C535ABFE0A /* ContentView.swift */; };
 		3E155F8C3360D0B44B88EE8A /* PlatformCompat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7336FE5A8A0AF730FB35B8 /* PlatformCompat.swift */; };
 		44A81D6D103AA60B11BCCF6D /* DataExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 124DEA95FCA67860EB4A87FC /* DataExportView.swift */; };
@@ -31,11 +36,17 @@
 		56F0B0544C77D4896B5EB30C /* DiaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6A354EA1A6A0D4CA99239 /* DiaryViewModel.swift */; };
 		5796D02C9C1EECCC122E7DB8 /* DateFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEF86D267C0975B036D6A87 /* DateFormatters.swift */; };
 		5BFDDF3616DC88202F890C55 /* TradeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A25B5CB847BA2D3420F4B9 /* TradeCardView.swift */; };
+		627C325D21EE6CE589D8F26F /* MarkdownSyntax.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0166F61203AB9D474392DE9 /* MarkdownSyntax.swift */; };
 		6A93872C4D5C2DA1B8D8E5AF /* WeatherPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F2A004074353C8B04F165B /* WeatherPickerView.swift */; };
+		6BDEB5D5901535DD2564C439 /* IBKRSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6FB134A6B4C3B88E99C163 /* IBKRSyncManager.swift */; };
+		746DA882092660A2F1695C8F /* IBKRService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEA5CB9FDCB2807FA578BBC /* IBKRService.swift */; };
+		7823A62FEC1FCD5A364E2092 /* IBKRService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEA5CB9FDCB2807FA578BBC /* IBKRService.swift */; };
 		7AFEA63F1D583AA3983EF5C9 /* TodoEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9566A74ED342C847121BBE4 /* TodoEditorView.swift */; };
 		7E259D620B187BBBB015FA45 /* StockDiaryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E6CA57F1569D8B067533C0 /* StockDiaryApp.swift */; };
 		81EB2ED1481BDB970A8AB0E5 /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA16920A84F1E36D87E57E4 /* TodoItem.swift */; };
+		840404972668557FD3519DD4 /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = 8DDA87472039E37E405684B8 /* Markdown */; };
 		88B5A23F7ADD9839B6F3348C /* DiaryEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA78BA558DFB54F5A60D7C2 /* DiaryEditorView.swift */; };
+		99F2859D0D159C5F90C14687 /* MemoViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = F859F6CCEBD6D72C09BCE32C /* MemoViews.swift */; };
 		9C95E3D6AF3C933A437701E0 /* MoodPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11FE3898A529550DA0E33AC7 /* MoodPickerView.swift */; };
 		9CB71078C2B598160C50C5B0 /* TradeEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4319E4A25240644F2A41370B /* TradeEditorView.swift */; };
 		9E51D45B4E10467CAA78ED8B /* DayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3862A168E19B02D842340F /* DayDetailView.swift */; };
@@ -45,10 +56,13 @@
 		A06E99023AA35BD91D60D2EF /* DiaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6A354EA1A6A0D4CA99239 /* DiaryViewModel.swift */; };
 		A0EAB628F2608F8AADC09993 /* DataExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 124DEA95FCA67860EB4A87FC /* DataExportView.swift */; };
 		A1B29964E586D073CFD448AA /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA16920A84F1E36D87E57E4 /* TodoItem.swift */; };
+		B20F738ECBD31C927E41A18B /* IBKRSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CD1F00F66F7A00885A41D6 /* IBKRSettingsView.swift */; };
 		B228B0341BCD6DAD833F3C2D /* DaySummaryViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC432CB1C762E3D8D8331663 /* DaySummaryViews.swift */; };
 		B2CB05E2D374974856A48AAF /* TradeAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76434B3A9A00B0B37BCFD4EE /* TradeAnalytics.swift */; };
 		B2D9CFB3EB175FECAAE7C856 /* TradeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A25B5CB847BA2D3420F4B9 /* TradeCardView.swift */; };
 		B7A5B850D9FC52736145C260 /* DayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3862A168E19B02D842340F /* DayDetailView.swift */; };
+		B7BB27F1C59F31ABE7E17A53 /* IBKRSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6FB134A6B4C3B88E99C163 /* IBKRSyncManager.swift */; };
+		BB824D4D481E8FC0625B256F /* MemoEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DCCE71E15E16BD3BA3059BB /* MemoEntry.swift */; };
 		C6BAAF6F0934A58BC13CCBEC /* TradeExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34DDACEFFA07F4D4502264E /* TradeExport.swift */; };
 		C81196D0F47F7CDA8CFEB356 /* StatisticsDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2F442071CBDB56E6ADFF27 /* StatisticsDashboardView.swift */; };
 		C949B92A3498E05583359B9D /* CalendarHeatmapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B15E05CDF6D35A1173702B /* CalendarHeatmapView.swift */; };
@@ -56,18 +70,20 @@
 		CBD7F5E42DA63F58AD43F56B /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646AD3A4044F2F686C79BAD5 /* EmptyStateView.swift */; };
 		CEC9607409E93F656D6F9C35 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66344B4F3D3CD0C535ABFE0A /* ContentView.swift */; };
 		D59C9B66B21A9E1E106EC777 /* DiaryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6F32CCCB7DBBC067F25042 /* DiaryEntry.swift */; };
+		D6C64F9DE25AFA900B9916CA /* MoneyFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29482A91566D7E040E428829 /* MoneyFormatters.swift */; };
+		E1A974AE49D08C0B58D9AA79 /* MarkdownEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9154A476F864FFDEAE102D60 /* MarkdownEditorView.swift */; };
 		E484C18C193CFF03BB6CC15B /* PetCompanionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E86338C64427AE70148A5 /* PetCompanionView.swift */; };
+		E6EB091CFE8841629E921C86 /* MoneyFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29482A91566D7E040E428829 /* MoneyFormatters.swift */; };
 		E70038173505D99D7E1E4D95 /* iOSContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED010CA9F23D9B373738BA7 /* iOSContentView.swift */; };
+		E9C3CE6888DF728C0B11FC51 /* MemoViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = F859F6CCEBD6D72C09BCE32C /* MemoViews.swift */; };
+		EB092B766B4934947483166C /* IBKRPositionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FB66D87E5426214BE923B9 /* IBKRPositionsView.swift */; };
+		ECE57FAA2767BB207498D9E3 /* TyporaEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E782A4F1408237C7200B928B /* TyporaEditorView.swift */; };
 		F3BD17E5E6429B5754B99C46 /* DiaryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6F32CCCB7DBBC067F25042 /* DiaryEntry.swift */; };
 		F57E87FD66FFEDE49000E335 /* TradeEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAFAE9CA91D44083FC0B604 /* TradeEntry.swift */; };
+		F9D813CF0BFA27F55ABFBCB2 /* MarkdownSyntax.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0166F61203AB9D474392DE9 /* MarkdownSyntax.swift */; };
+		FAD415CC27C096B7CD925B2B /* IBKRSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CD1F00F66F7A00885A41D6 /* IBKRSettingsView.swift */; };
 		FC2B666B93FC31C43558F1BA /* StockDiaryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E6CA57F1569D8B067533C0 /* StockDiaryApp.swift */; };
 		FFFEB519500024778C74C754 /* WeatherPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F2A004074353C8B04F165B /* WeatherPickerView.swift */; };
-		AA0001010000000100000001 /* IBKRService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001040000000400000004 /* IBKRService.swift */; };
-		AA0001020000000200000002 /* IBKRSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001050000000500000005 /* IBKRSyncManager.swift */; };
-		AA0001030000000300000003 /* IBKRSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001060000000600000006 /* IBKRSettingsView.swift */; };
-		AA0001070000000700000007 /* IBKRService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001040000000400000004 /* IBKRService.swift */; };
-		AA0001080000000800000008 /* IBKRSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001050000000500000005 /* IBKRSyncManager.swift */; };
-		AA0001090000000900000009 /* IBKRSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001060000000600000006 /* IBKRSettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,13 +97,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0CB9842E75810E7F005FDA35 /* StockDiary_macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = StockDiary_macOS.app; path = StockDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		08FB66D87E5426214BE923B9 /* IBKRPositionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBKRPositionsView.swift; sourceTree = "<group>"; };
+		0CB9842E75810E7F005FDA35 /* StockDiary_macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StockDiary_macOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0DCCE71E15E16BD3BA3059BB /* MemoEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoEntry.swift; sourceTree = "<group>"; };
 		0ED010CA9F23D9B373738BA7 /* iOSContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSContentView.swift; sourceTree = "<group>"; };
 		11FE3898A529550DA0E33AC7 /* MoodPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodPickerView.swift; sourceTree = "<group>"; };
 		124DEA95FCA67860EB4A87FC /* DataExportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExportView.swift; sourceTree = "<group>"; };
 		18CDE7B75480753B3530000B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		1DEB2E08ED0880082D0C875B /* StockDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StockDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		19CD1F00F66F7A00885A41D6 /* IBKRSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBKRSettingsView.swift; sourceTree = "<group>"; };
+		1DEB2E08ED0880082D0C875B /* StockDiary_iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = StockDiary_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		26B15E05CDF6D35A1173702B /* CalendarHeatmapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHeatmapView.swift; sourceTree = "<group>"; };
+		29482A91566D7E040E428829 /* MoneyFormatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyFormatters.swift; sourceTree = "<group>"; };
 		2A7336FE5A8A0AF730FB35B8 /* PlatformCompat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformCompat.swift; sourceTree = "<group>"; };
 		2B2F45D3A3690A3BB3A04E52 /* StockDiaryModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDiaryModelTests.swift; sourceTree = "<group>"; };
 		2B3862A168E19B02D842340F /* DayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayDetailView.swift; sourceTree = "<group>"; };
@@ -99,26 +119,49 @@
 		4319E4A25240644F2A41370B /* TradeEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeEditorView.swift; sourceTree = "<group>"; };
 		481A5A544A103067DC3D85CF /* TodoCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoCardView.swift; sourceTree = "<group>"; };
 		4FEF86D267C0975B036D6A87 /* DateFormatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatters.swift; sourceTree = "<group>"; };
+		5606252FF8DE38BEB9FB1D77 /* StockDiary.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StockDiary.entitlements; sourceTree = "<group>"; };
 		57A6836FBC175825FD5FBD60 /* StockDiary_macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StockDiary_macOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		58F2A004074353C8B04F165B /* WeatherPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherPickerView.swift; sourceTree = "<group>"; };
+		5DEA5CB9FDCB2807FA578BBC /* IBKRService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBKRService.swift; sourceTree = "<group>"; };
 		5E6F32CCCB7DBBC067F25042 /* DiaryEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryEntry.swift; sourceTree = "<group>"; };
 		646AD3A4044F2F686C79BAD5 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		66344B4F3D3CD0C535ABFE0A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		6DA16920A84F1E36D87E57E4 /* TodoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItem.swift; sourceTree = "<group>"; };
 		76434B3A9A00B0B37BCFD4EE /* TradeAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeAnalytics.swift; sourceTree = "<group>"; };
 		812C431E00AFD915F869A467 /* HomeDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDashboardView.swift; sourceTree = "<group>"; };
+		9154A476F864FFDEAE102D60 /* MarkdownEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownEditorView.swift; sourceTree = "<group>"; };
 		9DA78BA558DFB54F5A60D7C2 /* DiaryEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryEditorView.swift; sourceTree = "<group>"; };
 		B0A25B5CB847BA2D3420F4B9 /* TradeCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeCardView.swift; sourceTree = "<group>"; };
 		B34DDACEFFA07F4D4502264E /* TradeExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeExport.swift; sourceTree = "<group>"; };
+		BA6FB134A6B4C3B88E99C163 /* IBKRSyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBKRSyncManager.swift; sourceTree = "<group>"; };
 		BC432CB1C762E3D8D8331663 /* DaySummaryViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySummaryViews.swift; sourceTree = "<group>"; };
 		BE2F442071CBDB56E6ADFF27 /* StatisticsDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsDashboardView.swift; sourceTree = "<group>"; };
 		D9566A74ED342C847121BBE4 /* TodoEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoEditorView.swift; sourceTree = "<group>"; };
+		E0166F61203AB9D474392DE9 /* MarkdownSyntax.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownSyntax.swift; sourceTree = "<group>"; };
 		E0E6CA57F1569D8B067533C0 /* StockDiaryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDiaryApp.swift; sourceTree = "<group>"; };
+		E782A4F1408237C7200B928B /* TyporaEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TyporaEditorView.swift; sourceTree = "<group>"; };
 		E8559BB6A21E67F7671FE621 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		AA0001040000000400000004 /* IBKRService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBKRService.swift; sourceTree = "<group>"; };
-		AA0001050000000500000005 /* IBKRSyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBKRSyncManager.swift; sourceTree = "<group>"; };
-		AA0001060000000600000006 /* IBKRSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBKRSettingsView.swift; sourceTree = "<group>"; };
+		F859F6CCEBD6D72C09BCE32C /* MemoViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoViews.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D0C198E50B9257D9B1B7B961 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				840404972668557FD3519DD4 /* Markdown in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F59C61005C8BCA668F12C564 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02C7AB02E0BAF2AF0C1A0A59 /* Markdown in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		19A3347EE595D1E1B0410DF1 /* Tests */ = {
@@ -140,7 +183,10 @@
 				9DA78BA558DFB54F5A60D7C2 /* DiaryEditorView.swift */,
 				646AD3A4044F2F686C79BAD5 /* EmptyStateView.swift */,
 				812C431E00AFD915F869A467 /* HomeDashboardView.swift */,
-				AA0001060000000600000006 /* IBKRSettingsView.swift */,
+				08FB66D87E5426214BE923B9 /* IBKRPositionsView.swift */,
+				19CD1F00F66F7A00885A41D6 /* IBKRSettingsView.swift */,
+				9154A476F864FFDEAE102D60 /* MarkdownEditorView.swift */,
+				F859F6CCEBD6D72C09BCE32C /* MemoViews.swift */,
 				11FE3898A529550DA0E33AC7 /* MoodPickerView.swift */,
 				2C8E86338C64427AE70148A5 /* PetCompanionView.swift */,
 				BE2F442071CBDB56E6ADFF27 /* StatisticsDashboardView.swift */,
@@ -148,6 +194,7 @@
 				D9566A74ED342C847121BBE4 /* TodoEditorView.swift */,
 				B0A25B5CB847BA2D3420F4B9 /* TradeCardView.swift */,
 				4319E4A25240644F2A41370B /* TradeEditorView.swift */,
+				E782A4F1408237C7200B928B /* TyporaEditorView.swift */,
 				58F2A004074353C8B04F165B /* WeatherPickerView.swift */,
 			);
 			path = Views;
@@ -177,6 +224,7 @@
 			children = (
 				18CDE7B75480753B3530000B /* Info.plist */,
 				2FEBAFD77CEDF0C10BFDC941 /* MacContentView.swift */,
+				5606252FF8DE38BEB9FB1D77 /* StockDiary.entitlements */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -190,11 +238,20 @@
 			path = iOS;
 			sourceTree = "<group>";
 		};
+		A1A5EF80FCE4ECC39CAAFAF6 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				5DEA5CB9FDCB2807FA578BBC /* IBKRService.swift */,
+				BA6FB134A6B4C3B88E99C163 /* IBKRSyncManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		A583CFF316507DDFE94E0C9B /* Shared */ = {
 			isa = PBXGroup;
 			children = (
 				B4FA47310CA271FA01D58A13 /* Models */,
-				AA00010A0000000A0000000A /* Services */,
+				A1A5EF80FCE4ECC39CAAFAF6 /* Services */,
 				C61F252695CD5B5BEB6E020F /* Utils */,
 				421B54065C482109F56831B9 /* ViewModels */,
 				1E2BE93CD5A510268E5830BD /* Views */,
@@ -204,19 +261,11 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
-		AA00010A0000000A0000000A /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				AA0001040000000400000004 /* IBKRService.swift */,
-				AA0001050000000500000005 /* IBKRSyncManager.swift */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
 		B4FA47310CA271FA01D58A13 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				5E6F32CCCB7DBBC067F25042 /* DiaryEntry.swift */,
+				0DCCE71E15E16BD3BA3059BB /* MemoEntry.swift */,
 				6DA16920A84F1E36D87E57E4 /* TodoItem.swift */,
 				2CAFAE9CA91D44083FC0B604 /* TradeEntry.swift */,
 			);
@@ -226,7 +275,7 @@
 		BF022D0117AA68B5623624F5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1DEB2E08ED0880082D0C875B /* StockDiary.app */,
+				1DEB2E08ED0880082D0C875B /* StockDiary_iOS.app */,
 				0CB9842E75810E7F005FDA35 /* StockDiary_macOS.app */,
 				57A6836FBC175825FD5FBD60 /* StockDiary_macOSTests.xctest */,
 			);
@@ -237,6 +286,8 @@
 			isa = PBXGroup;
 			children = (
 				4FEF86D267C0975B036D6A87 /* DateFormatters.swift */,
+				E0166F61203AB9D474392DE9 /* MarkdownSyntax.swift */,
+				29482A91566D7E040E428829 /* MoneyFormatters.swift */,
 				2A7336FE5A8A0AF730FB35B8 /* PlatformCompat.swift */,
 				76434B3A9A00B0B37BCFD4EE /* TradeAnalytics.swift */,
 				B34DDACEFFA07F4D4502264E /* TradeExport.swift */,
@@ -252,6 +303,7 @@
 			buildConfigurationList = AEB93819471B5CDFB6C8DF73 /* Build configuration list for PBXNativeTarget "StockDiary_macOS" */;
 			buildPhases = (
 				783D4C04F157A09B36F080C9 /* Sources */,
+				D0C198E50B9257D9B1B7B961 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -259,6 +311,7 @@
 			);
 			name = StockDiary_macOS;
 			packageProductDependencies = (
+				8DDA87472039E37E405684B8 /* Markdown */,
 			);
 			productName = StockDiary_macOS;
 			productReference = 0CB9842E75810E7F005FDA35 /* StockDiary_macOS.app */;
@@ -269,6 +322,7 @@
 			buildConfigurationList = 2C921407AF78E64414EACE78 /* Build configuration list for PBXNativeTarget "StockDiary_iOS" */;
 			buildPhases = (
 				F36319089095644A31142BBC /* Sources */,
+				F59C61005C8BCA668F12C564 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -276,9 +330,10 @@
 			);
 			name = StockDiary_iOS;
 			packageProductDependencies = (
+				D65DC8E4475F4997687C2F36 /* Markdown */,
 			);
 			productName = StockDiary_iOS;
-			productReference = 1DEB2E08ED0880082D0C875B /* StockDiary.app */;
+			productReference = 1DEB2E08ED0880082D0C875B /* StockDiary_iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 		F3BF6F57B3FD408E19FB2E65 /* StockDiary_macOSTests */ = {
@@ -311,6 +366,9 @@
 					4EAB4A3863E4AC33CA64FF04 = {
 						DevelopmentTeam = "";
 					};
+					EA6A6FF8106E42E9AB769104 = {
+						DevelopmentTeam = "";
+					};
 					F3BF6F57B3FD408E19FB2E65 = {
 						DevelopmentTeam = "";
 					};
@@ -325,6 +383,9 @@
 			);
 			mainGroup = 2AB05E91DD43AC0528038C0D;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				68275EF271FA7698D6909F91 /* XCRemoteSwiftPackageReference "swift-markdown" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BF022D0117AA68B5623624F5 /* Products */;
 			projectDirPath = "";
@@ -362,7 +423,16 @@
 				56F0B0544C77D4896B5EB30C /* DiaryViewModel.swift in Sources */,
 				CBD7F5E42DA63F58AD43F56B /* EmptyStateView.swift in Sources */,
 				46DD3C5A1C8A58EF5468F389 /* HomeDashboardView.swift in Sources */,
+				27E83BC302E5787A2F0D0597 /* IBKRPositionsView.swift in Sources */,
+				7823A62FEC1FCD5A364E2092 /* IBKRService.swift in Sources */,
+				FAD415CC27C096B7CD925B2B /* IBKRSettingsView.swift in Sources */,
+				B7BB27F1C59F31ABE7E17A53 /* IBKRSyncManager.swift in Sources */,
 				47D8CDDE2ECDD56C80B8E49A /* MacContentView.swift in Sources */,
+				E1A974AE49D08C0B58D9AA79 /* MarkdownEditorView.swift in Sources */,
+				F9D813CF0BFA27F55ABFBCB2 /* MarkdownSyntax.swift in Sources */,
+				1BD606000D8F764153A1EE05 /* MemoEntry.swift in Sources */,
+				E9C3CE6888DF728C0B11FC51 /* MemoViews.swift in Sources */,
+				D6C64F9DE25AFA900B9916CA /* MoneyFormatters.swift in Sources */,
 				9C95E3D6AF3C933A437701E0 /* MoodPickerView.swift in Sources */,
 				1CA1AFEC1F417B29CD80DAE4 /* PetCompanionView.swift in Sources */,
 				3E155F8C3360D0B44B88EE8A /* PlatformCompat.swift in Sources */,
@@ -376,10 +446,8 @@
 				4523C93AD81EE1B61D36A62C /* TradeEditorView.swift in Sources */,
 				F57E87FD66FFEDE49000E335 /* TradeEntry.swift in Sources */,
 				13D2932527770253040325CD /* TradeExport.swift in Sources */,
+				37583EA5837772F0553E1FEE /* TyporaEditorView.swift in Sources */,
 				6A93872C4D5C2DA1B8D8E5AF /* WeatherPickerView.swift in Sources */,
-				AA0001010000000100000001 /* IBKRService.swift in Sources */,
-				AA0001020000000200000002 /* IBKRSyncManager.swift in Sources */,
-				AA0001030000000300000003 /* IBKRSettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,6 +467,15 @@
 				A06E99023AA35BD91D60D2EF /* DiaryViewModel.swift in Sources */,
 				1C7E51F3BF04BBF897D1B119 /* EmptyStateView.swift in Sources */,
 				20A1CE550FA94265B344D97E /* HomeDashboardView.swift in Sources */,
+				EB092B766B4934947483166C /* IBKRPositionsView.swift in Sources */,
+				746DA882092660A2F1695C8F /* IBKRService.swift in Sources */,
+				B20F738ECBD31C927E41A18B /* IBKRSettingsView.swift in Sources */,
+				6BDEB5D5901535DD2564C439 /* IBKRSyncManager.swift in Sources */,
+				35F8E7200F98F31E133BE8F8 /* MarkdownEditorView.swift in Sources */,
+				627C325D21EE6CE589D8F26F /* MarkdownSyntax.swift in Sources */,
+				BB824D4D481E8FC0625B256F /* MemoEntry.swift in Sources */,
+				99F2859D0D159C5F90C14687 /* MemoViews.swift in Sources */,
+				E6EB091CFE8841629E921C86 /* MoneyFormatters.swift in Sources */,
 				0428B640970CB0B79C733554 /* MoodPickerView.swift in Sources */,
 				E484C18C193CFF03BB6CC15B /* PetCompanionView.swift in Sources */,
 				9F5179396CBA2D3165D153BA /* PlatformCompat.swift in Sources */,
@@ -412,11 +489,9 @@
 				9CB71078C2B598160C50C5B0 /* TradeEditorView.swift in Sources */,
 				CA0379911FC1BEB78548C090 /* TradeEntry.swift in Sources */,
 				C6BAAF6F0934A58BC13CCBEC /* TradeExport.swift in Sources */,
+				ECE57FAA2767BB207498D9E3 /* TyporaEditorView.swift in Sources */,
 				FFFEB519500024778C74C754 /* WeatherPickerView.swift in Sources */,
 				E70038173505D99D7E1E4D95 /* iOSContentView.swift in Sources */,
-				AA0001070000000700000007 /* IBKRService.swift in Sources */,
-				AA0001080000000800000008 /* IBKRSyncManager.swift in Sources */,
-				AA0001090000000900000009 /* IBKRSettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,7 +529,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = QXS7487R7F;
 				INFOPLIST_FILE = iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -607,7 +681,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = QXS7487R7F;
 				INFOPLIST_FILE = iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -696,6 +769,30 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		68275EF271FA7698D6909F91 /* XCRemoteSwiftPackageReference "swift-markdown" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/swiftlang/swift-markdown.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.8.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8DDA87472039E37E405684B8 /* Markdown */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 68275EF271FA7698D6909F91 /* XCRemoteSwiftPackageReference "swift-markdown" */;
+			productName = Markdown;
+		};
+		D65DC8E4475F4997687C2F36 /* Markdown */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 68275EF271FA7698D6909F91 /* XCRemoteSwiftPackageReference "swift-markdown" */;
+			productName = Markdown;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 91BD5B5208494AA2248D1308 /* Project object */;
 }

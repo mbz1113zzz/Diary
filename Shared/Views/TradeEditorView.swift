@@ -7,6 +7,7 @@ struct TradeEditorView: View {
     @Environment(\.dismiss) private var dismiss
 
     private let directions = ["买入", "卖出"]
+    private let currencies = ["HKD", "USD", "TWD", "KRW"]
     private let emotions = ["冷静", "兴奋", "紧张", "犹豫", "恐惧", "贪婪"]
     private let strategyOptions = ["突破", "回调", "事件驱动"]
     private let mistakeOptions = ["FOMO", "提前止盈", "扛单", "无计划", "仓位过重", "没等确认"]
@@ -23,12 +24,20 @@ struct TradeEditorView: View {
                 }
                 .pickerStyle(.segmented)
                 HStack {
-                    Text("价格")
+                    Text("价格（原币种）")
                     TextField("0.00", value: $trade.price, format: .number)
                         .multilineTextAlignment(.trailing)
                         #if os(iOS)
                         .keyboardType(.decimalPad)
                         #endif
+                }
+                Picker("货币", selection: Binding(
+                    get: { MoneyFormatters.effectiveTradeCurrency(for: trade) },
+                    set: { trade.currency = $0 }
+                )) {
+                    ForEach(currencies, id: \.self) { currency in
+                        Text(currency).tag(currency)
+                    }
                 }
                 HStack {
                     Text("数量")
@@ -42,7 +51,7 @@ struct TradeEditorView: View {
 
             Section("盈亏") {
                 HStack {
-                    Text("盈亏金额")
+                    Text("盈亏金额（原币种）")
                     TextField("0.00", value: $trade.pnl, format: .number)
                         .multilineTextAlignment(.trailing)
                         #if os(iOS)

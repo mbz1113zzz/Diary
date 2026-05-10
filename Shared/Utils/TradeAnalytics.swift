@@ -44,7 +44,9 @@ enum TradeAnalytics {
     ) -> TradeStatsSummary {
         let interval = dateInterval(for: period, now: now, calendar: calendar)
         let periodTrades = trades.filter { interval.contains($0.date) }
-        let pnlValues = periodTrades.compactMap(\.pnl)
+        let pnlValues = periodTrades.compactMap { trade in
+            trade.pnl.map { MoneyFormatters.convertedToHKD($0, from: MoneyFormatters.effectiveTradeCurrency(for: trade)) }
+        }
         let pnlPercents = periodTrades.compactMap(\.pnlPercent)
         let winningCount = pnlValues.filter { $0 > 0 }.count
         let losingCount = pnlValues.filter { $0 < 0 }.count
@@ -78,7 +80,7 @@ enum TradeAnalytics {
                 tradeCount: current.tradeCount + 1,
                 diaryCount: current.diaryCount,
                 todoCount: current.todoCount,
-                pnlTotal: current.pnlTotal + (trade.pnl ?? 0)
+                pnlTotal: current.pnlTotal + (trade.pnl.map { MoneyFormatters.convertedToHKD($0, from: MoneyFormatters.effectiveTradeCurrency(for: trade)) } ?? 0)
             )
         }
 

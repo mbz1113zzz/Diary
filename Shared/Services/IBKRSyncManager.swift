@@ -80,8 +80,10 @@ final class IBKRSyncManager {
         let existingTrades = (try? context.fetch(descriptor)) ?? []
         let existingIds = Set(existingTrades.compactMap { $0.ibkrExecutionId })
 
-        // Filter to only new trades
-        let newTrades = flexTrades.filter { !existingIds.contains($0.tradeId) }
+        // Filter to only new trades, skip currency conversions (e.g. USD.HKD, USD.TWD)
+        let newTrades = flexTrades.filter { trade in
+            !existingIds.contains(trade.tradeId) && !trade.symbol.contains(".")
+        }
 
         for trade in newTrades {
             // Parse date
@@ -108,6 +110,12 @@ final class IBKRSyncManager {
                 direction: direction,
                 price: Double(trade.price) ?? 0,
                 quantity: abs(Int(Double(trade.quantity) ?? 0)),
+                currency: MoneyFormatters.effectiveTradeCurrency(
+                    ticker: trade.symbol,
+                    reportedCurrency: trade.currency,
+                    exchange: trade.exchange,
+                    isIBKRImported: true
+                ),
                 pnl: pnlValue == 0 ? nil : pnlValue,
                 ibkrExecutionId: trade.tradeId,
                 ibkrImported: true

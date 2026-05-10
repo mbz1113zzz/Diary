@@ -4,10 +4,13 @@ import SwiftData
 enum MacSidebarItem: String, Hashable, CaseIterable {
     case home = "主页"
     case dashboard = "统计"
-    case heatmap = "热力图"
+    case heatmap = "概览"
     case trades = "交易"
+    case positions = "持仓"
+    case memos = "随记"
     case todos = "待办"
     case export = "导出"
+    case settings = "设置"
 
     var icon: String {
         switch self {
@@ -15,8 +18,11 @@ enum MacSidebarItem: String, Hashable, CaseIterable {
         case .dashboard: return "gauge.with.dots.needle.67percent"
         case .heatmap: return "calendar.badge.clock"
         case .trades: return "chart.line.uptrend.xyaxis"
+        case .positions: return "briefcase"
+        case .memos: return "square.and.pencil"
         case .todos: return "checkmark.circle"
         case .export: return "square.and.arrow.up"
+        case .settings: return "gearshape"
         }
     }
 }
@@ -24,8 +30,6 @@ enum MacSidebarItem: String, Hashable, CaseIterable {
 struct MacContentView: View {
     @State private var selectedSidebar: MacSidebarItem? = .home
     @State private var selectedDate: Date = Date()
-    @Query(sort: [SortDescriptor(\DiaryEntry.date, order: .reverse)])
-    private var allDiaryEntries: [DiaryEntry]
 
     var body: some View {
         NavigationSplitView {
@@ -36,24 +40,6 @@ struct MacContentView: View {
                 }
             }
             .navigationTitle("StockDiary")
-        } content: {
-            switch selectedSidebar {
-            case .home, .none:
-                ContentUnavailableView("主页", systemImage: "house", description: Text("查看小宠物、最近交易和待办"))
-                    .navigationTitle("主页")
-            case .dashboard:
-                ContentUnavailableView("统计", systemImage: "chart.bar.xaxis", description: Text("查看本周和本月交易表现"))
-                    .navigationTitle("统计")
-            case .heatmap:
-                CalendarHeatmapView(selectedDate: $selectedDate)
-            case .trades:
-                TradeListView(selectedDate: $selectedDate)
-            case .todos:
-                TodoListView(selectedDate: $selectedDate)
-            case .export:
-                ContentUnavailableView("数据导出", systemImage: "square.and.arrow.up", description: Text("导出 CSV 或 JSON 交易备份"))
-                    .navigationTitle("导出")
-            }
         } detail: {
             switch selectedSidebar {
             case .home, .none:
@@ -61,26 +47,86 @@ struct MacContentView: View {
             case .dashboard:
                 StatisticsDashboardView()
             case .heatmap:
-                MascotCornerContainer {
-                    HeatmapInsightDetailView(date: selectedDate)
-                        .id(Calendar.current.startOfDay(for: selectedDate))
-                }
+                CalendarHeatmapView(selectedDate: $selectedDate)
             case .trades:
-                MascotCornerContainer {
-                    TradeDaySummaryView(date: selectedDate)
-                        .id(Calendar.current.startOfDay(for: selectedDate))
-                }
+                TradeListView(selectedDate: $selectedDate)
+            case .positions:
+                IBKRPositionsView()
+            case .memos:
+                MemoRootView()
             case .todos:
-                MascotCornerContainer {
-                    TodoDayDetailView(date: selectedDate)
-                        .id(Calendar.current.startOfDay(for: selectedDate))
-                }
+                MacTodoBoardView(selectedDate: $selectedDate)
             case .export:
                 MascotCornerContainer {
                     DataExportView()
                 }
+            case .settings:
+                MascotCornerContainer {
+                    MacSettingsView()
+                }
             }
         }
+    }
+}
+
+// MARK: - Mac Todo Board
+
+struct MacTodoBoardView: View {
+    @Binding var selectedDate: Date
+
+    var body: some View {
+        MascotCornerContainer {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 12) {
+                    HStack(alignment: .firstTextBaseline) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("待办")
+                                .font(.largeTitle)
+                                .fontWeight(.semibold)
+                            Text(DateFormatters.dayDisplay.string(from: selectedDate))
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                        }
+
+                        Spacer()
+
+                        DatePicker("日期", selection: $selectedDate, displayedComponents: .date)
+                            .datePickerStyle(.compact)
+                    }
+
+                    TodoDayDetailView(date: selectedDate)
+                        .id(Calendar.current.startOfDay(for: selectedDate))
+                }
+                .padding()
+                .frame(maxWidth: 760, alignment: .leading)
+                .frame(maxWidth: .infinity)
+            }
+            .background(Color.secondarySystemBackground.opacity(0.45))
+        }
+        .navigationTitle("待办")
+    }
+}
+
+// MARK: - Mac Settings
+
+struct MacSettingsView: View {
+    @Environment(IBKRSyncManager.self) private var syncManager
+
+    var body: some View {
+        Form {
+            IBKRSettingsView(syncManager: syncManager)
+
+            Section("关于") {
+                HStack {
+                    Text("版本")
+                    Spacer()
+                    Text("1.0.0")
+                        .foregroundStyle(.secondary)
+                }
+            }
+        }
+        .formStyle(.grouped)
+        .navigationTitle("设置")
     }
 }
 
@@ -92,6 +138,7 @@ struct TradeListView: View {
     private var trades: [TradeEntry]
     @State private var searchText = ""
     @State private var showSyncAlert = false
+    @State private var selectedTradeId: UUID?
     @Environment(\.modelContext) private var modelContext
     @Environment(IBKRSyncManager.self) private var syncManager
 
@@ -100,14 +147,29 @@ struct TradeListView: View {
     }
 
     var body: some View {
-        List {
+        List(selection: $selectedTradeId) {
             ForEach(filteredTrades) { trade in
                 TradeCardView(trade: trade)
-                    .onTapGesture {
-                        selectedDate = trade.date
+                    .tag(trade.id)
+                    .contextMenu {
+                        Button(role: .destructive) {
+                            withAnimation {
+                                modelContext.delete(trade)
+                                try? modelContext.save()
+                            }
+                        } label: {
+                            Label("删除交易", systemImage: "trash")
+                        }
                     }
             }
-            .onDelete(perform: deleteTrades)
+            .onDelete { offsets in
+                withAnimation {
+                    for index in offsets {
+                        modelContext.delete(filteredTrades[index])
+                    }
+                    try? modelContext.save()
+                }
+            }
 
             if !searchText.isEmpty && filteredTrades.isEmpty {
                 ContentUnavailableView.search(text: searchText)
@@ -145,6 +207,21 @@ struct TradeListView: View {
             Button("好") {}
         } message: {
             Text(syncManager.lastSyncResult?.message ?? "同步完成")
+        }
+        .onChange(of: selectedTradeId) { _, newId in
+            if let newId, let trade = filteredTrades.first(where: { $0.id == newId }) {
+                selectedDate = trade.date
+            }
+        }
+        .onDeleteCommand {
+            if let selectedTradeId,
+               let trade = filteredTrades.first(where: { $0.id == selectedTradeId }) {
+                withAnimation {
+                    modelContext.delete(trade)
+                    try? modelContext.save()
+                    self.selectedTradeId = nil
+                }
+            }
         }
     }
 

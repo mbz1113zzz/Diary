@@ -9,7 +9,8 @@ struct StockDiaryApp: App {
         let schema = Schema([
             DiaryEntry.self,
             TradeEntry.self,
-            TodoItem.self
+            TodoItem.self,
+            MemoEntry.self
         ])
         let modelConfiguration = ModelConfiguration(
             schema: schema,

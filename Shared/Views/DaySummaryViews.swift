@@ -99,8 +99,7 @@ struct HeatmapInsightDetailView: View {
     }
 
     private func money(_ value: Double) -> String {
-        let sign = value > 0 ? "+" : ""
-        return "\(sign)$\(String(format: "%.2f", value))"
+        MoneyFormatters.hkd(value, signed: true)
     }
 
     private func pnlColor(_ value: Double) -> Color {
@@ -127,7 +126,9 @@ struct TradeDaySummaryView: View {
     }
 
     private var pnlTotal: Double {
-        trades.compactMap(\.pnl).reduce(0, +)
+        trades.reduce(0) { total, trade in
+            total + (trade.pnl.map { MoneyFormatters.convertedToHKD($0, from: MoneyFormatters.effectiveTradeCurrency(for: trade)) } ?? 0)
+        }
     }
 
     var body: some View {
@@ -158,8 +159,7 @@ struct TradeDaySummaryView: View {
     }
 
     private func money(_ value: Double) -> String {
-        let sign = value > 0 ? "+" : ""
-        return "\(sign)$\(String(format: "%.2f", value))"
+        MoneyFormatters.hkd(value, signed: true)
     }
 
     private func pnlColor(_ value: Double) -> Color {
@@ -179,11 +179,8 @@ struct TodoDayDetailView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(DateFormatters.dayDisplay.string(from: date))
-                        .font(.title2)
-                        .fontWeight(.semibold)
                     Text("待办和当日状态")
-                        .font(.subheadline)
+                        .font(.headline)
                         .foregroundStyle(.secondary)
                 }
                 Spacer()
@@ -315,8 +312,7 @@ private struct RangeCard: View {
     }
 
     private func money(_ value: Double) -> String {
-        let sign = value > 0 ? "+" : ""
-        return "\(sign)$\(String(format: "%.2f", value))"
+        MoneyFormatters.hkd(value, signed: true)
     }
 }
 
@@ -349,7 +345,6 @@ private struct DailyPnLBar: View {
     }
 
     private func money(_ value: Double) -> String {
-        let sign = value > 0 ? "+" : ""
-        return "\(sign)$\(String(format: "%.2f", value))"
+        MoneyFormatters.hkd(value, signed: true)
     }
 }

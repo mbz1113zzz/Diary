@@ -67,20 +67,23 @@ enum TradeExportBuilder {
 
     static func csv(for trades: [TradeEntry]) -> String {
         let header = [
-            "date", "ticker", "direction", "price", "quantity", "pnl", "pnlPercent",
+            "date", "ticker", "direction", "currency", "price", "quantity", "pnl", "pnlHKD", "pnlPercent",
             "entryReason", "exitReason", "emotion", "strategyTags", "followedPlan",
             "hadStopLossPlan", "chasedMove", "emotionalTrade", "reviewConclusion",
             "mistakeTags", "notes", "createdAt"
         ].joined(separator: ",")
 
         let rows = trades.map { trade in
-            [
+            let currency = MoneyFormatters.effectiveTradeCurrency(for: trade)
+            return [
                 DateFormatters.exportDate.string(from: trade.date),
                 trade.ticker,
                 trade.direction,
+                currency,
                 "\(trade.price)",
                 "\(trade.quantity)",
                 trade.pnl.map { "\($0)" } ?? "",
+                trade.pnl.map { "\(MoneyFormatters.convertedToHKD($0, from: currency))" } ?? "",
                 trade.pnlPercent.map { "\($0)" } ?? "",
                 trade.entryReason ?? "",
                 trade.exitReason ?? "",
@@ -129,9 +132,11 @@ private struct TradeExportSnapshot: Encodable {
     let date: String
     let ticker: String
     let direction: String
+    let currency: String
     let price: Double
     let quantity: Int
     let pnl: Double?
+    let pnlHKD: Double?
     let pnlPercent: Double?
     let entryReason: String?
     let exitReason: String?
@@ -147,13 +152,16 @@ private struct TradeExportSnapshot: Encodable {
     let createdAt: String
 
     init(trade: TradeEntry) {
+        let effectiveCurrency = MoneyFormatters.effectiveTradeCurrency(for: trade)
         id = trade.id
         date = DateFormatters.exportDate.string(from: trade.date)
         ticker = trade.ticker
         direction = trade.direction
+        currency = effectiveCurrency
         price = trade.price
         quantity = trade.quantity
         pnl = trade.pnl
+        pnlHKD = trade.pnl.map { MoneyFormatters.convertedToHKD($0, from: effectiveCurrency) }
         pnlPercent = trade.pnlPercent
         entryReason = trade.entryReason
         exitReason = trade.exitReason

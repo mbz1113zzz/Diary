@@ -21,9 +21,10 @@ struct StatisticsDashboardView: View {
     private func tagRows(for keyPath: KeyPath<TradeEntry, [String]>) -> [(tag: String, count: Int, pnl: Double)] {
         var rows: [String: (count: Int, pnl: Double)] = [:]
         for trade in trades {
+            let pnl = trade.pnl.map { MoneyFormatters.convertedToHKD($0, from: MoneyFormatters.effectiveTradeCurrency(for: trade)) } ?? 0
             for tag in trade[keyPath: keyPath] {
                 let current = rows[tag] ?? (0, 0)
-                rows[tag] = (current.count + 1, current.pnl + (trade.pnl ?? 0))
+                rows[tag] = (current.count + 1, current.pnl + pnl)
             }
         }
         return rows
@@ -115,8 +116,7 @@ struct StatisticsDashboardView: View {
     }
 
     private func signedMoney(_ value: Double) -> String {
-        let sign = value > 0 ? "+" : ""
-        return "\(sign)$\(String(format: "%.2f", value))"
+        MoneyFormatters.hkd(value, signed: true)
     }
 
     private func percentage(_ value: Double) -> String {

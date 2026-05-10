@@ -12,12 +12,16 @@ struct TradeCardView: View {
 
     private var pnlText: String {
         guard let pnl = trade.pnl else { return "" }
-        let sign = pnl >= 0 ? "+" : ""
-        var text = "\(sign)\(String(format: "%.2f", pnl))"
+        let pctSign = pnl >= 0 ? "+" : ""
+        var text = MoneyFormatters.hkdWithOriginal(pnl, sourceCurrency: effectiveCurrency, signed: true)
         if let pct = trade.pnlPercent {
-            text += " (\(sign)\(String(format: "%.1f", pct))%)"
+            text += " (\(pctSign)\(String(format: "%.1f", pct))%)"
         }
         return text
+    }
+
+    private var effectiveCurrency: String {
+        MoneyFormatters.effectiveTradeCurrency(for: trade)
     }
 
     private var accentColor: Color {
@@ -77,7 +81,7 @@ struct TradeCardView: View {
                         .foregroundStyle(.secondary)
                 }
 
-                Text("$\(String(format: "%.2f", trade.price)) × \(trade.quantity)")
+                Text("\(MoneyFormatters.native(trade.price, currency: effectiveCurrency)) × \(trade.quantity)")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
 

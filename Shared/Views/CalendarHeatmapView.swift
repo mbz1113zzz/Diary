@@ -12,7 +12,7 @@ struct CalendarHeatmapView: View {
     @State private var visibleMonth: Date
 
     private let calendar = Calendar.current
-    private let columns = Array(repeating: GridItem(.flexible(), spacing: 6), count: 7)
+    private let columns = Array(repeating: GridItem(.fixed(38), spacing: 8), count: 7)
     private let weekdays = ["一", "二", "三", "四", "五", "六", "日"]
 
     init(selectedDate: Binding<Date>) {
@@ -47,8 +47,15 @@ struct CalendarHeatmapView: View {
         summaries[calendar.startOfDay(for: selectedDate)]
     }
 
+    private var visibleMonthInterval: DateInterval? {
+        calendar.dateInterval(of: .month, for: visibleMonth)
+    }
+
     private var monthSummaries: [DailyRecordSummary] {
-        summaries.values.sorted { $0.date < $1.date }
+        guard let visibleMonthInterval else { return [] }
+        return summaries.values
+            .filter { visibleMonthInterval.contains($0.date) }
+            .sorted { $0.date < $1.date }
     }
 
     private var activeDays: Int {
@@ -65,103 +72,133 @@ struct CalendarHeatmapView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                HStack {
-                    Button {
-                        moveMonth(by: -1)
-                    } label: {
-                        Image(systemName: "chevron.left")
-                    }
-                    .buttonStyle(.borderless)
-
-                    Spacer()
-
-                    Text(DateFormatters.monthTitle.string(from: visibleMonth))
-                        .font(.headline)
-
-                    Spacer()
-
-                    Button {
-                        moveMonth(by: 1)
-                    } label: {
-                        Image(systemName: "chevron.right")
-                    }
-                    .buttonStyle(.borderless)
-                }
-                .padding(.horizontal)
-
-                HStack {
-                    LegendItem(color: .green, text: "盈利")
-                    LegendItem(color: .red, text: "亏损")
-                    LegendItem(color: .gray, text: "无交易")
-                }
-                .padding(.horizontal)
-
-                HStack(spacing: 8) {
-                    HeatmapOverviewPill(title: "活跃日", value: "\(activeDays)", color: .blue)
-                    HeatmapOverviewPill(title: "交易数", value: "\(monthlyTradeCount)", color: .accentColor)
-                    HeatmapOverviewPill(title: "月盈亏", value: signedMoney(monthlyPnl), color: pnlColor(monthlyPnl))
-                }
-                .padding(.horizontal)
-
-                LazyVGrid(columns: columns, spacing: 6) {
-                    ForEach(weekdays, id: \.self) { weekday in
-                        Text(weekday)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                            .frame(maxWidth: .infinity)
-                    }
-
-                    ForEach(cells) { cell in
-                        if let date = cell.date {
-                            HeatmapDayCell(
-                                date: date,
-                                summary: summaries[calendar.startOfDay(for: date)],
-                                isSelected: calendar.isDate(date, inSameDayAs: selectedDate)
-                            )
-                            .onTapGesture {
-                                selectedDate = date
-                            }
-                        } else {
-                            Color.clear
-                                .aspectRatio(1, contentMode: .fit)
-                        }
-                    }
-                }
-                .padding(.horizontal)
-
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(DateFormatters.dayDisplay.string(from: selectedDate))
-                        .font(.headline)
-                    if let selectedSummary, selectedSummary.hasRecord {
-                        HStack(spacing: 12) {
-                            Label("\(selectedSummary.tradeCount)笔交易", systemImage: "chart.line.uptrend.xyaxis")
-                            Label("\(selectedSummary.diaryCount)篇日记", systemImage: "book")
-                            Label("\(selectedSummary.todoCount)个待办", systemImage: "checkmark.circle")
-                        }
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-
-                        Text("当日盈亏 \(signedMoney(selectedSummary.pnlTotal))")
-                            .font(.subheadline)
-                            .foregroundStyle(pnlColor(selectedSummary.pnlTotal))
-                            .monospacedDigit()
-                    } else {
-                        Text("这一天还没有记录")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                    }
-                }
-                .padding()
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color.systemBackground)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-                .padding(.horizontal)
+            VStack(alignment: .leading, spacing: 0) {
+                monthPanel
             }
             .padding(.vertical)
+            .frame(maxWidth: 980, alignment: .leading)
+            .frame(maxWidth: .infinity)
         }
         .background(Color.secondarySystemBackground.opacity(0.45))
-        .navigationTitle("热力图")
+        .navigationTitle("概览")
+    }
+
+    private var monthPanel: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            // Month navigation
+            HStack(spacing: 12) {
+                Button {
+                    moveMonth(by: -1)
+                } label: {
+                    Image(systemName: "chevron.left")
+                }
+                .buttonStyle(.borderless)
+
+                Spacer()
+
+                Text(DateFormatters.monthTitle.string(from: visibleMonth))
+                    .font(.headline)
+
+                Spacer()
+
+                Button {
+                    moveMonth(by: 1)
+                } label: {
+                    Image(systemName: "chevron.right")
+                }
+                .buttonStyle(.borderless)
+            }
+
+            // Legend
+            HStack(spacing: 12) {
+                LegendItem(color: .green, text: "盈利")
+                LegendItem(color: .red, text: "亏损")
+                LegendItem(color: .gray, text: "无交易")
+                Spacer()
+            }
+
+            // Stats: horizontal row of 3 pills
+            HStack(spacing: 12) {
+                HeatmapOverviewPill(title: "活跃日", value: "\(activeDays)", color: .blue, icon: "calendar")
+                HeatmapOverviewPill(title: "交易数", value: "\(monthlyTradeCount)", color: .accentColor, icon: "number.circle")
+                HeatmapOverviewPill(title: "月盈亏", value: signedMoney(monthlyPnl), color: pnlColor(monthlyPnl), icon: "dollarsign.circle")
+            }
+
+            // Calendar centered
+            calendarGrid
+                .frame(maxWidth: .infinity, alignment: .center)
+
+            Divider()
+                .padding(.vertical, 4)
+
+            // Selected day detail integrated in the same panel
+            selectedDayDetail
+        }
+        .padding(18)
+        .background(Color.systemBackground)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .overlay {
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.secondary.opacity(0.12), lineWidth: 1)
+        }
+        .padding(.horizontal)
+    }
+
+    private var calendarGrid: some View {
+        VStack(spacing: 10) {
+            LazyVGrid(columns: columns, spacing: 8) {
+                ForEach(weekdays, id: \.self) { weekday in
+                    Text(weekday)
+                        .font(.caption)
+                        .fontWeight(.medium)
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity)
+                }
+
+                ForEach(cells) { cell in
+                    if let date = cell.date {
+                        HeatmapDayCell(
+                            date: date,
+                            summary: summaries[calendar.startOfDay(for: date)],
+                            isSelected: calendar.isDate(date, inSameDayAs: selectedDate)
+                        )
+                        .onTapGesture {
+                            selectedDate = date
+                        }
+                    } else {
+                        Color.clear
+                            .aspectRatio(1, contentMode: .fit)
+                    }
+                }
+            }
+        }
+        .frame(width: 322)
+    }
+
+    private var selectedDayDetail: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(DateFormatters.dayDisplay.string(from: selectedDate))
+                .font(.headline)
+            if let selectedSummary, selectedSummary.hasRecord {
+                HStack(spacing: 12) {
+                    Label("\(selectedSummary.tradeCount)笔交易", systemImage: "chart.line.uptrend.xyaxis")
+                    Label("\(selectedSummary.diaryCount)篇日记", systemImage: "book")
+                    Label("\(selectedSummary.todoCount)个待办", systemImage: "checkmark.circle")
+                }
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+                Text("当日盈亏 \(signedMoney(selectedSummary.pnlTotal))")
+                    .font(.subheadline)
+                    .foregroundStyle(pnlColor(selectedSummary.pnlTotal))
+                    .monospacedDigit()
+            } else {
+                Text("这一天还没有记录")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private func moveMonth(by value: Int) {
@@ -169,8 +206,7 @@ struct CalendarHeatmapView: View {
     }
 
     private func signedMoney(_ value: Double) -> String {
-        let sign = value > 0 ? "+" : ""
-        return "\(sign)$\(String(format: "%.2f", value))"
+        MoneyFormatters.hkd(value, signed: true)
     }
 
     private func pnlColor(_ value: Double) -> Color {
@@ -192,7 +228,7 @@ private struct HeatmapDayCell: View {
 
     private var backgroundColor: Color {
         guard let summary, summary.hasRecord else {
-            return Color.secondarySystemBackground
+            return Color.clear
         }
         guard summary.tradeCount > 0 else {
             return .gray.opacity(0.35)
@@ -202,21 +238,35 @@ private struct HeatmapDayCell: View {
         return .gray.opacity(0.35)
     }
 
+    private var hasRecord: Bool {
+        summary?.hasRecord == true
+    }
+
+    private var foregroundColor: Color {
+        hasRecord && (summary?.tradeCount ?? 0) > 0 ? .white : .primary
+    }
+
     var body: some View {
-        Text("\(Calendar.current.component(.day, from: date))")
-            .font(.caption)
-            .fontWeight(isSelected ? .bold : .regular)
-            .frame(maxWidth: .infinity)
-            .aspectRatio(1, contentMode: .fit)
-            .background(backgroundColor)
-            .foregroundStyle((summary?.tradeCount ?? 0) > 0 ? Color.white : Color.primary)
-            .clipShape(RoundedRectangle(cornerRadius: 6))
-            .overlay {
-                if isSelected {
-                    RoundedRectangle(cornerRadius: 6)
-                        .stroke(Color.accentColor, lineWidth: 2)
-                }
+        ZStack {
+            if hasRecord {
+                Circle()
+                    .fill(backgroundColor)
+                    .frame(width: 24, height: 24)
             }
+
+            Text("\(Calendar.current.component(.day, from: date))")
+                .font(.caption)
+                .fontWeight(isSelected ? .bold : .regular)
+                .foregroundStyle(foregroundColor)
+
+            if isSelected {
+                Circle()
+                    .stroke(Color.accentColor, lineWidth: 2)
+                    .frame(width: 28, height: 28)
+            }
+        }
+        .frame(width: 38, height: 38)
+        .contentShape(Rectangle())
     }
 }
 
@@ -240,20 +290,28 @@ private struct HeatmapOverviewPill: View {
     let title: String
     let value: String
     let color: Color
+    let icon: String
 
     var body: some View {
-        VStack(spacing: 4) {
+        VStack(alignment: .leading, spacing: 8) {
+            Image(systemName: icon)
+                .foregroundStyle(color)
             Text(value)
-                .font(.headline)
+                .font(.title3)
+                .fontWeight(.semibold)
                 .foregroundStyle(color)
                 .monospacedDigit()
             Text(title)
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 10)
-        .background(Color.systemBackground)
+        .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color.secondarySystemBackground.opacity(0.75))
         .clipShape(RoundedRectangle(cornerRadius: 8))
+        .overlay {
+            RoundedRectangle(cornerRadius: 8)
+                .stroke(Color.secondary.opacity(0.08), lineWidth: 1)
+        }
     }
 }

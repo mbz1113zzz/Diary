@@ -90,4 +90,124 @@ final class StockDiaryModelTests: XCTestCase {
 
         XCTAssertEqual(DateFormatters.startOfDay(date), Calendar.current.startOfDay(for: date))
     }
+
+    func testIBKRTaiwanTickerUsesTWDForLegacyImportedTrades() {
+        let trade = TradeEntry(
+            ticker: "6830",
+            price: 100,
+            quantity: 1,
+            currency: "HKD",
+            pnl: 100,
+            ibkrImported: true
+        )
+
+        XCTAssertEqual(MoneyFormatters.effectiveTradeCurrency(for: trade), "TWD")
+        XCTAssertEqual(MoneyFormatters.convertedToHKD(100, from: MoneyFormatters.effectiveTradeCurrency(for: trade)), 24.9)
+    }
+
+    func testIBKRTaiwanExchangeOverridesReportedCurrency() {
+        let currency = MoneyFormatters.effectiveTradeCurrency(
+            ticker: "6830",
+            reportedCurrency: "HKD",
+            exchange: "TWSE",
+            isIBKRImported: true
+        )
+
+        XCTAssertEqual(currency, "TWD")
+    }
+
+    func testIBKRUSTickersUseUSDForLegacyImportedTrades() {
+        let tickers = ["TSLA", "INTC", "DRAM", "EOSE 260515C00007500"]
+
+        for ticker in tickers {
+            let trade = TradeEntry(
+                ticker: ticker,
+                price: 100,
+                quantity: 1,
+                currency: "HKD",
+                ibkrImported: true
+            )
+
+            XCTAssertEqual(MoneyFormatters.effectiveTradeCurrency(for: trade), "USD", ticker)
+        }
+    }
+
+    func testManualTickerKeepsExplicitCurrency() {
+        let trade = TradeEntry(
+            ticker: "TSLA",
+            price: 100,
+            quantity: 1,
+            currency: "HKD",
+            ibkrImported: false
+        )
+
+        XCTAssertEqual(MoneyFormatters.effectiveTradeCurrency(for: trade), "HKD")
+    }
+
+    func testMarkdownSyntaxParserRecognizesTaskListsAndTables() {
+        let markdown = """
+        - [x] 已复盘
+        - [ ] 等待记录
+
+        | 标的 | 结果 |
+        | --- | --- |
+        | AAPL | 盈利 |
+        """
+
+        let spans = MarkdownSyntaxParser.spans(in: markdown)
+
+        XCTAssertTrue(spans.contains { $0.kind == .listItem(checkbox: .checked) })
+        XCTAssertTrue(spans.contains { $0.kind == .listItem(checkbox: .unchecked) })
+        XCTAssertTrue(spans.contains { $0.kind == .table })
+    }
+
+    func testMarkdownReturnContinuesListItems() throws {
+        let text = "- 第一项"
+        let result = try XCTUnwrap(MarkdownEditing.returnContinuation(
+            in: text,
+            selectedRange: NSRange(location: (text as NSString).length, length: 0)
+        ))
+
+        XCTAssertEqual(result.text, "- 第一项\n- ")
+    }
+
+    func testMarkdownReturnExitsEmptyTaskItem() throws {
+        let text = "- [ ] "
+        let result = try XCTUnwrap(MarkdownEditing.returnContinuation(
+            in: text,
+            selectedRange: NSRange(location: (text as NSString).length, length: 0)
+        ))
+
+        XCTAssertEqual(result.text, "")
+        XCTAssertEqual(result.selectedRange.location, 0)
+    }
+
+    func testMarkdownTabIndentsAndOutdentsListItem() throws {
+        let text = "- 第一项"
+        let indented = try XCTUnwrap(MarkdownEditing.indentListItem(
+            in: text,
+            selectedRange: NSRange(location: 2, length: 0)
+        ))
+
+        XCTAssertEqual(indented.text, "    - 第一项")
+        XCTAssertEqual(indented.selectedRange.location, 6)
+
+        let outdented = try XCTUnwrap(MarkdownEditing.outdentListItem(
+            in: indented.text,
+            selectedRange: indented.selectedRange
+        ))
+
+        XCTAssertEqual(outdented.text, text)
+        XCTAssertEqual(outdented.selectedRange.location, 2)
+    }
+
+    #if os(macOS)
+    func testMarkdownHighlighterDrawsInactiveUnorderedListMarkerAsBullet() throws {
+        let storage = NSMutableAttributedString(string: "- dad")
+
+        MarkdownHighlighter.highlight(storage, activeLineRange: nil)
+
+        XCTAssertNotNil(storage.attribute(.attachment, at: 0, effectiveRange: nil) as? NSTextAttachment)
+    }
+    #endif
 }
