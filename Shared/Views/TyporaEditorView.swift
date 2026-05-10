@@ -625,6 +625,38 @@ private func computeActiveLineRange(cursorLocation: Int, in text: String) -> NSR
 #if os(macOS)
 import AppKit
 
+final class HiddenMarkerLayoutManager: NSLayoutManager {
+    var markerIndexes: Set<Int> = []
+    var activeLineRange: NSRange?
+
+    override func setGlyphs(
+        _ glyphs: UnsafePointer<CGGlyph>,
+        properties props: UnsafePointer<NSLayoutManager.GlyphProperty>,
+        characterIndexes charIndexes: UnsafePointer<Int>,
+        font aFont: NSFont,
+        forGlyphRange glyphRange: NSRange
+    ) {
+        let buffer = UnsafeMutablePointer<NSLayoutManager.GlyphProperty>.allocate(capacity: glyphRange.length)
+        defer { buffer.deallocate() }
+
+        for i in 0..<glyphRange.length {
+            let charIndex = charIndexes[i]
+            if markerIndexes.contains(charIndex) && !isInActiveRange(charIndex) {
+                buffer[i] = .null
+            } else {
+                buffer[i] = props[i]
+            }
+        }
+
+        super.setGlyphs(glyphs, properties: buffer, characterIndexes: charIndexes, font: aFont, forGlyphRange: glyphRange)
+    }
+
+    private func isInActiveRange(_ charIndex: Int) -> Bool {
+        guard let active = activeLineRange else { return false }
+        return charIndex >= active.location && charIndex < active.location + active.length
+    }
+}
+
 struct TyporaEditorView: NSViewRepresentable {
     @Binding var text: String
     var commands: MarkdownEditorCommands?

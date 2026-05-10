@@ -296,5 +296,41 @@ final class StockDiaryModelTests: XCTestCase {
         XCTAssertTrue(indexes.contains(1))
         XCTAssertTrue(indexes.contains(2))
     }
+
+    func testHiddenMarkerLayoutManagerNullifiesMarkerGlyphs() {
+        let storage = NSTextStorage(string: "## Hello")
+        let layoutManager = HiddenMarkerLayoutManager()
+        let container = NSTextContainer(size: NSSize(width: 500, height: 10000))
+        container.widthTracksTextView = true
+        layoutManager.addTextContainer(container)
+        storage.addLayoutManager(layoutManager)
+
+        let indexes = MarkdownHighlighter.highlight(storage, activeLineRange: nil)
+        layoutManager.markerIndexes = indexes
+        layoutManager.activeLineRange = nil
+
+        layoutManager.ensureGlyphs(forCharacterRange: NSRange(location: 0, length: storage.length))
+
+        let rect0 = layoutManager.boundingRect(forGlyphRange: NSRange(location: 0, length: 3), in: container)
+        XCTAssertLessThan(rect0.width, 1.0, "Hidden marker glyphs should take no visual space")
+    }
+
+    func testHiddenMarkerLayoutManagerShowsMarkersOnActiveLine() {
+        let storage = NSTextStorage(string: "## Hello")
+        let layoutManager = HiddenMarkerLayoutManager()
+        let container = NSTextContainer(size: NSSize(width: 500, height: 10000))
+        container.widthTracksTextView = true
+        layoutManager.addTextContainer(container)
+        storage.addLayoutManager(layoutManager)
+
+        let indexes = MarkdownHighlighter.highlight(storage, activeLineRange: NSRange(location: 0, length: 8))
+        layoutManager.markerIndexes = indexes
+        layoutManager.activeLineRange = NSRange(location: 0, length: 8)
+
+        layoutManager.ensureGlyphs(forCharacterRange: NSRange(location: 0, length: storage.length))
+
+        let rect = layoutManager.boundingRect(forGlyphRange: NSRange(location: 0, length: 3), in: container)
+        XCTAssertGreaterThan(rect.width, 1.0, "Active line markers should be visible and take space")
+    }
     #endif
 }
