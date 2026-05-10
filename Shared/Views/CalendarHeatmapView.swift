@@ -117,16 +117,21 @@ struct CalendarHeatmapView: View {
                 Spacer()
             }
 
-            // Stats: horizontal row of 3 pills
-            HStack(spacing: 12) {
-                HeatmapOverviewPill(title: "活跃日", value: "\(activeDays)", color: .blue, icon: "calendar")
-                HeatmapOverviewPill(title: "交易数", value: "\(monthlyTradeCount)", color: .accentColor, icon: "number.circle")
-                HeatmapOverviewPill(title: "月盈亏", value: signedMoney(monthlyPnl), color: pnlColor(monthlyPnl), icon: "dollarsign.circle")
-            }
+            // Two-column: left pills, right calendar
+            HStack(alignment: .top, spacing: 20) {
+                // Left: vertical stat pills
+                VStack(spacing: 12) {
+                    HeatmapOverviewPill(title: "活跃日", value: "\(activeDays)", color: .blue, icon: "calendar")
+                    HeatmapOverviewPill(title: "交易数", value: "\(monthlyTradeCount)", color: .accentColor, icon: "number.circle")
+                    HeatmapOverviewPill(title: "月盈亏", value: signedMoney(monthlyPnl), color: pnlColor(monthlyPnl), icon: "dollarsign.circle")
+                }
+                .frame(width: 180)
 
-            // Calendar centered
-            calendarGrid
-                .frame(maxWidth: .infinity, alignment: .center)
+                // Right: calendar
+                calendarGrid
+                    .frame(maxWidth: .infinity, alignment: .center)
+            }
+            .fixedSize(horizontal: false, vertical: true)
 
             Divider()
                 .padding(.vertical, 4)
