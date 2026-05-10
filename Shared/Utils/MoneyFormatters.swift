@@ -1,7 +1,22 @@
 import Foundation
 
+struct ExchangeRateOption: Identifiable {
+    let currencyCode: String
+    let displayName: String
+    let defaultRate: Double
+    let storageKey: String
+
+    var id: String { currencyCode }
+}
+
 enum MoneyFormatters {
     static let currencyCode = "HKD"
+    static let exchangeRateOptions: [ExchangeRateOption] = [
+        ExchangeRateOption(currencyCode: "USD", displayName: "美元 USD", defaultRate: 7.8, storageKey: "exchangeRateUSDToHKD"),
+        ExchangeRateOption(currencyCode: "TWD", displayName: "新台币 TWD", defaultRate: 0.249, storageKey: "exchangeRateTWDToHKD"),
+        ExchangeRateOption(currencyCode: "KRW", displayName: "韩元 KRW", defaultRate: 0.0055, storageKey: "exchangeRateKRWToHKD")
+    ]
+
     private static let knownTaiwanTickers: Set<String> = ["6830"]
 
     static func native(_ value: Double, currency: String?, signed: Bool = false) -> String {
@@ -28,12 +43,32 @@ enum MoneyFormatters {
     }
 
     static func hkdRate(for sourceCurrency: String?) -> Double {
-        switch normalizedCurrency(sourceCurrency) {
-        case "HKD": return 1
-        case "USD": return 7.8
-        case "TWD": return 0.249
-        case "KRW": return 0.0055
-        default: return 1
+        let normalized = normalizedCurrency(sourceCurrency)
+        guard normalized != currencyCode else { return 1 }
+        guard let option = exchangeRateOptions.first(where: { $0.currencyCode == normalized }) else {
+            return 1
+        }
+
+        let storedValue = UserDefaults.standard.object(forKey: option.storageKey) as? Double
+        guard let storedValue, storedValue > 0 else { return option.defaultRate }
+        return storedValue
+    }
+
+    static func defaultHKDRate(for currency: String) -> Double {
+        let normalized = normalizedCurrency(currency)
+        if normalized == currencyCode { return 1 }
+        return exchangeRateOptions.first(where: { $0.currencyCode == normalized })?.defaultRate ?? 1
+    }
+
+    static func setHKDRate(_ rate: Double, for currency: String) {
+        let normalized = normalizedCurrency(currency)
+        guard let option = exchangeRateOptions.first(where: { $0.currencyCode == normalized }), rate > 0 else { return }
+        UserDefaults.standard.set(rate, forKey: option.storageKey)
+    }
+
+    static func resetHKDRates() {
+        for option in exchangeRateOptions {
+            UserDefaults.standard.removeObject(forKey: option.storageKey)
         }
     }
 

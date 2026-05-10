@@ -317,6 +317,8 @@ struct SettingsContentView: View {
 
                 IBKRSettingsView(syncManager: syncManager)
 
+                ExchangeRateSettingsView()
+
                 Section("关于") {
                     HStack {
                         Text("版本")

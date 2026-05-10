@@ -57,6 +57,7 @@ final class StockDiaryModelTests: XCTestCase {
     }
 
     func testTradeAnalyticsBuildsDailyPnlSeriesWithHkdConversion() throws {
+        MoneyFormatters.resetHKDRates()
         let calendar = Calendar(identifier: .gregorian)
         let now = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 5, day: 3)))
         let dayOne = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 5, day: 1)))
@@ -77,6 +78,7 @@ final class StockDiaryModelTests: XCTestCase {
     }
 
     func testTradeAnalyticsRanksSymbolsByPnlMagnitude() throws {
+        MoneyFormatters.resetHKDRates()
         let calendar = Calendar(identifier: .gregorian)
         let now = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 5, day: 9)))
         let tradeDate = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 5, day: 8)))
@@ -95,6 +97,7 @@ final class StockDiaryModelTests: XCTestCase {
     }
 
     func testTradeAnalyticsBuildsTagPerformanceRows() throws {
+        MoneyFormatters.resetHKDRates()
         let calendar = Calendar(identifier: .gregorian)
         let now = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 5, day: 9)))
         let tradeDate = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 5, day: 8)))
@@ -123,6 +126,7 @@ final class StockDiaryModelTests: XCTestCase {
     }
 
     func testTradeAnalyticsBuildsReviewInsights() throws {
+        MoneyFormatters.resetHKDRates()
         let calendar = Calendar(identifier: .gregorian)
         let now = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 5, day: 9)))
         let winDate = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 5, day: 8)))
@@ -179,6 +183,7 @@ final class StockDiaryModelTests: XCTestCase {
     }
 
     func testIBKRTaiwanTickerUsesTWDForLegacyImportedTrades() {
+        MoneyFormatters.resetHKDRates()
         let trade = TradeEntry(
             ticker: "6830",
             price: 100,
@@ -190,6 +195,18 @@ final class StockDiaryModelTests: XCTestCase {
 
         XCTAssertEqual(MoneyFormatters.effectiveTradeCurrency(for: trade), "TWD")
         XCTAssertEqual(MoneyFormatters.convertedToHKD(100, from: MoneyFormatters.effectiveTradeCurrency(for: trade)), 24.9)
+    }
+
+    func testConfiguredExchangeRateChangesHKDConversion() {
+        let originalRate = MoneyFormatters.hkdRate(for: "USD")
+        defer {
+            MoneyFormatters.setHKDRate(originalRate, for: "USD")
+        }
+
+        MoneyFormatters.setHKDRate(8.0, for: "USD")
+
+        XCTAssertEqual(MoneyFormatters.hkdRate(for: "USD"), 8.0)
+        XCTAssertEqual(MoneyFormatters.convertedToHKD(10, from: "USD"), 80)
     }
 
     func testIBKRTaiwanExchangeOverridesReportedCurrency() {

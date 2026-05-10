@@ -20,6 +20,7 @@
 		1CA1AFEC1F417B29CD80DAE4 /* PetCompanionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E86338C64427AE70148A5 /* PetCompanionView.swift */; };
 		20A1CE550FA94265B344D97E /* HomeDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812C431E00AFD915F869A467 /* HomeDashboardView.swift */; };
 		251B4F9552A0489F50B8F192 /* DaySummaryViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC432CB1C762E3D8D8331663 /* DaySummaryViews.swift */; };
+		275687B0B912E868A1C82AD6 /* StatisticsDashboardComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28766CBFA81F894EEFEFE43 /* StatisticsDashboardComponents.swift */; };
 		27E83BC302E5787A2F0D0597 /* IBKRPositionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FB66D87E5426214BE923B9 /* IBKRPositionsView.swift */; };
 		2E049D94775F1F316750FCB7 /* TodoCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481A5A544A103067DC3D85CF /* TodoCardView.swift */; };
 		33650EAE3151428B35B49C38 /* TodoEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9566A74ED342C847121BBE4 /* TodoEditorView.swift */; };
@@ -31,6 +32,7 @@
 		4523C93AD81EE1B61D36A62C /* TradeEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4319E4A25240644F2A41370B /* TradeEditorView.swift */; };
 		46DD3C5A1C8A58EF5468F389 /* HomeDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812C431E00AFD915F869A467 /* HomeDashboardView.swift */; };
 		475F136A6F1F2A333A0CB693 /* DateFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEF86D267C0975B036D6A87 /* DateFormatters.swift */; };
+		47879D55DBB29256235CE7FA /* ExchangeRateSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C6B15107A1B88BD34081AF /* ExchangeRateSettingsView.swift */; };
 		47D8CDDE2ECDD56C80B8E49A /* MacContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEBAFD77CEDF0C10BFDC941 /* MacContentView.swift */; };
 		4D3DBA5DEAB5A2A2D6A81737 /* TodoCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481A5A544A103067DC3D85CF /* TodoCardView.swift */; };
 		56F0B0544C77D4896B5EB30C /* DiaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6A354EA1A6A0D4CA99239 /* DiaryViewModel.swift */; };
@@ -56,6 +58,7 @@
 		A06E99023AA35BD91D60D2EF /* DiaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6A354EA1A6A0D4CA99239 /* DiaryViewModel.swift */; };
 		A0EAB628F2608F8AADC09993 /* DataExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 124DEA95FCA67860EB4A87FC /* DataExportView.swift */; };
 		A1B29964E586D073CFD448AA /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA16920A84F1E36D87E57E4 /* TodoItem.swift */; };
+		B00207CD6872EE66C10F7ACE /* ExchangeRateSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C6B15107A1B88BD34081AF /* ExchangeRateSettingsView.swift */; };
 		B20F738ECBD31C927E41A18B /* IBKRSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CD1F00F66F7A00885A41D6 /* IBKRSettingsView.swift */; };
 		B228B0341BCD6DAD833F3C2D /* DaySummaryViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC432CB1C762E3D8D8331663 /* DaySummaryViews.swift */; };
 		B2CB05E2D374974856A48AAF /* TradeAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76434B3A9A00B0B37BCFD4EE /* TradeAnalytics.swift */; };
@@ -83,6 +86,7 @@
 		F9D813CF0BFA27F55ABFBCB2 /* MarkdownSyntax.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0166F61203AB9D474392DE9 /* MarkdownSyntax.swift */; };
 		FAD415CC27C096B7CD925B2B /* IBKRSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CD1F00F66F7A00885A41D6 /* IBKRSettingsView.swift */; };
 		FC2B666B93FC31C43558F1BA /* StockDiaryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E6CA57F1569D8B067533C0 /* StockDiaryApp.swift */; };
+		FFF7519C4B417CD9D0E55AB5 /* StatisticsDashboardComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28766CBFA81F894EEFEFE43 /* StatisticsDashboardComponents.swift */; };
 		FFFEB519500024778C74C754 /* WeatherPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F2A004074353C8B04F165B /* WeatherPickerView.swift */; };
 /* End PBXBuildFile section */
 
@@ -115,6 +119,7 @@
 		2CAFAE9CA91D44083FC0B604 /* TradeEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeEntry.swift; sourceTree = "<group>"; };
 		2FEBAFD77CEDF0C10BFDC941 /* MacContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacContentView.swift; sourceTree = "<group>"; };
 		3BF6A354EA1A6A0D4CA99239 /* DiaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewModel.swift; sourceTree = "<group>"; };
+		42C6B15107A1B88BD34081AF /* ExchangeRateSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateSettingsView.swift; sourceTree = "<group>"; };
 		42FDDC32C6D655FCBA76E2A8 /* DiaryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCardView.swift; sourceTree = "<group>"; };
 		4319E4A25240644F2A41370B /* TradeEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeEditorView.swift; sourceTree = "<group>"; };
 		481A5A544A103067DC3D85CF /* TodoCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoCardView.swift; sourceTree = "<group>"; };
@@ -136,6 +141,7 @@
 		BA6FB134A6B4C3B88E99C163 /* IBKRSyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBKRSyncManager.swift; sourceTree = "<group>"; };
 		BC432CB1C762E3D8D8331663 /* DaySummaryViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySummaryViews.swift; sourceTree = "<group>"; };
 		BE2F442071CBDB56E6ADFF27 /* StatisticsDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsDashboardView.swift; sourceTree = "<group>"; };
+		C28766CBFA81F894EEFEFE43 /* StatisticsDashboardComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsDashboardComponents.swift; sourceTree = "<group>"; };
 		D9566A74ED342C847121BBE4 /* TodoEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoEditorView.swift; sourceTree = "<group>"; };
 		E0166F61203AB9D474392DE9 /* MarkdownSyntax.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownSyntax.swift; sourceTree = "<group>"; };
 		E0E6CA57F1569D8B067533C0 /* StockDiaryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDiaryApp.swift; sourceTree = "<group>"; };
@@ -182,6 +188,7 @@
 				42FDDC32C6D655FCBA76E2A8 /* DiaryCardView.swift */,
 				9DA78BA558DFB54F5A60D7C2 /* DiaryEditorView.swift */,
 				646AD3A4044F2F686C79BAD5 /* EmptyStateView.swift */,
+				42C6B15107A1B88BD34081AF /* ExchangeRateSettingsView.swift */,
 				812C431E00AFD915F869A467 /* HomeDashboardView.swift */,
 				08FB66D87E5426214BE923B9 /* IBKRPositionsView.swift */,
 				19CD1F00F66F7A00885A41D6 /* IBKRSettingsView.swift */,
@@ -189,6 +196,7 @@
 				F859F6CCEBD6D72C09BCE32C /* MemoViews.swift */,
 				11FE3898A529550DA0E33AC7 /* MoodPickerView.swift */,
 				2C8E86338C64427AE70148A5 /* PetCompanionView.swift */,
+				C28766CBFA81F894EEFEFE43 /* StatisticsDashboardComponents.swift */,
 				BE2F442071CBDB56E6ADFF27 /* StatisticsDashboardView.swift */,
 				481A5A544A103067DC3D85CF /* TodoCardView.swift */,
 				D9566A74ED342C847121BBE4 /* TodoEditorView.swift */,
@@ -422,6 +430,7 @@
 				D59C9B66B21A9E1E106EC777 /* DiaryEntry.swift in Sources */,
 				56F0B0544C77D4896B5EB30C /* DiaryViewModel.swift in Sources */,
 				CBD7F5E42DA63F58AD43F56B /* EmptyStateView.swift in Sources */,
+				47879D55DBB29256235CE7FA /* ExchangeRateSettingsView.swift in Sources */,
 				46DD3C5A1C8A58EF5468F389 /* HomeDashboardView.swift in Sources */,
 				27E83BC302E5787A2F0D0597 /* IBKRPositionsView.swift in Sources */,
 				7823A62FEC1FCD5A364E2092 /* IBKRService.swift in Sources */,
@@ -436,6 +445,7 @@
 				9C95E3D6AF3C933A437701E0 /* MoodPickerView.swift in Sources */,
 				1CA1AFEC1F417B29CD80DAE4 /* PetCompanionView.swift in Sources */,
 				3E155F8C3360D0B44B88EE8A /* PlatformCompat.swift in Sources */,
+				FFF7519C4B417CD9D0E55AB5 /* StatisticsDashboardComponents.swift in Sources */,
 				C81196D0F47F7CDA8CFEB356 /* StatisticsDashboardView.swift in Sources */,
 				7E259D620B187BBBB015FA45 /* StockDiaryApp.swift in Sources */,
 				4D3DBA5DEAB5A2A2D6A81737 /* TodoCardView.swift in Sources */,
@@ -466,6 +476,7 @@
 				F3BD17E5E6429B5754B99C46 /* DiaryEntry.swift in Sources */,
 				A06E99023AA35BD91D60D2EF /* DiaryViewModel.swift in Sources */,
 				1C7E51F3BF04BBF897D1B119 /* EmptyStateView.swift in Sources */,
+				B00207CD6872EE66C10F7ACE /* ExchangeRateSettingsView.swift in Sources */,
 				20A1CE550FA94265B344D97E /* HomeDashboardView.swift in Sources */,
 				EB092B766B4934947483166C /* IBKRPositionsView.swift in Sources */,
 				746DA882092660A2F1695C8F /* IBKRService.swift in Sources */,
@@ -479,6 +490,7 @@
 				0428B640970CB0B79C733554 /* MoodPickerView.swift in Sources */,
 				E484C18C193CFF03BB6CC15B /* PetCompanionView.swift in Sources */,
 				9F5179396CBA2D3165D153BA /* PlatformCompat.swift in Sources */,
+				275687B0B912E868A1C82AD6 /* StatisticsDashboardComponents.swift in Sources */,
 				9EE731E5D1575C0792D2D754 /* StatisticsDashboardView.swift in Sources */,
 				FC2B666B93FC31C43558F1BA /* StockDiaryApp.swift in Sources */,
 				2E049D94775F1F316750FCB7 /* TodoCardView.swift in Sources */,

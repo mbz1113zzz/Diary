@@ -115,6 +115,7 @@ struct MacSettingsView: View {
     var body: some View {
         Form {
             IBKRSettingsView(syncManager: syncManager)
+            ExchangeRateSettingsView()
 
             Section("关于") {
                 HStack {
