@@ -43,6 +43,13 @@ struct iOSContentView: View {
                     Label("交易", systemImage: "chart.line.uptrend.xyaxis")
                 }
 
+            NavigationStack {
+                WatchlistView()
+            }
+            .tabItem {
+                Label("自选", systemImage: "star")
+            }
+
             TodoTabView()
                 .tabItem {
                     Label("待办", systemImage: "checkmark.circle")

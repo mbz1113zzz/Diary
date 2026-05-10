@@ -92,6 +92,8 @@
 		FFFEB519500024778C74C754 /* WeatherPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F2A004074353C8B04F165B /* WeatherPickerView.swift */; };
 		A1B2C3D4E5F6A7B8C9D0E1F7 /* WatchlistItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E1F6 /* WatchlistItem.swift */; };
 		A1B2C3D4E5F6A7B8C9D0E1F8 /* WatchlistItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E1F6 /* WatchlistItem.swift */; };
+		6D20473EE4CA4D0A99B15A8C /* WatchlistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0CBCEB8B9C41A2BD5A5124 /* WatchlistView.swift */; };
+		83683A8EE8FA43BCA967319D /* WatchlistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0CBCEB8B9C41A2BD5A5124 /* WatchlistView.swift */; };
 	/* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -154,6 +156,7 @@
 		E8559BB6A21E67F7671FE621 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F859F6CCEBD6D72C09BCE32C /* MemoViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoViews.swift; sourceTree = "<group>"; };
 		A1B2C3D4E5F6A7B8C9D0E1F6 /* WatchlistItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistItem.swift; sourceTree = "<group>"; };
+		6B0CBCEB8B9C41A2BD5A5124 /* WatchlistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistView.swift; sourceTree = "<group>"; };
 	/* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +213,7 @@
 				4319E4A25240644F2A41370B /* TradeEditorView.swift */,
 				E782A4F1408237C7200B928B /* TyporaEditorView.swift */,
 				58F2A004074353C8B04F165B /* WeatherPickerView.swift */,
+				6B0CBCEB8B9C41A2BD5A5124 /* WatchlistView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -468,6 +472,7 @@
 				13D2932527770253040325CD /* TradeExport.swift in Sources */,
 				37583EA5837772F0553E1FEE /* TyporaEditorView.swift in Sources */,
 				6A93872C4D5C2DA1B8D8E5AF /* WeatherPickerView.swift in Sources */,
+				83683A8EE8FA43BCA967319D /* WatchlistView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -515,6 +520,7 @@
 				C6BAAF6F0934A58BC13CCBEC /* TradeExport.swift in Sources */,
 				ECE57FAA2767BB207498D9E3 /* TyporaEditorView.swift in Sources */,
 				FFFEB519500024778C74C754 /* WeatherPickerView.swift in Sources */,
+				6D20473EE4CA4D0A99B15A8C /* WatchlistView.swift in Sources */,
 				E70038173505D99D7E1E4D95 /* iOSContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

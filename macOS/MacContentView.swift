@@ -6,6 +6,7 @@ enum MacSidebarItem: String, Hashable, CaseIterable {
     case dashboard = "统计"
     case heatmap = "概览"
     case trades = "交易"
+    case watchlist = "自选"
     case positions = "持仓"
     case memos = "随记"
     case todos = "待办"
@@ -18,6 +19,7 @@ enum MacSidebarItem: String, Hashable, CaseIterable {
         case .dashboard: return "gauge.with.dots.needle.67percent"
         case .heatmap: return "calendar.badge.clock"
         case .trades: return "chart.line.uptrend.xyaxis"
+        case .watchlist: return "star"
         case .positions: return "briefcase"
         case .memos: return "square.and.pencil"
         case .todos: return "checkmark.circle"
@@ -50,6 +52,8 @@ struct MacContentView: View {
                 CalendarHeatmapView(selectedDate: $selectedDate)
             case .trades:
                 TradeListView(selectedDate: $selectedDate)
+            case .watchlist:
+                WatchlistView()
             case .positions:
                 IBKRPositionsView()
             case .memos:
