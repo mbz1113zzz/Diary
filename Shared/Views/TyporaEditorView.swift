@@ -20,7 +20,6 @@ enum MarkdownHighlighter {
     static var h3Font: PlatformFont { .systemFont(ofSize: 21, weight: .semibold) }
     static var h4Font: PlatformFont { .systemFont(ofSize: 18, weight: .semibold) }
     static var codeFont: PlatformFont { .monospacedSystemFont(ofSize: 14, weight: .regular) }
-    static var tinyFont: PlatformFont { .systemFont(ofSize: 0.1) }
 
     // MARK: - Colors
 
@@ -106,14 +105,12 @@ enum MarkdownHighlighter {
             return NSIntersectionRange(active, range).length > 0
         }
 
-        // Hide a marker: invisible + near-zero size so it takes no visual space
+        // Hide a marker: on macOS, HiddenMarkerLayoutManager handles hiding via .null glyphs.
+        // Apply hidden color as fallback for platforms without the custom layout manager.
         func hideMarker(_ range: NSRange) {
             collectMarkers(range)
             guard range.location != NSNotFound, range.length > 0 else { return }
-            storage.addAttributes([
-                .foregroundColor: hiddenColor,
-                .font: tinyFont
-            ], range: range)
+            storage.addAttribute(.foregroundColor, value: hiddenColor, range: range)
         }
 
         // Dim a marker: visible but light gray (shown on active line)
