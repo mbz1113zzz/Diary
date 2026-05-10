@@ -114,7 +114,7 @@ struct WatchlistView: View {
             }
             snapshots = dict
         } catch {
-            marketStatus = "行情不可用"
+            marketStatus = "行情不可用：\(error.localizedDescription)"
         }
 
         isLoadingQuotes = false

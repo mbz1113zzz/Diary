@@ -53,9 +53,12 @@ final class TWSService {
     // MARK: - Market Data
 
     private func requestSnapshot(_ socket: Socket, ticker: String, reqId: Int) async throws -> MarketSnapshot {
-        // reqMktData: id\0contract\0genericTicks\0snapshot\0regulatory\0
-        // contract: conid\0symbol\0secType\0exchange\0primaryExchange\0currency\0
-        let contract = "0\0\(ticker)\0STK\0SMART\0\0USD\0"
+        // TWS Contract format (15 fields, each null-terminated):
+        // conid\0symbol\0secType\0lastTradeDate\0strike\0right\0multiplier\0
+        // exchange\0primaryExchange\0currency\0localSymbol\0tradingClass\0
+        // includeExpired\0secIdType\0secId\0
+        let contract = "0\0\(ticker)\0STK\0\00\0\0\0SMART\0\0USD\0\0\0\0\0\0"
+        // reqMktData body: reqId\0contract\0genericTickList\0snapshot\0regulatory\0
         let request = "\(reqId)\0\(contract)\0165,166\01\00\0"
         let msg = packMessage(type: "1", body: request)
         try await socket.send(msg)
