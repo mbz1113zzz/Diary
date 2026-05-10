@@ -110,77 +110,9 @@ final class IBKRService {
 
     // MARK: - Market Data (Client Portal API)
 
-    func fetchMarketSnapshots(tickers: [String], host: String = "localhost", port: Int = 5000) async throws -> [MarketSnapshot] {
-        guard !tickers.isEmpty else { return [] }
-
-        // Resolve ticker symbols to conids
-        var conidMap = [String: String]() // ticker → conid
-        for ticker in tickers {
-            if let conid = try? await resolveConid(ticker: ticker, host: host, port: port) {
-                conidMap[ticker] = conid
-            }
-        }
-        guard !conidMap.isEmpty else { return [] }
-
-        let conidList = conidMap.values.joined(separator: ",")
-        let urlString = "https://\(host):\(port)/v1/api/iserver/marketdata/snapshot?conids=\(conidList)&fields=31,55,83,84"
-        guard let url = URL(string: urlString) else {
-            throw IBKRError.invalidConfiguration
-        }
-
-        let (data, response) = try await session.data(from: url)
-
-        guard let httpResponse = response as? HTTPURLResponse,
-              (200...299).contains(httpResponse.statusCode) else {
-            throw IBKRError.httpError((response as? HTTPURLResponse)?.statusCode ?? 0)
-        }
-
-        guard let jsonArray = try? JSONSerialization.jsonObject(with: data) as? [[String: Any]] else {
-            throw IBKRError.decodingFailed
-        }
-
-        // Build reverse map: conid → ticker
-        let conidToTicker = Dictionary(uniqueKeysWithValues: conidMap.map { ($1, $0) })
-        let now = Date()
-        return jsonArray.compactMap { item in
-            guard let lastPrice = item["31"] as? Double,
-                  let change = item["83"] as? Double,
-                  let changePercent = item["84"] as? Double else {
-                return nil
-            }
-            let conid = String(item["conid"] as? Int ?? 0)
-            let ticker = conidToTicker[conid] ?? conid
-            return MarketSnapshot(
-                ticker: ticker,
-                lastPrice: lastPrice,
-                change: change,
-                changePercent: changePercent / 100,
-                timestamp: now
-            )
-        }
-    }
-
-    private func resolveConid(ticker: String, host: String, port: Int) async throws -> String {
-        let encoded = ticker.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ticker
-        let urlString = "https://\(host):\(port)/v1/api/iserver/secdef/search?symbol=\(encoded)"
-        guard let url = URL(string: urlString) else {
-            throw IBKRError.invalidConfiguration
-        }
-
-        let (data, response) = try await session.data(from: url)
-
-        guard let httpResponse = response as? HTTPURLResponse,
-              (200...299).contains(httpResponse.statusCode) else {
-            throw IBKRError.httpError((response as? HTTPURLResponse)?.statusCode ?? 0)
-        }
-
-        guard let jsonArray = try? JSONSerialization.jsonObject(with: data) as? [[String: Any]],
-              let first = jsonArray.first,
-              let conid = first["conid"] as? Int else {
-            throw IBKRError.decodingFailed
-        }
-
-        return String(conid)
+    func fetchMarketSnapshots(tickers: [String], host: String = "localhost", port: Int = 7496) async throws -> [MarketSnapshot] {
+        let tws = TWSService(host: host, port: port)
+        return try await tws.fetchSnapshots(tickers: tickers)
     }
 
     // MARK: - XML Parsing

@@ -6,8 +6,8 @@ struct IBKRSettingsView: View {
     @State private var flexToken: String = KeychainHelper.read(key: "ibkrFlexToken") ?? ""
     @AppStorage("ibkrFlexQueryId") private var flexQueryId = ""
     @AppStorage("ibkrAutoSync") private var autoSync = true
-    @AppStorage("ibkrGatewayHost") private var gatewayHost = "localhost"
-    @AppStorage("ibkrGatewayPort") private var gatewayPort = 5000
+    @AppStorage("ibkrTWSHost") private var twsHost = "localhost"
+    @AppStorage("ibkrTWSPort") private var twsPort = 7496
 
     var body: some View {
         Section("IBKR 交易同步") {
@@ -46,20 +46,20 @@ struct IBKRSettingsView: View {
 
         Section("行情数据") {
             HStack {
-                Text("Gateway Host")
+                Text("TWS Host")
                 Spacer()
-                TextField("localhost", text: $gatewayHost)
+                TextField("localhost", text: $twsHost)
                     .multilineTextAlignment(.trailing)
                     .frame(maxWidth: 160)
             }
             HStack {
-                Text("Gateway Port")
+                Text("TWS Port")
                 Spacer()
-                TextField("5000", value: $gatewayPort, format: .number)
+                TextField("7496", value: $twsPort, format: .number)
                     .multilineTextAlignment(.trailing)
                     .frame(maxWidth: 100)
             }
-            Text("需要 IBKR Client Portal Gateway 运行中才能获取实时行情。")
+            Text("需要 TWS 运行中且已开启 API 连接（设置 → API → 启用 Socket 客户端）才能获取实时行情。")
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }

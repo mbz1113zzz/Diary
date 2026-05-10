@@ -42,7 +42,9 @@
 		6A93872C4D5C2DA1B8D8E5AF /* WeatherPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F2A004074353C8B04F165B /* WeatherPickerView.swift */; };
 		6BDEB5D5901535DD2564C439 /* IBKRSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6FB134A6B4C3B88E99C163 /* IBKRSyncManager.swift */; };
 		746DA882092660A2F1695C8F /* IBKRService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEA5CB9FDCB2807FA578BBC /* IBKRService.swift */; };
+		AABBCCDD11223344AABBCC02 /* TWSService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD11223344AABBCC10 /* TWSService.swift */; };
 		7823A62FEC1FCD5A364E2092 /* IBKRService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEA5CB9FDCB2807FA578BBC /* IBKRService.swift */; };
+		AABBCCDD11223344AABBCC01 /* TWSService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD11223344AABBCC10 /* TWSService.swift */; };
 		7AFEA63F1D583AA3983EF5C9 /* TodoEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9566A74ED342C847121BBE4 /* TodoEditorView.swift */; };
 		7E259D620B187BBBB015FA45 /* StockDiaryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E6CA57F1569D8B067533C0 /* StockDiaryApp.swift */; };
 		81EB2ED1481BDB970A8AB0E5 /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA16920A84F1E36D87E57E4 /* TodoItem.swift */; };
@@ -135,6 +137,7 @@
 		57A6836FBC175825FD5FBD60 /* StockDiary_macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StockDiary_macOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		58F2A004074353C8B04F165B /* WeatherPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherPickerView.swift; sourceTree = "<group>"; };
 		5DEA5CB9FDCB2807FA578BBC /* IBKRService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBKRService.swift; sourceTree = "<group>"; };
+		AABBCCDD11223344AABBCC10 /* TWSService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TWSService.swift; sourceTree = "<group>"; };
 		5E6F32CCCB7DBBC067F25042 /* DiaryEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryEntry.swift; sourceTree = "<group>"; };
 		646AD3A4044F2F686C79BAD5 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		66344B4F3D3CD0C535ABFE0A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -260,6 +263,7 @@
 			isa = PBXGroup;
 			children = (
 				5DEA5CB9FDCB2807FA578BBC /* IBKRService.swift */,
+				AABBCCDD11223344AABBCC10 /* TWSService.swift */,
 				BA6FB134A6B4C3B88E99C163 /* IBKRSyncManager.swift */,
 			);
 			path = Services;
@@ -447,6 +451,7 @@
 				46DD3C5A1C8A58EF5468F389 /* HomeDashboardView.swift in Sources */,
 				27E83BC302E5787A2F0D0597 /* IBKRPositionsView.swift in Sources */,
 				7823A62FEC1FCD5A364E2092 /* IBKRService.swift in Sources */,
+				AABBCCDD11223344AABBCC01 /* TWSService.swift in Sources */,
 				FAD415CC27C096B7CD925B2B /* IBKRSettingsView.swift in Sources */,
 				B7BB27F1C59F31ABE7E17A53 /* IBKRSyncManager.swift in Sources */,
 				47D8CDDE2ECDD56C80B8E49A /* MacContentView.swift in Sources */,
@@ -496,6 +501,7 @@
 				20A1CE550FA94265B344D97E /* HomeDashboardView.swift in Sources */,
 				EB092B766B4934947483166C /* IBKRPositionsView.swift in Sources */,
 				746DA882092660A2F1695C8F /* IBKRService.swift in Sources */,
+				AABBCCDD11223344AABBCC02 /* TWSService.swift in Sources */,
 				B20F738ECBD31C927E41A18B /* IBKRSettingsView.swift in Sources */,
 				6BDEB5D5901535DD2564C439 /* IBKRSyncManager.swift in Sources */,
 				35F8E7200F98F31E133BE8F8 /* MarkdownEditorView.swift in Sources */,
