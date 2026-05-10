@@ -90,7 +90,9 @@
 		FC2B666B93FC31C43558F1BA /* StockDiaryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E6CA57F1569D8B067533C0 /* StockDiaryApp.swift */; };
 		FFF7519C4B417CD9D0E55AB5 /* StatisticsDashboardComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28766CBFA81F894EEFEFE43 /* StatisticsDashboardComponents.swift */; };
 		FFFEB519500024778C74C754 /* WeatherPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F2A004074353C8B04F165B /* WeatherPickerView.swift */; };
-/* End PBXBuildFile section */
+		A1B2C3D4E5F6A7B8C9D0E1F7 /* WatchlistItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E1F6 /* WatchlistItem.swift */; };
+		A1B2C3D4E5F6A7B8C9D0E1F8 /* WatchlistItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E1F6 /* WatchlistItem.swift */; };
+	/* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		F89D996917F45628AA8E2B4A /* PBXContainerItemProxy */ = {
@@ -151,7 +153,8 @@
 		E782A4F1408237C7200B928B /* TyporaEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TyporaEditorView.swift; sourceTree = "<group>"; };
 		E8559BB6A21E67F7671FE621 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F859F6CCEBD6D72C09BCE32C /* MemoViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoViews.swift; sourceTree = "<group>"; };
-/* End PBXFileReference section */
+		A1B2C3D4E5F6A7B8C9D0E1F6 /* WatchlistItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistItem.swift; sourceTree = "<group>"; };
+	/* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		D0C198E50B9257D9B1B7B961 /* Frameworks */ = {
@@ -279,6 +282,7 @@
 				0DCCE71E15E16BD3BA3059BB /* MemoEntry.swift */,
 				6DA16920A84F1E36D87E57E4 /* TodoItem.swift */,
 				2CAFAE9CA91D44083FC0B604 /* TradeEntry.swift */,
+				A1B2C3D4E5F6A7B8C9D0E1F6 /* WatchlistItem.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -425,6 +429,7 @@
 			files = (
 				C949B92A3498E05583359B9D /* CalendarHeatmapView.swift in Sources */,
 				CEC9607409E93F656D6F9C35 /* ContentView.swift in Sources */,
+				A1B2C3D4E5F6A7B8C9D0E1F7 /* WatchlistItem.swift in Sources */,
 				44A81D6D103AA60B11BCCF6D /* DataExportView.swift in Sources */,
 				5796D02C9C1EECCC122E7DB8 /* DateFormatters.swift in Sources */,
 				9E51D45B4E10467CAA78ED8B /* DayDetailView.swift in Sources */,
@@ -472,6 +477,7 @@
 			files = (
 				04BDB82FCC8B61A138B470CD /* CalendarHeatmapView.swift in Sources */,
 				37C4EB9250FBCF1A4D1128C6 /* ContentView.swift in Sources */,
+				A1B2C3D4E5F6A7B8C9D0E1F8 /* WatchlistItem.swift in Sources */,
 				A0EAB628F2608F8AADC09993 /* DataExportView.swift in Sources */,
 				475F136A6F1F2A333A0CB693 /* DateFormatters.swift in Sources */,
 				B7A5B850D9FC52736145C260 /* DayDetailView.swift in Sources */,
