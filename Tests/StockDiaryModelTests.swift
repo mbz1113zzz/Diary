@@ -315,6 +315,22 @@ final class StockDiaryModelTests: XCTestCase {
         XCTAssertLessThan(rect0.width, 1.0, "Hidden marker glyphs should take no visual space")
     }
 
+    func testActiveRangeExpandsToCodeBlock() {
+        let text = "# Title\n```swift\nlet x = 1\n```\nEnd"
+        let nsText = text as NSString
+        let cursorPos = nsText.range(of: "let").location
+
+        let range = computeActiveLineRangeExpandingCodeBlocks(cursorLocation: cursorPos, in: text)
+
+        let expectedStart = nsText.range(of: "```swift").location
+        let expectedEnd = nsText.range(of: "```\n", options: [], range: NSRange(location: expectedStart + 1, length: nsText.length - expectedStart - 1))
+        let fenceEndLoc = expectedEnd.location + expectedEnd.length
+
+        XCTAssertNotNil(range)
+        XCTAssertEqual(range!.location, expectedStart)
+        XCTAssertEqual(range!.location + range!.length, fenceEndLoc)
+    }
+
     func testHiddenMarkerLayoutManagerShowsMarkersOnActiveLine() {
         let storage = NSTextStorage(string: "## Hello")
         let layoutManager = HiddenMarkerLayoutManager()

@@ -614,10 +614,48 @@ enum MarkdownHighlighter {
 // MARK: - Active Line Helper
 
 private func computeActiveLineRange(cursorLocation: Int, in text: String) -> NSRange? {
+    computeActiveLineRangeExpandingCodeBlocks(cursorLocation: cursorLocation, in: text)
+}
+
+func computeActiveLineRangeExpandingCodeBlocks(cursorLocation: Int, in text: String) -> NSRange? {
     let nsText = text as NSString
     guard nsText.length > 0 else { return nil }
     let safeLoc = min(max(cursorLocation, 0), nsText.length)
-    return nsText.paragraphRange(for: NSRange(location: safeLoc, length: 0))
+    let paragraphRange = nsText.paragraphRange(for: NSRange(location: safeLoc, length: 0))
+
+    guard let fenceRegex = try? NSRegularExpression(pattern: "^```[^`\\n]*$", options: .anchorsMatchLines) else {
+        return paragraphRange
+    }
+
+    let fullRange = NSRange(location: 0, length: nsText.length)
+    let fenceMatches = fenceRegex.matches(in: text, range: fullRange)
+
+    var i = 0
+    while i + 1 < fenceMatches.count {
+        let openFence = fenceMatches[i]
+        let closeFence = fenceMatches[i + 1]
+
+        let blockStart = openFence.range.location
+        let blockEnd = closeFence.range.location + closeFence.range.length
+
+        let expandedEnd: Int
+        if blockEnd < nsText.length {
+            let charAfter = nsText.character(at: blockEnd)
+            expandedEnd = (charAfter == 10) ? blockEnd + 1 : blockEnd
+        } else {
+            expandedEnd = blockEnd
+        }
+
+        let blockRange = NSRange(location: blockStart, length: expandedEnd - blockStart)
+
+        if NSLocationInRange(safeLoc, blockRange) || NSIntersectionRange(paragraphRange, blockRange).length > 0 {
+            return blockRange
+        }
+
+        i += 2
+    }
+
+    return paragraphRange
 }
 
 // MARK: - macOS Editor
