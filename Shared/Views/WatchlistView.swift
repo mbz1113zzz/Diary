@@ -106,7 +106,10 @@ struct WatchlistView: View {
         }
 
         do {
-            let result = try await service.fetchMarketSnapshots(tickers: tickers)
+            let host = UserDefaults.standard.string(forKey: "ibkrGatewayHost") ?? "localhost"
+            let port = UserDefaults.standard.integer(forKey: "ibkrGatewayPort")
+            let effectivePort = port > 0 ? port : 5000
+            let result = try await service.fetchMarketSnapshots(tickers: tickers, host: host, port: effectivePort)
             var dict = [String: MarketSnapshot]()
             for snapshot in result {
                 dict[snapshot.ticker] = snapshot

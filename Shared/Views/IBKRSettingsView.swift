@@ -6,6 +6,8 @@ struct IBKRSettingsView: View {
     @State private var flexToken: String = KeychainHelper.read(key: "ibkrFlexToken") ?? ""
     @AppStorage("ibkrFlexQueryId") private var flexQueryId = ""
     @AppStorage("ibkrAutoSync") private var autoSync = true
+    @AppStorage("ibkrGatewayHost") private var gatewayHost = "localhost"
+    @AppStorage("ibkrGatewayPort") private var gatewayPort = 5000
 
     var body: some View {
         Section("IBKR 交易同步") {
@@ -40,7 +42,29 @@ struct IBKRSettingsView: View {
 
             // Auto sync toggle
             Toggle("启动时自动同步", isOn: $autoSync)
+        }
 
+        Section("行情数据") {
+            HStack {
+                Text("Gateway Host")
+                Spacer()
+                TextField("localhost", text: $gatewayHost)
+                    .multilineTextAlignment(.trailing)
+                    .frame(maxWidth: 160)
+            }
+            HStack {
+                Text("Gateway Port")
+                Spacer()
+                TextField("5000", value: $gatewayPort, format: .number)
+                    .multilineTextAlignment(.trailing)
+                    .frame(maxWidth: 100)
+            }
+            Text("需要 IBKR Client Portal Gateway 运行中才能获取实时行情。")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+
+        Section {
             // Help link
             Button("如何获取 Token 和 Query ID？") {
                 let url = URL(string: "https://www.interactivebrokers.com/en/software/am3/am/reports/activityflexqueries.htm")!
