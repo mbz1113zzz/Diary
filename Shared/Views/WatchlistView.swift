@@ -44,6 +44,7 @@ struct WatchlistView: View {
                                 for index in indexSet {
                                     modelContext.delete(items(for: tag)[index])
                                 }
+                                try? modelContext.save()
                             }
                         }
                     }
@@ -218,6 +219,7 @@ struct AddWatchlistSheetView: View {
                             sortOrder: items.count
                         )
                         modelContext.insert(item)
+                        try? modelContext.save()
                         dismiss()
                     }
                     .disabled(ticker.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
