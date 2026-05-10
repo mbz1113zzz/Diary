@@ -6,7 +6,7 @@ struct IBKRSettingsView: View {
     @State private var flexToken: String = KeychainHelper.read(key: "ibkrFlexToken") ?? ""
     @AppStorage("ibkrFlexQueryId") private var flexQueryId = ""
     @AppStorage("ibkrAutoSync") private var autoSync = true
-    @AppStorage("ibkrTWSHost") private var twsHost = "localhost"
+    @AppStorage("ibkrTWSHost") private var twsHost = "127.0.0.1"
     @AppStorage("ibkrTWSPort") private var twsPort = 7496
 
     var body: some View {
@@ -48,7 +48,7 @@ struct IBKRSettingsView: View {
             HStack {
                 Text("TWS Host")
                 Spacer()
-                TextField("localhost", text: $twsHost)
+                TextField("127.0.0.1", text: $twsHost)
                     .multilineTextAlignment(.trailing)
                     .frame(maxWidth: 160)
             }
