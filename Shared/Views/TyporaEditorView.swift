@@ -88,12 +88,14 @@ enum MarkdownHighlighter {
     /// - `activeLineRange`: the paragraph where the cursor is — shows raw markdown markers dimmed.
     ///   All other lines hide markers for a Typora-like rendered look.
     ///   Pass `nil` to render all lines in preview mode (markers hidden).
-    static func highlight(_ storage: NSMutableAttributedString, activeLineRange: NSRange? = nil) {
+    @discardableResult
+    static func highlight(_ storage: NSMutableAttributedString, activeLineRange: NSRange? = nil) -> Set<Int> {
         let length = storage.length
-        guard length > 0 else { return }
+        guard length > 0 else { return [] }
 
         let fullRange = NSRange(location: 0, length: length)
         let text = storage.string
+        var markerIndexes = Set<Int>()
 
         // Reset to body style
         storage.setAttributes(bodyAttributes, range: fullRange)
@@ -106,6 +108,7 @@ enum MarkdownHighlighter {
 
         // Hide a marker: invisible + near-zero size so it takes no visual space
         func hideMarker(_ range: NSRange) {
+            collectMarkers(range)
             guard range.location != NSNotFound, range.length > 0 else { return }
             storage.addAttributes([
                 .foregroundColor: hiddenColor,
@@ -120,6 +123,7 @@ enum MarkdownHighlighter {
         }
 
         func drawBulletMarker(_ range: NSRange) {
+            collectMarkers(range)
             guard range.location != NSNotFound, range.length > 0 else { return }
             storage.addAttributes([
                 .attachment: bulletAttachment(),
@@ -127,8 +131,16 @@ enum MarkdownHighlighter {
             ], range: range)
         }
 
+        func collectMarkers(_ range: NSRange) {
+            guard range.location != NSNotFound, range.length > 0 else { return }
+            for i in range.location..<(range.location + range.length) {
+                markerIndexes.insert(i)
+            }
+        }
+
         // Style a marker: hide it on non-active lines, dim it on the active line
         func styleMarker(_ range: NSRange, forMatch matchRange: NSRange) {
+            collectMarkers(range)
             if isActive(matchRange) {
                 dimMarker(range)
             } else {
@@ -296,6 +308,11 @@ enum MarkdownHighlighter {
             codeBlockRanges.append(m.range)
             storage.addAttributes([.font: codeFont, .backgroundColor: codeBgColor], range: m.range)
             if isActive(m.range) {
+                collectMarkers(m.range(at: 1))
+                if let languageRange = optionalRange(m.range(at: 2)) {
+                    collectMarkers(languageRange)
+                }
+                collectMarkers(m.range(at: 4))
                 dimMarker(m.range(at: 1))
                 dimMarker(m.range(at: 4))
             } else {
@@ -332,6 +349,8 @@ enum MarkdownHighlighter {
             if isActive(m.range) {
                 // Active line: show everything in heading font, dim markers
                 storage.addAttributes([.font: font, .paragraphStyle: style], range: m.range)
+                collectMarkers(hashRange)
+                collectMarkers(spaceRange)
                 dimMarker(hashRange)
             } else {
                 // Non-active: hide markers, heading font only on content
@@ -361,6 +380,8 @@ enum MarkdownHighlighter {
             ], range: m.range)
 
             if isActive(m.range) {
+                collectMarkers(markerRange)
+                if spaceRange.length > 0 { collectMarkers(spaceRange) }
                 dimMarker(markerRange)
             } else {
                 hideMarker(markerRange)
@@ -388,6 +409,7 @@ enum MarkdownHighlighter {
             let isChecked = (text as NSString).substring(with: m.range(at: 4)).lowercased() == "x"
 
             if isActive(m.range) {
+                collectMarkers(markerRange)
                 dimMarker(markerRange)
             } else {
                 hideMarker(markerRange)
@@ -503,6 +525,8 @@ enum MarkdownHighlighter {
             storage.addAttributes([.font: codeFont, .backgroundColor: codeBgColor], range: m.range(at: 2))
             if isActive(m.range) {
                 // Active: show backticks dimmed, with code background
+                collectMarkers(m.range(at: 1))
+                collectMarkers(m.range(at: 3))
                 storage.addAttributes([.font: codeFont, .backgroundColor: codeBgColor], range: m.range(at: 1))
                 storage.addAttributes([.font: codeFont, .backgroundColor: codeBgColor], range: m.range(at: 3))
                 dimMarker(m.range(at: 1))
@@ -527,6 +551,10 @@ enum MarkdownHighlighter {
                 // Active: dim brackets and URL
                 for i in [1, 3, 4, 5, 6] {
                     let r = m.range(at: i)
+                    if r.location != NSNotFound { collectMarkers(r) }
+                }
+                for i in [1, 3, 4, 5, 6] {
+                    let r = m.range(at: i)
                     if r.location != NSNotFound { dimMarker(r) }
                 }
             } else {
@@ -541,6 +569,11 @@ enum MarkdownHighlighter {
         // --- Images ![alt](url) ---
         applyRegex("(!)\\[(.+?)\\]\\((.+?)\\)", in: text, to: storage) { m in
             guard !inCodeBlock(m.range) else { return }
+            collectMarkers(NSRange(location: m.range.location, length: 1))  // !
+            collectMarkers(NSRange(location: m.range.location + 1, length: 1))  // [
+            let afterAlt = m.range(at: 2).location + m.range(at: 2).length
+            let tailLen = m.range.location + m.range.length - afterAlt
+            if tailLen > 0 { collectMarkers(NSRange(location: afterAlt, length: tailLen)) }
             if isActive(m.range) {
                 storage.addAttribute(.foregroundColor, value: dimColor, range: m.range)
                 storage.addAttribute(.foregroundColor, value: linkTextColor, range: m.range(at: 2))
@@ -550,13 +583,14 @@ enum MarkdownHighlighter {
                 hideMarker(NSRange(location: m.range.location, length: 1)) // !
                 let bracketOpen = NSRange(location: m.range.location + 1, length: 1) // [
                 hideMarker(bracketOpen)
-                let afterAlt = m.range(at: 2).location + m.range(at: 2).length
-                let tailLength = m.range.location + m.range.length - afterAlt
+                let afterAlt2 = m.range(at: 2).location + m.range(at: 2).length
+                let tailLength = m.range.location + m.range.length - afterAlt2
                 if tailLength > 0 {
-                    hideMarker(NSRange(location: afterAlt, length: tailLength)) // ](url)
+                    hideMarker(NSRange(location: afterAlt2, length: tailLength)) // ](url)
                 }
             }
         }
+        return markerIndexes
     }
 
     // MARK: - Helpers

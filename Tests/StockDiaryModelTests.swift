@@ -210,4 +210,91 @@ final class StockDiaryModelTests: XCTestCase {
         XCTAssertNotNil(storage.attribute(.attachment, at: 0, effectiveRange: nil) as? NSTextAttachment)
     }
     #endif
+
+    #if os(macOS)
+    func testMarkerIndexesForHeading() {
+        let storage = NSMutableAttributedString(string: "## Hello")
+        let indexes = MarkdownHighlighter.highlight(storage, activeLineRange: nil)
+
+        // "## " = characters 0, 1, 2 should be markers
+        XCTAssertTrue(indexes.contains(0))
+        XCTAssertTrue(indexes.contains(1))
+        XCTAssertTrue(indexes.contains(2))
+        // "Hello" characters should NOT be markers
+        XCTAssertFalse(indexes.contains(3))
+        XCTAssertFalse(indexes.contains(4))
+    }
+    #endif
+
+    #if os(macOS)
+    func testMarkerIndexesForBoldAndItalic() {
+        let text = "**bold** and *italic*"
+        let storage = NSMutableAttributedString(string: text)
+        let indexes = MarkdownHighlighter.highlight(storage, activeLineRange: nil)
+
+        XCTAssertTrue(indexes.contains(0))
+        XCTAssertTrue(indexes.contains(1))
+        XCTAssertTrue(indexes.contains(6))
+        XCTAssertTrue(indexes.contains(7))
+        XCTAssertTrue(indexes.contains(13))
+        XCTAssertTrue(indexes.contains(20))
+        XCTAssertFalse(indexes.contains(2))
+        XCTAssertFalse(indexes.contains(14))
+    }
+
+    func testMarkerIndexesForInlineCode() {
+        let text = "use `code` here"
+        let storage = NSMutableAttributedString(string: text)
+        let indexes = MarkdownHighlighter.highlight(storage, activeLineRange: nil)
+
+        XCTAssertTrue(indexes.contains(4))
+        XCTAssertTrue(indexes.contains(9))
+        XCTAssertFalse(indexes.contains(5))
+    }
+
+    func testMarkerIndexesForLink() {
+        let text = "[click](https://example.com)"
+        let storage = NSMutableAttributedString(string: text)
+        let indexes = MarkdownHighlighter.highlight(storage, activeLineRange: nil)
+
+        XCTAssertTrue(indexes.contains(0))
+        XCTAssertTrue(indexes.contains(6))
+        XCTAssertTrue(indexes.contains(7))
+        XCTAssertTrue(indexes.contains(27))
+        XCTAssertFalse(indexes.contains(1))
+        XCTAssertFalse(indexes.contains(5))
+    }
+
+    func testMarkerIndexesForStrikethrough() {
+        let text = "~~deleted~~"
+        let storage = NSMutableAttributedString(string: text)
+        let indexes = MarkdownHighlighter.highlight(storage, activeLineRange: nil)
+
+        XCTAssertTrue(indexes.contains(0))
+        XCTAssertTrue(indexes.contains(1))
+        XCTAssertTrue(indexes.contains(9))
+        XCTAssertTrue(indexes.contains(10))
+        XCTAssertFalse(indexes.contains(2))
+    }
+
+    func testMarkerIndexesForUnorderedList() {
+        let text = "- item"
+        let storage = NSMutableAttributedString(string: text)
+        let indexes = MarkdownHighlighter.highlight(storage, activeLineRange: nil)
+
+        XCTAssertTrue(indexes.contains(0))
+        XCTAssertFalse(indexes.contains(2))
+    }
+
+    func testActiveLineExcludesMarkersFromHiding() {
+        let text = "## Hello"
+        let storage = NSMutableAttributedString(string: text)
+        let activeRange = NSRange(location: 0, length: (text as NSString).length)
+        let indexes = MarkdownHighlighter.highlight(storage, activeLineRange: activeRange)
+
+        XCTAssertTrue(indexes.contains(0))
+        XCTAssertTrue(indexes.contains(1))
+        XCTAssertTrue(indexes.contains(2))
+    }
+    #endif
 }
