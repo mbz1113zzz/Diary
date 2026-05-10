@@ -760,6 +760,7 @@ struct TyporaEditorView: NSViewRepresentable {
         weak var commands: MarkdownEditorCommands?
         var isUpdating = false
         var hasFocus = false
+        private var pendingHighlight: DispatchWorkItem?
 
         init(text: Binding<String>) { _text = text }
 
@@ -771,6 +772,7 @@ struct TyporaEditorView: NSViewRepresentable {
         // Pressing Return moves the cursor to a new paragraph, so the previous paragraph
         // naturally falls back to preview styling.
         func rehighlight(_ textView: NSTextView) {
+            pendingHighlight?.cancel()
             guard let storage = textView.textStorage else { return }
             let activeRange: NSRange? = hasFocus
                 ? computeActiveLineRange(cursorLocation: textView.selectedRange().location, in: textView.string)
@@ -795,7 +797,15 @@ struct TyporaEditorView: NSViewRepresentable {
             guard !isUpdating else { return }
             isUpdating = true
             text = textView.string
-            rehighlight(textView)
+            pendingHighlight?.cancel()
+            let work = DispatchWorkItem { [weak self] in
+                guard let self, let tv = self.textView else { return }
+                self.isUpdating = true
+                self.rehighlight(tv)
+                self.isUpdating = false
+            }
+            pendingHighlight = work
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: work)
             isUpdating = false
         }
 
@@ -968,6 +978,7 @@ struct TyporaEditorView: UIViewRepresentable {
         weak var commands: MarkdownEditorCommands?
         var isUpdating = false
         var hasFocus = false
+        private var pendingHighlight: DispatchWorkItem?
 
         init(text: Binding<String>) { _text = text }
 
@@ -976,6 +987,7 @@ struct TyporaEditorView: UIViewRepresentable {
         }
 
         func rehighlight(_ textView: UITextView) {
+            pendingHighlight?.cancel()
             let storage = textView.textStorage
             let activeRange: NSRange? = hasFocus
                 ? computeActiveLineRange(cursorLocation: textView.selectedRange.location, in: textView.text)
@@ -991,7 +1003,15 @@ struct TyporaEditorView: UIViewRepresentable {
             guard !isUpdating else { return }
             isUpdating = true
             text = textView.text
-            rehighlight(textView)
+            pendingHighlight?.cancel()
+            let work = DispatchWorkItem { [weak self] in
+                guard let self, let tv = self.textView else { return }
+                self.isUpdating = true
+                self.rehighlight(tv)
+                self.isUpdating = false
+            }
+            pendingHighlight = work
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: work)
             isUpdating = false
         }
 

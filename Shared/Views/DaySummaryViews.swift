@@ -67,10 +67,10 @@ struct HeatmapInsightDetailView: View {
                     .fontWeight(.semibold)
 
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 130), spacing: 12)], spacing: 12) {
-                    SummaryMetricTile(title: "当日交易", value: "\(selectedSummary?.tradeCount ?? 0)", icon: "chart.line.uptrend.xyaxis", color: .accentColor)
-                    SummaryMetricTile(title: "当日盈亏", value: money(selectedSummary?.pnlTotal ?? 0), icon: "dollarsign.circle", color: pnlColor(selectedSummary?.pnlTotal ?? 0))
-                    SummaryMetricTile(title: "本月活跃日", value: "\(activeDays)", icon: "calendar", color: .blue)
-                    SummaryMetricTile(title: "本月交易日", value: "\(tradeDays.count)", icon: "target", color: .purple)
+                    MetricCard(title: "当日交易", value: "\(selectedSummary?.tradeCount ?? 0)", icon: "chart.line.uptrend.xyaxis", color: .accentColor, valueFont: .headline)
+                    MetricCard(title: "当日盈亏", value: MoneyFormatters.hkdSigned(selectedSummary?.pnlTotal ?? 0), icon: "dollarsign.circle", color: Color.pnl(selectedSummary?.pnlTotal ?? 0), valueFont: .headline)
+                    MetricCard(title: "本月活跃日", value: "\(activeDays)", icon: "calendar", color: .blue, valueFont: .headline)
+                    MetricCard(title: "本月交易日", value: "\(tradeDays.count)", icon: "target", color: .purple, valueFont: .headline)
                 }
 
                 PnLRangeView(bestDay: bestDay, worstDay: worstDay)
@@ -98,15 +98,6 @@ struct HeatmapInsightDetailView: View {
         .navigationTitle("热力分析")
     }
 
-    private func money(_ value: Double) -> String {
-        MoneyFormatters.hkd(value, signed: true)
-    }
-
-    private func pnlColor(_ value: Double) -> Color {
-        if value > 0 { return .green }
-        if value < 0 { return .red }
-        return .secondary
-    }
 }
 
 struct TradeDaySummaryView: View {
@@ -139,8 +130,8 @@ struct TradeDaySummaryView: View {
                     .fontWeight(.semibold)
 
                 HStack(spacing: 12) {
-                    SummaryMetricTile(title: "交易笔数", value: "\(trades.count)", icon: "number.circle", color: .accentColor)
-                    SummaryMetricTile(title: "当日盈亏", value: money(pnlTotal), icon: "dollarsign.circle", color: pnlColor(pnlTotal))
+                    MetricCard(title: "交易笔数", value: "\(trades.count)", icon: "number.circle", color: .accentColor, valueFont: .headline)
+                    MetricCard(title: "当日盈亏", value: MoneyFormatters.hkdSigned(pnlTotal), icon: "dollarsign.circle", color: Color.pnl(pnlTotal), valueFont: .headline)
                 }
 
                 if trades.isEmpty {
@@ -158,15 +149,6 @@ struct TradeDaySummaryView: View {
         .navigationTitle("交易摘要")
     }
 
-    private func money(_ value: Double) -> String {
-        MoneyFormatters.hkd(value, signed: true)
-    }
-
-    private func pnlColor(_ value: Double) -> Color {
-        if value > 0 { return .green }
-        if value < 0 { return .red }
-        return .secondary
-    }
 }
 
 struct TodoDayDetailView: View {
@@ -210,25 +192,11 @@ struct TodoDayDetailView: View {
     }
 
     private func loadOrCreateDiary() {
-        let dayStart = Calendar.current.startOfDay(for: date)
-        let dayEnd = Calendar.current.date(byAdding: .day, value: 1, to: dayStart) ?? dayStart
-        let predicate = #Predicate<DiaryEntry> { entry in
-            entry.date >= dayStart && entry.date < dayEnd
-        }
-        let descriptor = FetchDescriptor<DiaryEntry>(predicate: predicate)
-        if let existing = try? modelContext.fetch(descriptor).first {
-            diaryEntry = existing
-        } else {
-            let newEntry = DiaryEntry(date: dayStart)
-            modelContext.insert(newEntry)
-            diaryEntry = newEntry
-        }
+        diaryEntry = DiaryViewModel.findOrCreateDiaryEntry(for: date, in: modelContext)
     }
 
     private func cleanupEmptyDiary() {
-        guard let diaryEntry, diaryEntry.isEmpty else { return }
-        modelContext.delete(diaryEntry)
-        self.diaryEntry = nil
+        diaryEntry = DiaryViewModel.cleanupEmptyDiaryIfNeeded(diaryEntry, in: modelContext)
     }
 }
 
@@ -242,31 +210,6 @@ struct SearchDetailPlaceholderView: View {
             description: Text("选择左侧结果后会切换到对应日期")
         )
         .navigationTitle(DateFormatters.dayDisplay.string(from: date))
-    }
-}
-
-private struct SummaryMetricTile: View {
-    let title: String
-    let value: String
-    let icon: String
-    let color: Color
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Image(systemName: icon)
-                .foregroundStyle(color)
-            Text(value)
-                .font(.headline)
-                .foregroundStyle(color)
-                .monospacedDigit()
-            Text(title)
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .padding()
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.systemBackground)
-        .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 }
 
@@ -295,7 +238,7 @@ private struct RangeCard: View {
             if let summary {
                 Text(DateFormatters.shortDate.string(from: summary.date))
                     .font(.headline)
-                Text(money(summary.pnlTotal))
+                Text(MoneyFormatters.hkdSigned(summary.pnlTotal))
                     .font(.subheadline)
                     .foregroundStyle(color)
                     .monospacedDigit()
@@ -310,22 +253,13 @@ private struct RangeCard: View {
         .background(Color.systemBackground)
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
-
-    private func money(_ value: Double) -> String {
-        MoneyFormatters.hkd(value, signed: true)
-    }
 }
 
 private struct DailyPnLBar: View {
     let summary: DailyRecordSummary
 
-    private var color: Color {
-        if summary.pnlTotal > 0 { return .green }
-        if summary.pnlTotal < 0 { return .red }
-        return .secondary
-    }
-
     var body: some View {
+        let color = Color.pnl(summary.pnlTotal)
         HStack(spacing: 10) {
             Text(DateFormatters.shortDate.string(from: summary.date))
                 .font(.caption)
@@ -336,15 +270,11 @@ private struct DailyPnLBar: View {
                     .frame(width: max(proxy.size.width * min(abs(summary.pnlTotal) / 500, 1), 4))
             }
             .frame(height: 8)
-            Text(money(summary.pnlTotal))
+            Text(MoneyFormatters.hkdSigned(summary.pnlTotal))
                 .font(.caption)
                 .foregroundStyle(color)
                 .monospacedDigit()
                 .frame(width: 74, alignment: .trailing)
         }
-    }
-
-    private func money(_ value: Double) -> String {
-        MoneyFormatters.hkd(value, signed: true)
     }
 }

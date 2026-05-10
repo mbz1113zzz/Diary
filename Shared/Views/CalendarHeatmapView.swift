@@ -123,7 +123,7 @@ struct CalendarHeatmapView: View {
                 VStack(spacing: 12) {
                     HeatmapOverviewPill(title: "活跃日", value: "\(activeDays)", color: .blue, icon: "calendar")
                     HeatmapOverviewPill(title: "交易数", value: "\(monthlyTradeCount)", color: .accentColor, icon: "number.circle")
-                    HeatmapOverviewPill(title: "月盈亏", value: signedMoney(monthlyPnl), color: pnlColor(monthlyPnl), icon: "dollarsign.circle")
+                    HeatmapOverviewPill(title: "月盈亏", value: MoneyFormatters.hkdSigned(monthlyPnl), color: Color.pnl(monthlyPnl), icon: "dollarsign.circle")
                 }
                 .frame(width: 180)
 
@@ -193,9 +193,9 @@ struct CalendarHeatmapView: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
-                Text("当日盈亏 \(signedMoney(selectedSummary.pnlTotal))")
+                Text("当日盈亏 \(MoneyFormatters.hkdSigned(selectedSummary.pnlTotal))")
                     .font(.subheadline)
-                    .foregroundStyle(pnlColor(selectedSummary.pnlTotal))
+                    .foregroundStyle(Color.pnl(selectedSummary.pnlTotal))
                     .monospacedDigit()
             } else {
                 Text("这一天还没有记录")
@@ -208,16 +208,6 @@ struct CalendarHeatmapView: View {
 
     private func moveMonth(by value: Int) {
         visibleMonth = calendar.date(byAdding: .month, value: value, to: visibleMonth) ?? visibleMonth
-    }
-
-    private func signedMoney(_ value: Double) -> String {
-        MoneyFormatters.hkd(value, signed: true)
-    }
-
-    private func pnlColor(_ value: Double) -> Color {
-        if value > 0 { return .green }
-        if value < 0 { return .red }
-        return .secondary
     }
 }
 

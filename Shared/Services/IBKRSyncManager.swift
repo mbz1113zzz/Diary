@@ -18,7 +18,7 @@ final class IBKRSyncManager {
     var isSyncing = false
     var lastSyncResult: SyncResult?
     var isConfigured: Bool {
-        let token = UserDefaults.standard.string(forKey: "ibkrFlexToken") ?? ""
+        let token = KeychainHelper.read(key: "ibkrFlexToken") ?? ""
         let queryId = UserDefaults.standard.string(forKey: "ibkrFlexQueryId") ?? ""
         return !token.isEmpty && !queryId.isEmpty
     }
@@ -34,7 +34,7 @@ final class IBKRSyncManager {
     // MARK: - Sync
 
     func manualSync(context: ModelContext) async {
-        let token = UserDefaults.standard.string(forKey: "ibkrFlexToken") ?? ""
+        let token = KeychainHelper.read(key: "ibkrFlexToken") ?? ""
         let queryId = UserDefaults.standard.string(forKey: "ibkrFlexQueryId") ?? ""
 
         guard !token.isEmpty, !queryId.isEmpty else {

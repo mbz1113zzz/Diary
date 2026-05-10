@@ -3,7 +3,7 @@ import SwiftUI
 struct IBKRSettingsView: View {
     var syncManager: IBKRSyncManager
     @Environment(\.modelContext) private var modelContext
-    @AppStorage("ibkrFlexToken") private var flexToken = ""
+    @State private var flexToken: String = KeychainHelper.read(key: "ibkrFlexToken") ?? ""
     @AppStorage("ibkrFlexQueryId") private var flexQueryId = ""
     @AppStorage("ibkrAutoSync") private var autoSync = true
 
@@ -18,11 +18,18 @@ struct IBKRSettingsView: View {
                     .font(.subheadline)
             }
 
-            // Token input
+            // Token input (stored in Keychain)
             SecureField("Flex Token", text: $flexToken)
                 #if os(iOS)
                 .textInputAutocapitalization(.never)
                 #endif
+                .onChange(of: flexToken) { _, newValue in
+                    if newValue.isEmpty {
+                        KeychainHelper.delete(key: "ibkrFlexToken")
+                    } else {
+                        KeychainHelper.save(key: "ibkrFlexToken", value: newValue)
+                    }
+                }
 
             // Query ID input
             TextField("Flex Query ID", text: $flexQueryId)

@@ -105,25 +105,11 @@ struct DayDetailView: View {
     }
 
     private func loadOrCreateDiary() {
-        let dayStart = Calendar.current.startOfDay(for: date)
-        let dayEnd = Calendar.current.date(byAdding: .day, value: 1, to: dayStart)!
-        let predicate = #Predicate<DiaryEntry> { entry in
-            entry.date >= dayStart && entry.date < dayEnd
-        }
-        let descriptor = FetchDescriptor<DiaryEntry>(predicate: predicate)
-        if let existing = try? modelContext.fetch(descriptor).first {
-            diaryEntry = existing
-        } else {
-            let newEntry = DiaryEntry(date: dayStart)
-            modelContext.insert(newEntry)
-            diaryEntry = newEntry
-        }
+        diaryEntry = DiaryViewModel.findOrCreateDiaryEntry(for: date, in: modelContext)
     }
 
     private func cleanupEmptyDiary() {
-        guard let diaryEntry, diaryEntry.isEmpty else { return }
-        modelContext.delete(diaryEntry)
-        self.diaryEntry = nil
+        diaryEntry = DiaryViewModel.cleanupEmptyDiaryIfNeeded(diaryEntry, in: modelContext)
     }
 
     private func cleanupEmptySelectedTrade() {

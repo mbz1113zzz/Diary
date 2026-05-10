@@ -3,13 +3,6 @@ import SwiftUI
 struct TradeCardView: View {
     let trade: TradeEntry
 
-    private var pnlColor: Color {
-        guard let pnl = trade.pnl else { return .secondary }
-        if pnl > 0 { return .green }
-        if pnl < 0 { return .red }
-        return .secondary
-    }
-
     private var pnlText: String {
         guard let pnl = trade.pnl else { return "" }
         let pctSign = pnl >= 0 ? "+" : ""
@@ -90,7 +83,7 @@ struct TradeCardView: View {
                         Text(pnlText)
                             .font(.subheadline)
                             .fontWeight(.medium)
-                            .foregroundStyle(pnlColor)
+                            .foregroundStyle(Color.pnl(trade.pnl ?? 0))
                     }
                 }
 
@@ -146,7 +139,7 @@ struct TradeCardView: View {
             .padding()
         }
         .background(Color.systemBackground)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
         .shadow(color: .black.opacity(0.06), radius: 4, x: 0, y: 2)
     }
 }

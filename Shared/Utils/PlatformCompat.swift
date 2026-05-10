@@ -15,3 +15,11 @@ extension Color {
     static let secondarySystemBackground = Color(UIColor.secondarySystemBackground)
 }
 #endif
+
+extension Color {
+    static func pnl(_ value: Double) -> Color {
+        if value > 0 { return .green }
+        if value < 0 { return .red }
+        return .secondary
+    }
+}

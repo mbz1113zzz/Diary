@@ -52,24 +52,32 @@ struct StatsCurrencyNotice: View {
     }
 }
 
-struct StatMetricCard: View {
+struct MetricCard: View {
     let title: String
     let value: String
-    let color: Color
     let icon: String
+    let color: Color
+    var headerStyle: Bool = false
+    var valueFont: Font = .title2
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack {
+        VStack(alignment: .leading, spacing: 8) {
+            if headerStyle {
+                HStack {
+                    Image(systemName: icon)
+                        .foregroundStyle(color)
+                    Spacer()
+                }
+            } else {
                 Image(systemName: icon)
                     .foregroundStyle(color)
-                Spacer()
             }
             Text(value)
-                .font(.title2)
+                .font(valueFont)
                 .fontWeight(.semibold)
                 .foregroundStyle(color)
                 .monospacedDigit()
+                .lineLimit(1)
             Text(title)
                 .font(.caption)
                 .foregroundStyle(.secondary)
@@ -483,8 +491,8 @@ struct SymbolTradeListView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 HStack(spacing: 12) {
-                    StatSheetMetricTile(title: "交易笔数", value: "\(trades.count)", icon: "number.circle", color: .accentColor)
-                    StatSheetMetricTile(title: "周期盈亏", value: amountText(pnlTotal), icon: "dollarsign.circle", color: amountColor(pnlTotal))
+                    MetricCard(title: "交易笔数", value: "\(trades.count)", icon: "number.circle", color: .accentColor, valueFont: .headline)
+                    MetricCard(title: "周期盈亏", value: amountText(pnlTotal), icon: "dollarsign.circle", color: amountColor(pnlTotal), valueFont: .headline)
                 }
 
                 if trades.isEmpty {
@@ -676,31 +684,6 @@ private struct ChartPointCallout: View {
         }
         .padding(10)
         .background(Color.secondarySystemBackground.opacity(0.6))
-        .clipShape(RoundedRectangle(cornerRadius: 8))
-    }
-}
-
-private struct StatSheetMetricTile: View {
-    let title: String
-    let value: String
-    let icon: String
-    let color: Color
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Image(systemName: icon)
-                .foregroundStyle(color)
-            Text(value)
-                .font(.headline)
-                .foregroundStyle(color)
-                .monospacedDigit()
-            Text(title)
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .padding()
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.systemBackground)
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 }

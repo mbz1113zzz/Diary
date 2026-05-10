@@ -31,7 +31,7 @@ struct TodoCardView: View {
         }
         .padding()
         .background(Color.systemBackground)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
         .shadow(color: .black.opacity(0.06), radius: 4, x: 0, y: 2)
     }
 }

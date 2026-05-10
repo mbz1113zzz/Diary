@@ -81,8 +81,8 @@ struct StatisticsDashboardView: View {
                 SymbolTradeListView(
                     ticker: selection.ticker,
                     trades: symbolTrades(for: selection.ticker),
-                    amountText: signedMoney,
-                    amountColor: pnlColor
+                    amountText: MoneyFormatters.hkdSigned,
+                    amountColor: Color.pnl
                 )
             }
         }
@@ -100,10 +100,10 @@ struct StatisticsDashboardView: View {
 
     private var metricGrid: some View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 150), spacing: 12)], spacing: 12) {
-            StatMetricCard(title: "\(period.rawValue)盈亏", value: signedMoney(summary.pnlTotal), color: pnlColor(summary.pnlTotal), icon: "dollarsign.circle")
-            StatMetricCard(title: "胜率", value: percentage(summary.winRate), color: .green, icon: "target")
-            StatMetricCard(title: "平均盈亏比", value: signedPercentage(summary.averagePnlPercent / 100), color: pnlColor(summary.averagePnlPercent), icon: "percent")
-            StatMetricCard(title: "交易笔数", value: "\(summary.tradeCount)", color: .accentColor, icon: "number.circle")
+            MetricCard(title: "\(period.rawValue)盈亏", value: MoneyFormatters.hkdSigned(summary.pnlTotal), icon: "dollarsign.circle", color: Color.pnl(summary.pnlTotal), headerStyle: true)
+            MetricCard(title: "胜率", value: MoneyFormatters.percentage(summary.winRate), icon: "target", color: .green, headerStyle: true)
+            MetricCard(title: "平均盈亏比", value: MoneyFormatters.signedPercentage(summary.averagePnlPercent / 100), icon: "percent", color: Color.pnl(summary.averagePnlPercent), headerStyle: true)
+            MetricCard(title: "交易笔数", value: "\(summary.tradeCount)", icon: "number.circle", color: .accentColor, headerStyle: true)
         }
         .padding(.horizontal)
     }
@@ -129,22 +129,22 @@ struct StatisticsDashboardView: View {
             PnLTrendChart(
                 points: dailyPoints,
                 selectedDate: $selectedChartDate,
-                amountText: signedMoney,
-                amountColor: pnlColor,
+                amountText: MoneyFormatters.hkdSigned,
+                amountColor: Color.pnl,
                 onOpenDay: openDay
             )
             DailyPnLBarChart(
                 points: dailyPoints,
                 selectedDate: $selectedChartDate,
-                amountText: signedMoney,
+                amountText: MoneyFormatters.hkdSigned,
                 onOpenDay: openDay
             )
-            WinRateChart(summary: summary, percentageText: percentage)
-            TradeQualityCard(summary: summary, amountText: signedMoney, amountColor: pnlColor)
+            WinRateChart(summary: summary, percentageText: MoneyFormatters.percentage)
+            TradeQualityCard(summary: summary, amountText: MoneyFormatters.hkdSigned, amountColor: Color.pnl)
             SymbolPnLRanking(
                 rows: symbolRows,
-                amountText: signedMoney,
-                amountColor: pnlColor,
+                amountText: MoneyFormatters.hkdSigned,
+                amountColor: Color.pnl,
                 onSelect: { openedSymbol = StatSymbolSelection(ticker: $0.ticker) }
             )
         }
@@ -157,17 +157,17 @@ struct StatisticsDashboardView: View {
                 title: "策略标签表现",
                 emptyText: "还没有策略标签",
                 rows: strategyRows,
-                amountText: signedMoney,
-                amountColor: pnlColor,
-                percentageText: percentage
+                amountText: MoneyFormatters.hkdSigned,
+                amountColor: Color.pnl,
+                percentageText: MoneyFormatters.percentage
             )
             TagPerformanceSection(
                 title: "错误标签表现",
                 emptyText: "还没有错误标签",
                 rows: mistakeRows,
-                amountText: signedMoney,
-                amountColor: pnlColor,
-                percentageText: percentage
+                amountText: MoneyFormatters.hkdSigned,
+                amountColor: Color.pnl,
+                percentageText: MoneyFormatters.percentage
             )
         }
         .padding(.horizontal)
@@ -182,25 +182,6 @@ struct StatisticsDashboardView: View {
         periodTrades.filter {
             $0.ticker.trimmingCharacters(in: .whitespacesAndNewlines).uppercased() == ticker
         }
-    }
-
-    private func signedMoney(_ value: Double) -> String {
-        MoneyFormatters.hkd(value, signed: true)
-    }
-
-    private func percentage(_ value: Double) -> String {
-        "\(String(format: "%.1f", value * 100))%"
-    }
-
-    private func signedPercentage(_ value: Double) -> String {
-        let sign = value > 0 ? "+" : ""
-        return "\(sign)\(String(format: "%.1f", value * 100))%"
-    }
-
-    private func pnlColor(_ value: Double) -> Color {
-        if value > 0 { return .green }
-        if value < 0 { return .red }
-        return .secondary
     }
 }
 

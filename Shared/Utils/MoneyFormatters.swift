@@ -72,6 +72,21 @@ enum MoneyFormatters {
         }
     }
 
+    // MARK: Shared formatting helpers
+
+    static func hkdSigned(_ value: Double) -> String {
+        hkd(value, signed: true)
+    }
+
+    static func percentage(_ value: Double) -> String {
+        "\(String(format: "%.1f", value * 100))%"
+    }
+
+    static func signedPercentage(_ value: Double) -> String {
+        let sign = value > 0 ? "+" : ""
+        return "\(sign)\(String(format: "%.1f", value * 100))%"
+    }
+
     static func normalizedCurrency(_ currency: String?) -> String {
         let code = currency?
             .trimmingCharacters(in: .whitespacesAndNewlines)

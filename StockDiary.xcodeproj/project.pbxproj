@@ -74,9 +74,11 @@
 		CEC9607409E93F656D6F9C35 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66344B4F3D3CD0C535ABFE0A /* ContentView.swift */; };
 		D59C9B66B21A9E1E106EC777 /* DiaryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6F32CCCB7DBBC067F25042 /* DiaryEntry.swift */; };
 		D6C64F9DE25AFA900B9916CA /* MoneyFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29482A91566D7E040E428829 /* MoneyFormatters.swift */; };
+		A1B2C3D4E5F6A7B8C9D0E1F2 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E1F0 /* KeychainHelper.swift */; };
 		E1A974AE49D08C0B58D9AA79 /* MarkdownEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9154A476F864FFDEAE102D60 /* MarkdownEditorView.swift */; };
 		E484C18C193CFF03BB6CC15B /* PetCompanionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E86338C64427AE70148A5 /* PetCompanionView.swift */; };
 		E6EB091CFE8841629E921C86 /* MoneyFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29482A91566D7E040E428829 /* MoneyFormatters.swift */; };
+		F1E2D3C4B5A6F7E8D9C0B1A2 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E1F0 /* KeychainHelper.swift */; };
 		E70038173505D99D7E1E4D95 /* iOSContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED010CA9F23D9B373738BA7 /* iOSContentView.swift */; };
 		E9C3CE6888DF728C0B11FC51 /* MemoViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = F859F6CCEBD6D72C09BCE32C /* MemoViews.swift */; };
 		EB092B766B4934947483166C /* IBKRPositionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FB66D87E5426214BE923B9 /* IBKRPositionsView.swift */; };
@@ -113,6 +115,7 @@
 		26B15E05CDF6D35A1173702B /* CalendarHeatmapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHeatmapView.swift; sourceTree = "<group>"; };
 		29482A91566D7E040E428829 /* MoneyFormatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyFormatters.swift; sourceTree = "<group>"; };
 		2A7336FE5A8A0AF730FB35B8 /* PlatformCompat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformCompat.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6A7B8C9D0E1F0 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		2B2F45D3A3690A3BB3A04E52 /* StockDiaryModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDiaryModelTests.swift; sourceTree = "<group>"; };
 		2B3862A168E19B02D842340F /* DayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayDetailView.swift; sourceTree = "<group>"; };
 		2C8E86338C64427AE70148A5 /* PetCompanionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCompanionView.swift; sourceTree = "<group>"; };
@@ -296,6 +299,7 @@
 				4FEF86D267C0975B036D6A87 /* DateFormatters.swift */,
 				E0166F61203AB9D474392DE9 /* MarkdownSyntax.swift */,
 				29482A91566D7E040E428829 /* MoneyFormatters.swift */,
+				A1B2C3D4E5F6A7B8C9D0E1F0 /* KeychainHelper.swift */,
 				2A7336FE5A8A0AF730FB35B8 /* PlatformCompat.swift */,
 				76434B3A9A00B0B37BCFD4EE /* TradeAnalytics.swift */,
 				B34DDACEFFA07F4D4502264E /* TradeExport.swift */,
@@ -442,6 +446,7 @@
 				1BD606000D8F764153A1EE05 /* MemoEntry.swift in Sources */,
 				E9C3CE6888DF728C0B11FC51 /* MemoViews.swift in Sources */,
 				D6C64F9DE25AFA900B9916CA /* MoneyFormatters.swift in Sources */,
+				A1B2C3D4E5F6A7B8C9D0E1F2 /* KeychainHelper.swift in Sources */,
 				9C95E3D6AF3C933A437701E0 /* MoodPickerView.swift in Sources */,
 				1CA1AFEC1F417B29CD80DAE4 /* PetCompanionView.swift in Sources */,
 				3E155F8C3360D0B44B88EE8A /* PlatformCompat.swift in Sources */,
@@ -487,6 +492,7 @@
 				BB824D4D481E8FC0625B256F /* MemoEntry.swift in Sources */,
 				99F2859D0D159C5F90C14687 /* MemoViews.swift in Sources */,
 				E6EB091CFE8841629E921C86 /* MoneyFormatters.swift in Sources */,
+				F1E2D3C4B5A6F7E8D9C0B1A2 /* KeychainHelper.swift in Sources */,
 				0428B640970CB0B79C733554 /* MoodPickerView.swift in Sources */,
 				E484C18C193CFF03BB6CC15B /* PetCompanionView.swift in Sources */,
 				9F5179396CBA2D3165D153BA /* PlatformCompat.swift in Sources */,

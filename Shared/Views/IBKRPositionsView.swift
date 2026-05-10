@@ -121,9 +121,9 @@ struct IBKRPositionsView: View {
 
     private var summaryGrid: some View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 150), spacing: 12)], spacing: 12) {
-            PositionMetricCard(title: "持仓数量", value: "\(positions.count)", color: .accentColor, icon: "number")
-            PositionMetricCard(title: "市值合计", value: money(totalMarketValue), color: pnlColor(totalMarketValue), icon: "dollarsign.circle")
-            PositionMetricCard(title: "未实现盈亏", value: signedMoney(totalUnrealizedPnl), color: pnlColor(totalUnrealizedPnl), icon: "chart.line.uptrend.xyaxis")
+            MetricCard(title: "持仓数量", value: "\(positions.count)", icon: "number", color: .accentColor, valueFont: .title3)
+            MetricCard(title: "市值合计", value: MoneyFormatters.hkd(totalMarketValue), icon: "dollarsign.circle", color: Color.pnl(totalMarketValue), valueFont: .title3)
+            MetricCard(title: "未实现盈亏", value: MoneyFormatters.hkdSigned(totalUnrealizedPnl), icon: "chart.line.uptrend.xyaxis", color: Color.pnl(totalUnrealizedPnl), valueFont: .title3)
         }
     }
 
@@ -169,19 +169,6 @@ struct IBKRPositionsView: View {
         isLoading = false
     }
 
-    private func money(_ value: Double) -> String {
-        MoneyFormatters.hkd(value)
-    }
-
-    private func signedMoney(_ value: Double) -> String {
-        MoneyFormatters.hkd(value, signed: true)
-    }
-
-    private func pnlColor(_ value: Double) -> Color {
-        if value > 0 { return .green }
-        if value < 0 { return .red }
-        return .secondary
-    }
 }
 
 private struct IBKRPositionRow: View {
@@ -212,8 +199,8 @@ private struct IBKRPositionRow: View {
 
             HStack {
                 valueColumn("均价", value: nativeMoney(position.averagePrice, currency: position.currency))
-                valueColumn("市值", value: money(position.marketValue, currency: position.currency), color: pnlColor(converted(position.marketValue)))
-                valueColumn("未实现", value: signedMoney(position.unrealizedPnl, currency: position.currency), color: pnlColor(converted(position.unrealizedPnl)))
+                valueColumn("市值", value: money(position.marketValue, currency: position.currency), color: Color.pnl(converted(position.marketValue)))
+                valueColumn("未实现", value: signedMoney(position.unrealizedPnl, currency: position.currency), color: Color.pnl(converted(position.unrealizedPnl)))
                 valueColumn("最新", value: nativeMoney(position.lastPrice, currency: position.currency))
             }
         }
@@ -261,39 +248,6 @@ private struct IBKRPositionRow: View {
     private func converted(_ value: Double?) -> Double {
         guard let value else { return 0 }
         return MoneyFormatters.convertedToHKD(value, from: position.currency)
-    }
-
-    private func pnlColor(_ value: Double) -> Color {
-        if value > 0 { return .green }
-        if value < 0 { return .red }
-        return .secondary
-    }
-}
-
-private struct PositionMetricCard: View {
-    let title: String
-    let value: String
-    let color: Color
-    let icon: String
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Image(systemName: icon)
-                .foregroundStyle(color)
-            Text(value)
-                .font(.title3)
-                .fontWeight(.semibold)
-                .foregroundStyle(color)
-                .monospacedDigit()
-                .lineLimit(1)
-            Text(title)
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .padding()
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.systemBackground)
-        .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 }
 
