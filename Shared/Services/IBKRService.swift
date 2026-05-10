@@ -108,6 +108,46 @@ final class IBKRService {
         return parseFlexPositions(from: xmlString)
     }
 
+    // MARK: - Market Data (Client Portal API)
+
+    func fetchMarketSnapshots(tickers: [String], host: String = "localhost", port: Int = 5000) async throws -> [MarketSnapshot] {
+        guard !tickers.isEmpty else { return [] }
+
+        let tickerList = tickers.joined(separator: ",")
+        let urlString = "https://\(host):\(port)/v1/api/iserver/marketdata/snapshot?conids=\(tickerList)&fields=31,55,83,84"
+        guard let url = URL(string: urlString) else {
+            throw IBKRError.invalidConfiguration
+        }
+
+        let (data, response) = try await session.data(from: url)
+
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            throw IBKRError.httpError((response as? HTTPURLResponse)?.statusCode ?? 0)
+        }
+
+        guard let jsonArray = try? JSONSerialization.jsonObject(with: data) as? [[String: Any]] else {
+            throw IBKRError.decodingFailed
+        }
+
+        let now = Date()
+        return jsonArray.compactMap { item in
+            guard let lastPrice = item["31"] as? Double,
+                  let change = item["83"] as? Double,
+                  let changePercent = item["84"] as? Double else {
+                return nil
+            }
+            let conidStr = String(item["conid"] as? Int ?? 0)
+            return MarketSnapshot(
+                ticker: conidStr,
+                lastPrice: lastPrice,
+                change: change,
+                changePercent: changePercent / 100,
+                timestamp: now
+            )
+        }
+    }
+
     // MARK: - XML Parsing
 
     private func extractXMLValue(from xml: String, tag: String) -> String? {
@@ -272,6 +312,16 @@ final class IBKRService {
 }
 
 // MARK: - Models
+
+struct MarketSnapshot: Identifiable {
+    let ticker: String
+    let lastPrice: Double
+    let change: Double
+    let changePercent: Double
+    let timestamp: Date
+
+    var id: String { ticker }
+}
 
 struct FlexTrade {
     let tradeId: String
