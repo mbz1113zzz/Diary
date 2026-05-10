@@ -51,6 +51,93 @@ final class StockDiaryModelTests: XCTestCase {
         XCTAssertEqual(summary.pnlTotal, 80)
         XCTAssertEqual(summary.winRate, 0.5)
         XCTAssertEqual(summary.averagePnlPercent, 2)
+        XCTAssertEqual(summary.averageWin, 120)
+        XCTAssertEqual(summary.averageLoss, -40)
+        XCTAssertEqual(summary.payoffRatio, 3)
+    }
+
+    func testTradeAnalyticsBuildsDailyPnlSeriesWithHkdConversion() throws {
+        let calendar = Calendar(identifier: .gregorian)
+        let now = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 5, day: 3)))
+        let dayOne = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 5, day: 1)))
+        let dayThree = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 5, day: 3)))
+        let trades = [
+            TradeEntry(date: dayOne, ticker: "TSLA", currency: "USD", pnl: 10),
+            TradeEntry(date: dayThree, ticker: "6830", currency: "TWD", pnl: -100)
+        ]
+
+        let points = TradeAnalytics.dailyPnlSeries(for: .month, trades: trades, now: now, calendar: calendar)
+
+        XCTAssertEqual(points.count, 3)
+        XCTAssertEqual(points[0].pnl, 78)
+        XCTAssertEqual(points[0].cumulativePnl, 78)
+        XCTAssertEqual(points[1].pnl, 0)
+        XCTAssertEqual(points[2].pnl, -24.9)
+        XCTAssertEqual(points[2].cumulativePnl, 53.1, accuracy: 0.0001)
+    }
+
+    func testTradeAnalyticsRanksSymbolsByPnlMagnitude() throws {
+        let calendar = Calendar(identifier: .gregorian)
+        let now = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 5, day: 9)))
+        let tradeDate = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 5, day: 8)))
+        let trades = [
+            TradeEntry(date: tradeDate, ticker: "AAPL", currency: "USD", pnl: 10),
+            TradeEntry(date: tradeDate, ticker: "AAPL", currency: "USD", pnl: -1),
+            TradeEntry(date: tradeDate, ticker: "6830", currency: "TWD", pnl: -100)
+        ]
+
+        let rows = TradeAnalytics.symbolPnlRows(for: .month, trades: trades, now: now, calendar: calendar)
+
+        XCTAssertEqual(rows.map(\.ticker), ["AAPL", "6830"])
+        XCTAssertEqual(rows[0].tradeCount, 2)
+        XCTAssertEqual(rows[0].pnl, 70.2, accuracy: 0.0001)
+        XCTAssertEqual(rows[1].pnl, -24.9, accuracy: 0.0001)
+    }
+
+    func testTradeAnalyticsBuildsTagPerformanceRows() throws {
+        let calendar = Calendar(identifier: .gregorian)
+        let now = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 5, day: 9)))
+        let tradeDate = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 5, day: 8)))
+        let trades = [
+            TradeEntry(date: tradeDate, ticker: "AAPL", currency: "USD", pnl: 10, strategyTags: ["突破"]),
+            TradeEntry(date: tradeDate, ticker: "MSFT", currency: "USD", pnl: -2, strategyTags: ["突破"]),
+            TradeEntry(date: tradeDate, ticker: "TSLA", currency: "USD", pnl: 5, strategyTags: ["回调"])
+        ]
+
+        let rows = TradeAnalytics.tagPerformanceRows(
+            for: .month,
+            trades: trades,
+            keyPath: \.strategyTags,
+            now: now,
+            calendar: calendar
+        )
+        let breakout = try XCTUnwrap(rows.first { $0.tag == "突破" })
+
+        XCTAssertEqual(breakout.tradeCount, 2)
+        XCTAssertEqual(breakout.recordedCount, 2)
+        XCTAssertEqual(breakout.winningCount, 1)
+        XCTAssertEqual(breakout.losingCount, 1)
+        XCTAssertEqual(breakout.pnl, 62.4, accuracy: 0.0001)
+        XCTAssertEqual(breakout.winRate, 0.5)
+        XCTAssertEqual(breakout.averagePnl, 31.2, accuracy: 0.0001)
+    }
+
+    func testTradeAnalyticsBuildsReviewInsights() throws {
+        let calendar = Calendar(identifier: .gregorian)
+        let now = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 5, day: 9)))
+        let winDate = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 5, day: 8)))
+        let lossDate = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 5, day: 9)))
+        let trades = [
+            TradeEntry(date: winDate, ticker: "AAPL", currency: "USD", pnl: 10),
+            TradeEntry(date: lossDate, ticker: "MSFT", currency: "USD", pnl: -20),
+            TradeEntry(date: lossDate, ticker: "MSFT", currency: "USD", pnl: -5)
+        ]
+
+        let insights = TradeAnalytics.insights(for: .month, trades: trades, now: now, calendar: calendar)
+
+        XCTAssertTrue(insights.contains { $0.title == "需要复盘的日子" && $0.value == "HKD -195.00" })
+        XCTAssertTrue(insights.contains { $0.title == "主要拖累标的" && $0.value == "MSFT" })
+        XCTAssertTrue(insights.contains { $0.title == "盈亏集中度偏高" && $0.value == "MSFT" })
     }
 
     func testTradeExportIncludesStrategyTags() {
