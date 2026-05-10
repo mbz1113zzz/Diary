@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct WatchlistView: View {
+    @Environment(\.modelContext) private var modelContext
     @Query(sort: [SortDescriptor(\WatchlistItem.sortOrder), SortDescriptor(\WatchlistItem.createdAt)])
     private var items: [WatchlistItem]
 
@@ -13,13 +14,10 @@ struct WatchlistView: View {
     private let service = IBKRService()
 
     private var groupTags: [String] {
-        var tags = [String]()
-        for item in items {
-            if !tags.contains(item.groupTag) {
-                tags.append(item.groupTag)
-            }
+        var seen = Set<String>()
+        return items.compactMap { item in
+            seen.insert(item.groupTag).inserted ? item.groupTag : nil
         }
-        return tags
     }
 
     private func items(for tag: String) -> [WatchlistItem] {
@@ -44,8 +42,7 @@ struct WatchlistView: View {
                             }
                             .onDelete { indexSet in
                                 for index in indexSet {
-                                    let item = items(for: tag)[index]
-                                    // modelContext delete handled by SwiftData
+                                    modelContext.delete(items(for: tag)[index])
                                 }
                             }
                         }
@@ -143,7 +140,7 @@ struct WatchlistRow: View {
 
             if let snapshot {
                 VStack(alignment: .trailing, spacing: 2) {
-                    Text(MoneyFormatters.native(snapshot.lastPrice, currency: nil))
+                    Text(String(format: "%.2f", snapshot.lastPrice))
                         .font(.subheadline.weight(.semibold))
                         .monospacedDigit()
                     Text(MoneyFormatters.signedPercentage(snapshot.changePercent))
