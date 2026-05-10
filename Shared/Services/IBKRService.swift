@@ -285,7 +285,7 @@ struct FlexTrade {
     let currency: String?
 }
 
-struct FlexPosition: Identifiable {
+struct FlexPosition: Identifiable, Codable {
     let account: String?
     let conid: String?
     let symbol: String

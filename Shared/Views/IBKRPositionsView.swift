@@ -3,11 +3,20 @@ import SwiftUI
 struct IBKRPositionsView: View {
     @AppStorage("ibkrFlexToken") private var flexToken = ""
     @AppStorage("ibkrFlexQueryId") private var flexQueryId = ""
+    @AppStorage("ibkrPositionsLastLoad") private var lastLoadTimeInterval: Double = 0
 
-    @State private var positions: [FlexPosition] = []
+    @State private var positions: [FlexPosition] = IBKRPositionsView.loadCachedPositions()
     @State private var isLoading = false
     @State private var statusText: String?
     @State private var diagnosticText: String?
+
+    private static let cacheTTL: TimeInterval = 300 // 5 minutes
+    private static var cacheURL: URL? {
+        FileManager.default
+            .urls(for: .applicationSupportDirectory, in: .userDomainMask)
+            .first?
+            .appendingPathComponent("StockDiary/ibkr_positions.json")
+    }
 
     private let service = IBKRService()
 
@@ -92,7 +101,8 @@ struct IBKRPositionsView: View {
             }
         }
         .task {
-            guard positions.isEmpty else { return }
+            let cacheAge = Date().timeIntervalSince1970 - lastLoadTimeInterval
+            guard positions.isEmpty || cacheAge > Self.cacheTTL else { return }
             await reload()
         }
     }
@@ -160,6 +170,8 @@ struct IBKRPositionsView: View {
             positions = report.positions
             diagnosticText = report.positions.isEmpty ? report.diagnosticText : nil
             statusText = positions.isEmpty ? "这个 Flex Query 里没有读取到持仓。请确认同一个 Query 同时包含 Open Positions 字段。" : nil
+            Self.savePositions(report.positions)
+            lastLoadTimeInterval = Date().timeIntervalSince1970
         } catch {
             statusText = "读取持仓失败：\(error.localizedDescription)"
             positions = []
@@ -167,6 +179,23 @@ struct IBKRPositionsView: View {
         }
 
         isLoading = false
+    }
+
+    private static func loadCachedPositions() -> [FlexPosition] {
+        guard let url = cacheURL, let data = try? Data(contentsOf: url),
+              let positions = try? JSONDecoder().decode([FlexPosition].self, from: data) else {
+            return []
+        }
+        return positions
+    }
+
+    private static func savePositions(_ positions: [FlexPosition]) {
+        guard let url = cacheURL else { return }
+        let dir = url.deletingLastPathComponent()
+        try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        if let data = try? JSONEncoder().encode(positions) {
+            try? data.write(to: url, options: .atomic)
+        }
     }
 
 }
